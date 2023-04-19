@@ -1,5 +1,5 @@
 # e621-client
-E621-client will be a browsing application for e621.net on IOS and Android
+E621-client will be a browsing application for e621.net on IOS and Android made using React Native and Expo.
 
 **Note:** This project is currently in early alpha, do not expect anything to work properly first-try. Nothing here is final for any potential release.
 
@@ -18,4 +18,4 @@ There are some thing the API can't do yet, and thus can't be implemented. These 
 
 ## additional information
 ### future plans
-I probably will not open any beta testing channels soon. I expect this to be at around 2025 or maybe even later.
+I probably will not open any beta testing channels soon because of personal reasons. I expect this to be at around 2025 or maybe even later.
