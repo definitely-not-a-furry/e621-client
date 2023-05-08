@@ -12,7 +12,7 @@ E621-client will have features and functions extended from their web-counterpart
 - settings i.e. safe mode, page length (amount of posts visible on one page) and blacklists
 
 ## limitations
-There are some thing the API can't do yet, and thus can't be implemented. These include, but are not limited to:
+There are some things the API can't do yet, and thus can't be implemented. These include, but are not limited to:
 - Commenting
 - Reading comments 
 - Voting on comments
