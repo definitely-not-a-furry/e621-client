@@ -5,8 +5,15 @@ import { useSearchParams, useRouter } from 'expo-router';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
+const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem('@storage_Key', value)
+    } catch (e) {
+      console.error(`Saving error: "${e}"`)
+    }
+}
 
 const Post = ({ post }) => {
     if (!post?.id) return;
