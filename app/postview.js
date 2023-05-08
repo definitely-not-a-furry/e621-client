@@ -1,10 +1,9 @@
-import { useEffect, useState, useRef } from 'react';
-import { Text, View, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
+import { useEffect, useState } from 'react';
+import { Text, View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { Image } from 'expo-image';
 import { useSearchParams, useRouter } from 'expo-router';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import * as FileSystem from 'expo-file-system';
 import { TouchableOpacity } from 'react-native';
 
 
@@ -62,15 +61,25 @@ const App = () => {
                     <Text style={styles.basicContainerText}>{post.description}</Text>
                 </View>
                 <View style={styles.basicContainer}>
-                    <Text style={styles.basicContainerText}>{`Tags:
+                    <Text style={styles.basicContainerText}>{`
+Artist tags:
 
-Artists:
+    ${post.tags.artist.join('\n\t')}
 
-    ${post.tags.artist.join('\n\n')}
+Character tags:
 
-Characters:
+    ${post.tags.character.join('\n\t')}
+    
+General tags:
 
-    ${post.tags.character.join('\n\n') || 'Loading...'}`}</Text>
+    ${post.tags.general.join('\n\t')}
+    
+Meta tags:
+
+    ${post.tags.meta.join('\n\t')}
+
+Rating: ${post.rating}
+Approver: ${post.approver}`}</Text>
                 </View>
                 </SafeAreaView>
             </ScrollView>
