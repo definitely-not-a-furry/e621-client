@@ -19,4 +19,4 @@ There are some things the API can't do yet, and thus can't be implemented. These
 
 ## additional information
 ### future plans
-I probably will not open any beta testing channels soon because of personal reasons. Also, there won't be any builds at all for IOS for the next couple of years because I don't own a mac yet.
+I probably will not open any beta testing channels soon because of personal reasons. Also, there won't be any builds at all for IOS for the next couple of years since I don't own a mac yet.
