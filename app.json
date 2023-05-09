@@ -5,6 +5,12 @@
       "bundler": "metro"
     },
     "name": "e621-client",
-    "slug": "e621-client"
+    "slug": "e621-client",
+    "extra": {
+      "eas": {
+        "projectId": "e3d2e48f-ac58-4537-ae91-f0083efef12f"
+      }
+    },
+    "owner": "definitely-not-a-furry"
   }
 }

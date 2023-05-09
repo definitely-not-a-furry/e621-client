@@ -6,14 +6,7 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const storeData = async (value) => {
-    try {
-      await AsyncStorage.setItem('@storage_Key', value)
-    } catch (e) {
-      console.error(`Saving error: "${e}"`)
-    }
-}
+  
 
 const Post = ({ post }) => {
     if (!post?.id) return;
@@ -30,11 +23,37 @@ const Post = ({ post }) => {
 };
 
 const App = () => {
+    const params = useSearchParams()
+    const storeData = async (value) => {
+        try {
+          await AsyncStorage.setItem('@previous_id', value);
+        } catch (e) {
+          console.error(`Saving error: "${e}"`);
+        }
+    }
+    
+    const getData = async () => {
+        if(params==null){
+            try {
+                const value = await AsyncStorage.getItem('@previous_id');
+                if(value !== null) {
+                  return value;
+                }
+            } catch(e) {
+              console.warning(`Loading warning: "${e}"`)
+              return value;
+            }
+        } else {
+            return params.id;
+        }
+
+    }
+
     const [post, setPost] = useState();
     const [isLoading, setIsLoading] = useState(true);
-    const params = useSearchParams()
+    
     console.log(`params:${JSON.stringify(params)}`)
-    const postid = params.id || 4037812;
+    const [postid, setPostId] = useState(getData());
     const searchTerm = params.searchterm;
 
     const router = useRouter();
