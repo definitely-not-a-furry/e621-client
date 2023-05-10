@@ -40,7 +40,7 @@ const SlideCard = () => {
               {
                 translateY: slideAnim.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [0, 1], // Adjust the values based on your desired slide distance
+                  outputRange: [100, 0], // Adjust the values based on your desired slide distance
                 }),
               },
             ],

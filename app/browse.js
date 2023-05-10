@@ -65,6 +65,8 @@ export default function Browse() {
     );
 }
 
+//TODO: add page control
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
