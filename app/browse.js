@@ -1,13 +1,14 @@
-import {Text,View,Button,Image,SafeAreaView,ScrollView,StyleSheet,TextInput,TouchableOpacity} from 'react-native';
+import {Text,View,SafeAreaView,ScrollView,StyleSheet,TextInput,TouchableOpacity} from 'react-native';
 import React, {useEffect,useState} from 'react';
 import {Link, useNavigation,useRouter,useSearchParams} from 'expo-router';
+import { Image } from 'expo-image';
 import { StatusBar } from 'expo-status-bar';
 
 
 export default function Browse() {
     const [posts, setPosts] = useState([]);
-    const [text, setText] = useState('');
-    const [searchTerm, setSearchTerm] = useState('');
+    const [text, setText] = useState('fiddleafox');
+    const [searchTerm, setSearchTerm] = useState('fiddleafox'); //Temporarly using this as default tag, just because their art is cute :3
     const router = useRouter();
 
     const updateSearchTerm = () => {
@@ -16,20 +17,17 @@ export default function Browse() {
     };
 
     useEffect(() => {
-        console.log('(re)fetching posts');
+        console.log('(Re)fetching posts');
         apiUrl = `https://e621.net/posts.json?tags=rating:safe+${searchTerm.split(' ').join('+')}`
         fetch(`${apiUrl}`,{headers:{'Accept': 'application/json'}})
         .then(response => response.json())
         .then(data => setPosts(data.posts))
-        .catch(error => console.log(error));
+        .catch(error => console.log(`Error while fetching posts: "${error}"`));
     }, [searchTerm]);
 
     async function goToPost(postid) {
-
         console.log(postid)
-
         await router.setParams({id: postid})
-
         router.push(`/postview`)
     };
 
@@ -37,9 +35,8 @@ export default function Browse() {
         <SafeAreaView style={styles.container}>
             <View style={styles.searchContainer}>
                 <View style={styles.searchButton}>
-                    <Link href="/home" style={styles.searchButtonText}>&lt;</Link>
+                    <Link href="/home" style={styles.searchButtonText}>˂ Back</Link>
                 </View>
-                <Text>&ensp; </Text>
                 <TextInput
                     style={styles.searchInput}
                     value={text}
@@ -54,12 +51,12 @@ export default function Browse() {
             <ScrollView>
                 <View style={styles.postContainer}>
                 {posts.map(post => (
-                    <View style={styles.postCard} key={post.id}>
-                        {<Image source={{ uri: post.preview.url }} style={styles.postImage} resizeMode="cover"/>}
-                        <View style={styles.postScoreContainer}><Text style={[styles.postScore, styles.postScoreUp]}>↑{post.score.up} </Text><Text style={[styles.postScore, styles.postScoreDown]}>↓{post.score.down}</Text></View>
-                        <Text style={styles.postFaves}>♥{post.fav_count}</Text>
-                        <TouchableOpacity style={styles.postButton} onPress={()=>goToPost(post.id)}><Text style={styles.postButtonText}>Open</Text></TouchableOpacity>
-                    </View>
+                    <TouchableOpacity onPress={()=>goToPost(post.id)} key={post.id} style={{width: '45%', margin: 5}}>
+                        <View style={styles.postCard}>
+                            {<Image source={{ uri: post.preview.url }} enableLiveTextInteraction={true} contentFit='contain' transition={{effect:'cross-dissolve', duration: 250}} style={styles.postImage} resizeMode="cover"/>}
+                            <View style={styles.postScoreContainer}><Text style={[styles.postScore, styles.postScoreUp]}>↑{post.score.up} </Text><Text style={[styles.postScore, styles.postScoreDown]}> ↓{post.score.down}</Text><Text style={styles.postFaves}>♥{post.fav_count}</Text></View>
+                        </View>
+                    </TouchableOpacity>
                 ))}
                 </View>
                 <StatusBar hidden={true}></StatusBar>
@@ -78,25 +75,31 @@ const styles = StyleSheet.create({
     },
     searchContainer: {
         flexDirection: 'row',
+        alignSelf: 'stretch',
         alignItems: 'center',
-        backgroundColor: '#000',
+        backgroundColor: '#152f56',
         justifyContent: 'center',
         padding: 10,
     },
     searchInput: {
         color: '#fff',
         flex: 1,
-        height: 40,
-        borderWidth: 1,
+        width: '100%',
+        height: 'auto',
+        borderWidth: 2,
         borderRadius: 5,
-        borderColor: '#fff',
-        marginRight: 10,
+        borderColor: '#25477b',
+        marginHorizontal: 10,
+        padding: 10,
         paddingLeft: 10,
+    
     },
     searchButton: {
-        backgroundColor: '#545454',
+        backgroundColor: '#25477b',
+        borderWidth: 2,
         borderRadius: 5,
-        padding: 13,
+        borderColor: '#25477b',
+        padding: 10,
     },
     searchButtonText: {
         color: '#fff',
@@ -116,12 +119,11 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 2,
-        margin: 5,
         padding: 10,
-        width: '45%',
     },
     postImage: {
-        height: 150,
+        height: 200,
+        width: '100%',
         borderRadius: 5,
         marginBottom: 5,
     },
@@ -139,7 +141,7 @@ const styles = StyleSheet.create({
     },
     postScoreDown: {
         color: '#800000',
-        flex: 2,
+        flex: 1,
     },
     postFaves: {
         color: '#cf0404',
@@ -151,7 +153,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     postButton: {
-        backgroundColor: '#1f3c67',
+        backgroundColor: '#25477b',
         borderRadius: 5,
         padding: 5,
         alignContent: 'left',
