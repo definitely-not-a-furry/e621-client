@@ -1,35 +1,37 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect, useRef } from 'react';
-import { Animated, View, Text, TouchableOpacity } from 'react-native';
+import { Animated, View, Text, TouchableOpacity, Pressable } from 'react-native';
+import { useRouter } from 'expo-router';
+
 
 const SlideCard = () => {
   const slideAnim = useRef(new Animated.Value(0)).current;
   const [showCard, setShowCard] = useState(false);
-
+  const router = useRouter()
 
   const handleButtonClick = () => {
-    setShowCard(true);
-
-    // Slide out animation after a delay
-    const slideOutTimer = setTimeout(() => {
-      setShowCard(false);
-    }, 2000); // Adjust the delay (in milliseconds) as needed
-
-    // Clean up the timer on unmount or when button is clicked again
-    return () => clearTimeout(slideOutTimer);
+    setShowCard(showCard ? false : true);
   };
 
   useEffect(() => {
     // Slide in or slide out animation
+    if(showCard){
     Animated.timing(slideAnim, {
-      toValue: showCard ? 1 : 0,
+      toValue: 1,
       duration: 500, // Adjust the duration as needed
       useNativeDriver: true,
-    }).start();
+    }).start();} else {
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 500, // Adjust the duration as needed
+        useNativeDriver: true,
+      }).start();
+    }
   }, [showCard]);
 
   return (
     <View>
+      <Pressable hitSlop={5} onPress={()=>{router.push('/home')}}><Text>Go back</Text></Pressable>
       <TouchableOpacity onPress={handleButtonClick}>
         <Text>Show Card</Text>
       </TouchableOpacity>

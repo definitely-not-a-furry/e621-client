@@ -1,4 +1,4 @@
-import {Text,View,SafeAreaView,ScrollView,StyleSheet,TextInput,TouchableOpacity} from 'react-native';
+import {Text,View,SafeAreaView,ScrollView,StyleSheet,TextInput,TouchableOpacity,ActivityIndicator} from 'react-native';
 import React, {useEffect,useState} from 'react';
 import {Link, useNavigation,useRouter,useSearchParams} from 'expo-router';
 import { Image } from 'expo-image';
@@ -27,8 +27,7 @@ export default function Browse() {
 
     async function goToPost(postid) {
         console.log(postid)
-        await router.setParams({id: postid})
-        router.push(`/postview`)
+        router.push({pathname:'/postview',params:{id:postid}})
     };
 
     return (
@@ -53,7 +52,13 @@ export default function Browse() {
                 {posts.map(post => (
                     <TouchableOpacity onPress={()=>goToPost(post.id)} key={post.id} style={{width: '45%', margin: 5}}>
                         <View style={styles.postCard}>
-                            {<Image source={{ uri: post.preview.url }} enableLiveTextInteraction={true} contentFit='contain' transition={{effect:'cross-dissolve', duration: 250}} style={styles.postImage} resizeMode="cover"/>}
+                            {<Image 
+                            source={{ uri: post.preview.url }} 
+                            contentFit='contain' 
+                            transition={{effect:'cross-dissolve', duration: 250}} 
+                            style={styles.postImage} 
+                            resizeMode="cover"
+                            />}
                             <View style={styles.postScoreContainer}><Text style={[styles.postScore, styles.postScoreUp]}>↑{post.score.up} </Text><Text style={[styles.postScore, styles.postScoreDown]}> ↓{post.score.down}</Text><Text style={styles.postFaves}>♥{post.fav_count}</Text></View>
                         </View>
                     </TouchableOpacity>

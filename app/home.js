@@ -1,11 +1,34 @@
-import { useEffect } from 'react';
-import { SafeAreaView, View, Text, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
+import { useEffect, useState } from 'react';
+import { SafeAreaView, View, Text, ImageBackground, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { BlurView } from 'expo-blur';
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
+import * as Haptics from 'expo-haptics';
+
 
 function App() {
-    let sessionmascot = JSON.parse('{"url_path":"/../../assets/gradient.png"}')
+    const [moreExpanded, setExpanded] = useState(false)
+    const handleMore = () => {
+        setExpanded(moreExpanded ? false:true);
+    }
+    const buttonHaptic = (strength) => {
+        if(Platform.OS=='ios'||Platform.OS=='android'){
+            switch(strength) {
+                case 1:
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+                    break
+                case 2:
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
+                    break
+                case 3:
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
+                    break
+                default:
+                    Haptics.impactAsync()
+
+            }
+        }
+    }
     const router = useRouter()
     useEffect(()=>{
     });
@@ -13,16 +36,24 @@ function App() {
         <SafeAreaView style={styles.background}>
             <StatusBar hidden={true}></StatusBar>
             <ImageBackground style={styles.backgroundImage} src={"https://static1.e621.net/data/mascots/913a8fd0240b14bfbb63d6a9cfc3faf2.jpg"}>
-                <View style={{flex:2}}>
-                    {/* empty view for lower menu*/}
-                </View>
+                <View style={{flex:2}}></View>
                 <View style={[styles.blurContainer,{flex:1}]}>
                     <BlurView style={styles.blur} intensity={25}>
                         <View style={styles.mascotbox}>
-                            <Text style={{color:'#fff',textAlign:'center', fontSize: 20}}>Home</Text>
-                            <View style={styles.buttonContainer}>
-                                <TouchableOpacity style={styles.button} onPress={()=>{router.push('/browse')}}><Text style={styles.buttonText}>Browse</Text></TouchableOpacity>
-                                <TouchableOpacity style={styles.button} onPress={()=>{router.push('/settings')}}><Text style={styles.buttonText}>Settings</Text></TouchableOpacity>
+                            <Text style={styles.title}>e621</Text>
+                            <View>
+                                <TouchableOpacity style={styles.button} onPress={()=>{buttonHaptic(1);router.push('/browse')}}><Text style={styles.buttonText}>Browse</Text></TouchableOpacity>
+                                {!moreExpanded && 
+                                <View style={styles.buttonContainer}>
+                                    <TouchableOpacity style={styles.button} onPress={()=>{buttonHaptic(1);handleMore()}}><Text style={styles.buttonText}>More</Text></TouchableOpacity>
+                                </View>}
+                                {moreExpanded && 
+                                <View style={styles.buttonContainer}>                          
+                                    <TouchableOpacity style={styles.button} onPress={()=>handleMore()}><Text style={styles.buttonText}>Less</Text></TouchableOpacity>
+                                    <TouchableOpacity style={styles.button} onPress={()=>router.push('/favorites')}><Text style={styles.buttonText}>Favorites</Text></TouchableOpacity>
+                                    <TouchableOpacity style={styles.button} onPress={()=>{buttonHaptic(1);router.push('/settings')}}><Text style={styles.buttonText}>Settings</Text></TouchableOpacity>
+                                    <TouchableOpacity style={styles.button} onPress={()=>{buttonHaptic(1);router.push('/users')}}><Text style={styles.buttonText}>Users</Text></TouchableOpacity>
+                                </View>}
                             </View>
                         </View>
                     </BlurView>
@@ -49,12 +80,16 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         padding: 5,
         alignSelf: 'stretch',
-
     },
     blurContainer: {
         overflow: 'hidden',
         borderRadius: 5,
-        marginHorizontal: 30,
+    },
+    title: {
+        color:'#fff',
+        textAlign:'center', 
+        fontSize: 30,
+        fontFamily: 'Verdana',
     },
     mascotbox:{
         borderRadius: 5,
