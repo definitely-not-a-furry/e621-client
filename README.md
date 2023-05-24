@@ -10,6 +10,7 @@ E621-client will have features and functions extended from their web-counterpart
 - bookmarking posts (bookmarks will not be visible for other users)
 - personal pools/postlists: you will be able to create lists of various posts to access them quickly
 - settings i.e. safe mode, page length (amount of posts visible on one page) and blacklists
+- saving posts for offline viewing
 
 ## limitations
 There are some things the API can't do yet, and thus can't be implemented. These include, but are not limited to:
