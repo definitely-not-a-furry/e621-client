@@ -1,63 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect, useRef } from 'react';
-import { Animated, View, Text, TouchableOpacity, Pressable } from 'react-native';
+import { View, Text, TouchableOpacity, Pressable, SafeAreaView, Button } from 'react-native';
 import { useRouter } from 'expo-router';
+import Animated, {useSharedValue, useAnimatedStyle, withSpring} from 'react-native-reanimated';
 
 
-const SlideCard = () => {
-  const slideAnim = useRef(new Animated.Value(0)).current;
-  const [showCard, setShowCard] = useState(false);
-  const router = useRouter()
+const App = () => {
+    const offset = useSharedValue(0);
 
-  const handleButtonClick = () => {
-    setShowCard(showCard ? false : true);
-  };
-
-  useEffect(() => {
-    // Slide in or slide out animation
-    if(showCard){
-    Animated.timing(slideAnim, {
-      toValue: 1,
-      duration: 500, // Adjust the duration as needed
-      useNativeDriver: true,
-    }).start();} else {
-      Animated.timing(slideAnim, {
-        toValue: 0,
-        duration: 500, // Adjust the duration as needed
-        useNativeDriver: true,
-      }).start();
-    }
-  }, [showCard]);
-
-  return (
-    <View>
-      <Pressable hitSlop={5} onPress={()=>{router.push('/home')}}><Text>Go back</Text></Pressable>
-      <TouchableOpacity onPress={handleButtonClick}>
-        <Text>Show Card</Text>
-      </TouchableOpacity>
-      {showCard && (
-        <Animated.View
-          style={{
-            transform: [
-              {
-                translateY: slideAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [100, 0], // Adjust the values based on your desired slide distance
-                }),
-              },
-            ],
-            opacity: slideAnim,
-            backgroundColor:'#222'}}
-        >
-          <View>
-            {/* Your card content */}
-            <Text style={{color:'#fff'}}>Slide Card Content</Text>
-          </View>
-        </Animated.View>
-      )}
-      <StatusBar hidden={true}/>
-    </View>
-  );
-};
-
-export default SlideCard;
+    const animatedStyles = useAnimatedStyle(() => {
+        return {
+            transform: [{ translateY: offset.value * 255 }],
+        };
+    });
+    
+    return (
+        <SafeAreaView>
+            <View style={{height: "100%",backgroundColor: "#000"}}>
+                <Button onPress={() => (offset.value = withSpring(-1))} title="Move" />                
+            </View>
+            <Animated.View style={[{backgroundColor:"#1e2f55",borderRadius:10,height:50,width:50,zIndex:1}, animatedStyles]} />
+        </SafeAreaView>
+    )
+}
+export default App;

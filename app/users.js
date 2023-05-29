@@ -12,7 +12,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useEffect, useState, useCallback } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import UserName from './UserName';
+import UserName from '../components/UserName';
 
 import {impactAsync, ImpactFeedbackStyle} from 'expo-haptics';
 

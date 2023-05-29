@@ -2,7 +2,7 @@ import { SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
 import { useEffect, useState } from 'react';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import UserName from './UserName';
+import UserName from '../components/UserName';
 import { useSearchParams } from 'expo-router';
 
 

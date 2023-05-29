@@ -1,4 +1,4 @@
-import {StyleSheet, AsyncStorage } from "react-native";
+import {StyleSheet} from "react-native";
 
 
 
@@ -37,7 +37,7 @@ export const defaultDark = StyleSheet.create({
     button: {
         backgroundColor: "#444",
         borderRadius: 5,
-        padding: 12,
+        padding: 7,
         marginBottom: 0,
     },
     image: {
@@ -75,6 +75,13 @@ export const defaultDark = StyleSheet.create({
         backgroundColor: '#222',
         justifyContent: 'center',
         padding: 10,
+    },
+    quote: {
+        backgroundColor: "#404040",
+        borderColor:"#404040",
+        borderLeftColor:"677717b",
+        borderRadius:3,
+        borderWidth:3,
     },
     positive: {color: "#3e9e49", padding: 5},
     negative: {color: "#dd3127", padding: 5},

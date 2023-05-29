@@ -48,9 +48,9 @@ function App() {
                                     <TouchableOpacity style={styles.button} onPress={()=>{buttonHaptic(1);handleMore()}}><Text style={styles.buttonText}>More</Text></TouchableOpacity>
                                 </View>}
                                 {moreExpanded && 
-                                <View style={styles.buttonContainer}>                          
+                                <View>                          
                                     <TouchableOpacity style={styles.button} onPress={()=>handleMore()}><Text style={styles.buttonText}>Less</Text></TouchableOpacity>
-                                    <TouchableOpacity style={styles.button} onPress={()=>router.push('/favorites')}><Text style={styles.buttonText}>Favorites</Text></TouchableOpacity>
+                                    <TouchableOpacity style={styles.button} onPress={()=>router.push('/testingarea')}><Text style={styles.buttonText}>debug</Text></TouchableOpacity>
                                     <TouchableOpacity style={styles.button} onPress={()=>{buttonHaptic(1);router.push('/settings')}}><Text style={styles.buttonText}>Settings</Text></TouchableOpacity>
                                     <TouchableOpacity style={styles.button} onPress={()=>{buttonHaptic(1);router.push('/users')}}><Text style={styles.buttonText}>Users</Text></TouchableOpacity>
                                 </View>}
@@ -64,7 +64,6 @@ function App() {
 }
 
 const styles = StyleSheet.create({
-    
     background: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -93,7 +92,6 @@ const styles = StyleSheet.create({
     },
     mascotbox:{
         borderRadius: 5,
-        justifyContent: 'center',
     },
     buttonContainer: {
         flexDirection: 'row',
