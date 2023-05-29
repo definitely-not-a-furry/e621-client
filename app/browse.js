@@ -1,11 +1,13 @@
 import {Text,View,SafeAreaView,ScrollView,StyleSheet,TextInput,TouchableOpacity,ActivityIndicator} from 'react-native';
 import React, {useEffect,useState} from 'react';
 import {Link, useNavigation,useRouter,useSearchParams} from 'expo-router';
+import { defaultDark, classic } from '../themes/default';
 import { Image } from 'expo-image';
 import { StatusBar } from 'expo-status-bar';
 
 
 export default function Browse() {
+    const style = defaultDark;
     const [posts, setPosts] = useState([]);
     const [text, setText] = useState('fiddleafox');
     const [searchTerm, setSearchTerm] = useState('fiddleafox'); //Temporarly using this as default tag, just because their art is cute :3
@@ -31,35 +33,34 @@ export default function Browse() {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.searchContainer}>
-                <View style={styles.searchButton}>
+        <SafeAreaView style={{backgroundColor: "#000",flex:1}}>
+            <View style={style.searchContainer}>
+                <View style={style.button}>
                     <Link href="/home" style={styles.searchButtonText}>˂ Back</Link>
                 </View>
                 <TextInput
-                    style={styles.searchInput}
+                    style={style.searchInput}
                     value={text}
                     onChangeText={setText}
                     placeholder="Enter tags..."
                     onSubmitEditing={updateSearchTerm}
                 />
-                <TouchableOpacity style={styles.searchButton} onPress={updateSearchTerm}>
+                <TouchableOpacity style={style.button} onPress={updateSearchTerm}>
                     <Text style={styles.searchButtonText}>Search</Text>
                 </TouchableOpacity>
             </View>
             <ScrollView>
-                <View style={styles.postContainer}>
+                <View style={style.parentContainer}>
                 {posts.map(post => (
-                    <TouchableOpacity onPress={()=>goToPost(post.id)} key={post.id} style={{width: '45%', margin: 5}}>
-                        <View style={styles.postCard}>
+                    <TouchableOpacity onPress={()=>goToPost(post.id)} key={post.id} style={{width:'50%'}} >
+                        <View style={[style.container,{padding:10}]}>
                             {<Image 
                             source={{ uri: post.preview.url }} 
                             contentFit='contain' 
                             transition={{effect:'cross-dissolve', duration: 250}} 
-                            style={styles.postImage} 
-                            resizeMode="cover"
+                            style={style.image} 
                             />}
-                            <View style={styles.postScoreContainer}><Text style={[styles.postScore, styles.postScoreUp]}>↑{post.score.up} </Text><Text style={[styles.postScore, styles.postScoreDown]}> ↓{post.score.down}</Text><Text style={styles.postFaves}>♥{post.fav_count}</Text></View>
+                            <View style={style.childContainer}><Text style={[style.positive]}>↑{post.score.up} </Text><Text style={style.negative}> ↓{post.score.down}</Text><Text style={style.negative}>♥{post.fav_count}</Text></View>
                         </View>
                     </TouchableOpacity>
                 ))}
@@ -73,6 +74,7 @@ export default function Browse() {
 //TODO: add page control
 
 const styles = StyleSheet.create({
+
     container: {
         flex: 1,
         color: '#fff',
