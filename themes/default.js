@@ -13,8 +13,8 @@ export const defaultDark = StyleSheet.create({
     },
     container: {
         flexDirection: "column",
-        margin: 10,
-        marginBottom: 0,
+        margin: 5,
+        marginHorizontal: 10,
         backgroundColor: "#444",
         borderRadius: 5,
     },
@@ -45,6 +45,7 @@ export const defaultDark = StyleSheet.create({
         contentFit: "contain",
         aspectRatio: 1,
         width: "100%",
+        marginVertical: 5,
     },
     tagHeader: {
         fontWeight: 500,

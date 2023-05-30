@@ -1,15 +1,21 @@
-import { Image } from 'expo-image';
 import { useRouter, useSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { defaultDark, classic } from '../themes/default';
-import UserName from '../components/UserName'
+import DraggableFlatList from "react-native-draggable-flatlist";
+import {
+    SafeAreaView,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View,
+    TouchableWithoutFeedback,
+} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { defaultDark } from '../themes/default';
 import TagsView from '../components/PostTags';
-import {Description, PostImage } from '../components/Components';
-import DText from '../components/DText';
-import {ScoreBar} from '../components/ScoreBar';
-import {InfoView} from '../components/InfoView';
+import { Description, PostImage } from '../components/Components';
+import { ScoreBar } from '../components/ScoreBar';
+import { InfoView } from '../components/InfoView';
 import { Relations } from '../components/Relations';
 
 const App = () => {
@@ -18,11 +24,19 @@ const App = () => {
     const params = useSearchParams()
     const [post, setPost] = useState();
     
-    
+    const [arrangementData, setArrangementData] = useState([
+        { key: 'PostImage' },
+        { key: 'ScoreBar' },
+        { key: 'Description' },
+        { key: 'TagsView' },
+        { key: 'InfoView' },
+        { key: 'Relations' },
+    ]);
+
     const postId = params.id;
     const searchTerm = params.searchterm;
     
-    const goBack = () => {
+    const goBack = async () => {
         router.push('/browse')
     };
 
@@ -31,9 +45,35 @@ const App = () => {
         router.push({pathname:'/postview',params:{id:postid}})
     };
 
-    
+    const renderComponent = ({ item, drag }) => {
+        switch (item.key) {
+            case 'PostImage':
+                return (<TouchableWithoutFeedback onLongPress={drag}><View><PostImage post={post} /></View></TouchableWithoutFeedback>)
+            case 'ScoreBar':
+                return (<TouchableWithoutFeedback onLongPress={drag}><View><ScoreBar post={post} /></View></TouchableWithoutFeedback>)
+            case 'Description':
+                return (<TouchableWithoutFeedback onLongPress={drag}><View><Description description={post.description} /></View></TouchableWithoutFeedback>)
+            case 'TagsView':
+                return (<TouchableWithoutFeedback onLongPress={drag}><View><TagsView post={post} /></View></TouchableWithoutFeedback>)
+            case 'InfoView':
+                return (<TouchableWithoutFeedback onLongPress={drag}><View><InfoView post={post} /></View></TouchableWithoutFeedback>)
+            case 'Relations':
+                return (<TouchableWithoutFeedback onLongPress={drag}><View><Relations post={post} /></View></TouchableWithoutFeedback>)
+            default:
+                return null;
+        }
+    };  
 
     useEffect(() => {
+        AsyncStorage.getItem('@arrangement')
+            .then((data) => {
+                if (data) {
+                    setArrangementData(JSON.parse(data));
+                }
+            })
+            .catch((error) => {
+                console.log('Error loading data from AsyncStorage:', error);
+            });
         fetch(`https://e621.net/posts/${postId}.json`)
             .then(response => response.json())
             .then(data => setPost(data.post))
@@ -48,12 +88,21 @@ const App = () => {
                 <SafeAreaView>
                     {post && (
                     <SafeAreaView>
-                        <PostImage post={post} />
+                        <DraggableFlatList
+                            data={arrangementData}
+                            renderItem={renderComponent}
+                            keyExtractor={(item) => item.key}
+                            onDragEnd={({ data }) => {
+                                setArrangementData(data);
+                                AsyncStorage.setItem('@arrangement',JSON.stringify(arrangementData))
+                            }}
+                        />
+                        {/* <PostImage post={post} />
                         <ScoreBar post={post}/>
                         <Description description={post.description}/>
                         <TagsView post={post}/>
                         <InfoView post={post}/>
-                        <Relations post={post}/>
+                        <Relations post={post}/> */}
                     </SafeAreaView>)}
                 </SafeAreaView>
             </ScrollView>

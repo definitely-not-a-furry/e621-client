@@ -10,7 +10,7 @@ export default function Browse() {
     const style = defaultDark;
     const [posts, setPosts] = useState([]);
     const [text, setText] = useState('fiddleafox');
-    const [searchTerm, setSearchTerm] = useState('fiddleafox'); //Temporarly using this as default tag, just because their art is cute :3
+    const [searchTerm, setSearchTerm] = useState('fiddleafox'); //Temporarly using this as default tag, just because their art is cute :3 (and because needed to test searching)
     const router = useRouter();
 
     const updateSearchTerm = () => {
@@ -36,7 +36,7 @@ export default function Browse() {
         <SafeAreaView style={{backgroundColor: "#000",flex:1}}>
             <View style={style.searchContainer}>
                 <View style={style.button}>
-                    <Link href="/home" style={styles.searchButtonText}>˂ Back</Link>
+                    <Link href="/home" style={styles.searchButtonText}>Back</Link>
                 </View>
                 <TextInput
                     style={style.searchInput}

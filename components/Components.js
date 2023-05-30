@@ -44,7 +44,7 @@ const PostImage = ({ post }) => {
     if (!post?.id) return <Text style={{color:'#fff'}}>Loading...</Text>;
     const fileExtension = post.file.ext;
     if (fileExtension === 'jpg' || fileExtension === 'png' || fileExtension === 'gif') {
-        return <Image source={{ uri: post.file.url }} style={style.image} />;
+        return <Image source={{ uri: post.file.url }} style={[style.image,{marginVertical:5}]} />;
     } else {
         return <Text>{`This file type (".${fileExtension}") is not supported (yet).`}</Text>;
     }
