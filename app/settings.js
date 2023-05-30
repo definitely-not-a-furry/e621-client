@@ -1,25 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, Pressable, SafeAreaView, Button } from 'react-native';
+import { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, SafeAreaView, Button } from 'react-native';
 import { useRouter } from 'expo-router';
-import Animated, {useSharedValue, useAnimatedStyle, withSpring} from 'react-native-reanimated';
+import {
+    Menu,
+    MenuOptions,
+    MenuOption,
+    MenuTrigger,
+  } from 'react-native-popup-menu';
+
 
 
 const App = () => {
-    const offset = useSharedValue(0);
 
-    const animatedStyles = useAnimatedStyle(() => {
-        return {
-            transform: [{ translateY: offset.value * 255 }],
-        };
-    });
-    
+    const [selectedIndex, setSelectedIndex] = useState(new IndexPath(0));
+
     return (
         <SafeAreaView>
+            <TouchableOpacity onPress={()=>{useRouter().push('/home')}}><Text>back</Text></TouchableOpacity>
             <View style={{height: "100%",backgroundColor: "#000"}}>
-                <Button onPress={() => (offset.value = withSpring(-1))} title="Move" />                
+            <Menu>
+                <MenuTrigger text='Select action' />
+                    <MenuOptions>
+                        <MenuOption onSelect={() => alert(`Save`)} text='Save' />
+                        <MenuOption onSelect={() => alert(`Delete`)} >
+                        <Text style={{color: 'red'}}>Delete</Text>
+                    </MenuOption>
+                    <MenuOption onSelect={() => alert(`Not called`)} disabled={true} text='Disabled' />
+                </MenuOptions>
+            </Menu>
+                <Text>{'\n\n\n'}</Text>
+                <TouchableOpacity onPress={()=>{console.log(value)}}><Text>log</Text></TouchableOpacity>
             </View>
-            <Animated.View style={[{backgroundColor:"#1e2f55",borderRadius:10,height:50,width:50,zIndex:1}, animatedStyles]} />
         </SafeAreaView>
     )
 }

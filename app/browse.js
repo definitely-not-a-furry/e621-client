@@ -1,16 +1,23 @@
-import {Text,View,SafeAreaView,ScrollView,StyleSheet,TextInput,TouchableOpacity,ActivityIndicator} from 'react-native';
-import React, {useEffect,useState} from 'react';
-import {Link, useNavigation,useRouter,useSearchParams} from 'expo-router';
-import { defaultDark, classic } from '../themes/default';
+import {
+    Text,
+    View,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    TextInput,
+    TouchableOpacity,
+} from 'react-native';
+import { useEffect, useState } from 'react';
+import { Link, useRouter } from 'expo-router';
+import { defaultDark } from '../themes/default';
 import { Image } from 'expo-image';
 import { StatusBar } from 'expo-status-bar';
-
 
 export default function Browse() {
     const style = defaultDark;
     const [posts, setPosts] = useState([]);
     const [text, setText] = useState('fiddleafox');
-    const [searchTerm, setSearchTerm] = useState('fiddleafox'); //Temporarly using this as default tag, just because their art is cute :3 (and because needed to test searching)
+    const [searchTerm, setSearchTerm] = useState('fiddleafox'); //Temporarily using this as default tag, just because their art is cute :3 (and because needed to test searching)
     const router = useRouter();
 
     const updateSearchTerm = () => {
@@ -27,9 +34,9 @@ export default function Browse() {
         .catch(error => console.log(`Error while fetching posts: "${error}"`));
     }, [searchTerm]);
 
-    async function goToPost(postid) {
-        console.log(postid)
-        router.push({pathname:'/postview',params:{id:postid}})
+    async function goToPost(postId) {
+        console.log(postId)
+        router.push({pathname:'/postview',params:{id:postId}})
     };
 
     return (

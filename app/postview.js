@@ -1,7 +1,7 @@
 import { useRouter, useSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import DraggableFlatList from "react-native-draggable-flatlist";
+import DraggableFlatList from 'react-native-draggable-flatlist';
 import {
     SafeAreaView,
     ScrollView,
@@ -19,10 +19,10 @@ import { InfoView } from '../components/InfoView';
 import { Relations } from '../components/Relations';
 
 const App = () => {
-    const style = defaultDark;
-    const router = useRouter();
+    const style = defaultDark
+    const router = useRouter()
     const params = useSearchParams()
-    const [post, setPost] = useState();
+    const [post, setPost] = useState()
     
     const [arrangementData, setArrangementData] = useState([
         { key: 'PostImage' },
@@ -31,19 +31,9 @@ const App = () => {
         { key: 'TagsView' },
         { key: 'InfoView' },
         { key: 'Relations' },
-    ]);
+    ])
 
-    const postId = params.id;
-    const searchTerm = params.searchterm;
-    
-    const goBack = async () => {
-        router.push('/browse')
-    };
-
-    async function goToPost(postid) {
-        console.log(postid)
-        router.push({pathname:'/postview',params:{id:postid}})
-    };
+    const postId = params.id
 
     const renderComponent = ({ item, drag }) => {
         switch (item.key) {
@@ -60,54 +50,46 @@ const App = () => {
             case 'Relations':
                 return (<TouchableWithoutFeedback onLongPress={drag}><View><Relations post={post} /></View></TouchableWithoutFeedback>)
             default:
-                return null;
+                return null
         }
-    };  
+    }
 
     useEffect(() => {
         AsyncStorage.getItem('@arrangement')
             .then((data) => {
                 if (data) {
-                    setArrangementData(JSON.parse(data));
+                    setArrangementData(JSON.parse(data))
                 }
             })
             .catch((error) => {
-                console.log('Error loading data from AsyncStorage:', error);
-            });
+                console.log('Error loading data from AsyncStorage:', error)
+            })
         fetch(`https://e621.net/posts/${postId}.json`)
             .then(response => response.json())
             .then(data => setPost(data.post))
-            .catch(error => console.error(error));
-    }, [params]);
+            .catch(error => console.error(error))
+    }, [params])
 
-    return (<View style={{backgroundColor: '#000', height: '100%', width:'100%'}}>
+    return(
+    <View style={{backgroundColor: '#000', height: '100%', width:'100%'}}>
         <SafeAreaView style={{backgroundColor: '#222'}}>
             <ScrollView style={style.scrollContainer}>
                 <StatusBar hidden={true}/>
-                <TouchableOpacity style={[style.button, {margin:7,marginBottom: 10}]} onPress={()=>{goBack()}}><Text style={style.link}> back </Text></TouchableOpacity>
+                <TouchableOpacity style={[style.button, {margin:7,marginBottom: 10}]} onPress={()=>{router.push('/browse')}}><Text style={style.link}> back </Text></TouchableOpacity>
+                {post && (
                 <SafeAreaView>
-                    {post && (
-                    <SafeAreaView>
-                        <DraggableFlatList
-                            data={arrangementData}
-                            renderItem={renderComponent}
-                            keyExtractor={(item) => item.key}
-                            onDragEnd={({ data }) => {
-                                setArrangementData(data);
-                                AsyncStorage.setItem('@arrangement',JSON.stringify(arrangementData))
-                            }}
-                        />
-                        {/* <PostImage post={post} />
-                        <ScoreBar post={post}/>
-                        <Description description={post.description}/>
-                        <TagsView post={post}/>
-                        <InfoView post={post}/>
-                        <Relations post={post}/> */}
-                    </SafeAreaView>)}
-                </SafeAreaView>
+                    <DraggableFlatList
+                        data={arrangementData}
+                        renderItem={renderComponent}
+                        keyExtractor={(item) => item.key}
+                        onDragEnd={({ data }) => {
+                            setArrangementData(data)
+                            AsyncStorage.setItem('@arrangement',JSON.stringify(arrangementData))
+                    }}/>
+                </SafeAreaView>)}
             </ScrollView>
         </SafeAreaView>
-    </View>);
-};
+    </View>
+)}
 
-export default App;
+export default App

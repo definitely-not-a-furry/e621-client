@@ -1,7 +1,8 @@
-import {Text} from "react-native";
-import { defaultDark, classic } from "../themes/default";
-import DText from "./DText";
-import { Image } from "expo-image";
+import { Text } from 'react-native';
+import { defaultDark } from '../themes/default';
+import DText from './DText';
+import { Image } from 'expo-image';
+import { useState } from 'react';
 
 const style = defaultDark
 
@@ -21,7 +22,7 @@ const Score = ({score}) => {
     }else if(score==0){
         return(<Text style={style.neutral}>↕{score}</Text>);
     }else{
-        return(<Text style={style.negative}>↓{score}</Text>);
+        return(<Text style={style.negative}>↓{score}</Text>); 
     }
 }
 
@@ -32,12 +33,13 @@ const FavCount = ({favCount}) => {
 }
 
 const Description = ({description}) => {
-    {description && 
-    <View style={style.container}>
-            <Text style={[style.containerText,{fontWeight: 700, paddingBottom: 1}]}>Description:</Text>
-            <DText text={description}/>
+    <View>
+        {description && (
+            <View style={style.container}>
+                <Text style={[style.containerText,{fontWeight: 700, paddingBottom: 1}]}>Description:</Text>
+                <DText text={description}/>
+        </View>)}
     </View>
-    }
 }
 
 const PostImage = ({ post }) => {
@@ -60,7 +62,14 @@ const PostComments = ({postId}) => {
             .catch(error => console.error(error));
     }
 
-    return (<View style={style.container}></View>)
+    return (
+        <View style={style.container}>{comments.map((comment)=>(
+            <View key={comment.id} style={style.childContainer}>
+                <Text style={[style.containerText,{fontWeight:800}]}>{comment.creator}</Text>
+                <DText text={comment.body}/>
+            </View>))}
+        </View>
+        )
 }
 
 export {

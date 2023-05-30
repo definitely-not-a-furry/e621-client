@@ -1,7 +1,5 @@
 import {StyleSheet} from "react-native";
 
-
-
 //Default theme
 export const defaultDark = StyleSheet.create({
     parentContainer: {
