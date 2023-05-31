@@ -13,9 +13,10 @@ E621-client will have features and functions extended from their web-counterpart
 
 ## Limitations
 There are some things the API can't do yet, and thus can't be implemented. These include, but are not limited to:
--~~ Commenting~~
--~~ Reading comments~~
--~~ Voting on comments~~
+- ~~Commenting~~
+- ~~Reading comments~~
+- ~~Voting on comments~~
+(recently discovered that these are available, but the API documentation doesnt mention them)
 
 ## additional information
 ### future plans
