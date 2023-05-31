@@ -1,52 +1,68 @@
-import { Text } from 'react-native';
-import { defaultDark } from '../themes/default';
-import DText from './DText';
-import { Image } from 'expo-image';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react'
+import { Text, View } from 'react-native'
+import SelectedTheme from '../themes/default'
+import DText from './DText'
+import { Image } from 'expo-image'
+import PropTypes from 'prop-types'
 
-const style = defaultDark
+var style = SelectedTheme
 
-const Rating = ({rating}) => {
-    if(rating == 's'){
-        return(<Text style={[style.positive,{padding:10,fontWeight:700}]}>Safe</Text>);
-    }else if(rating == 'e'){
-        return(<Text style={[style.explicit,{padding:10,fontWeight:700}]}>Explicit</Text>);
-    }else if(rating == 'q'){
-        return(<Text style={[style.questionable,{padding:10,fontWeight:700}]}>Questionable</Text>)
-    } else return(<Text>error</Text>)
+const Rating = ({ rating }) => {
+    Rating.propTypes = {
+        rating: PropTypes.string
+    }
+    if (rating === 's') {
+        return (<Text style={[style.positive, { padding: 10, fontWeight: 700 }]}>Safe</Text>);
+    } else if (rating === 'e') {
+        return (<Text style={[style.explicit, { padding: 10, fontWeight: 700 }]}>Explicit</Text>);
+    } else if (rating === 'q') {
+        return (<Text style={[style.questionable, { padding: 10, fontWeight: 700 }]}>Questionable</Text>)
+    } else return (<Text>error</Text>)
 }
 
-const Score = ({score}) => {
-    if(score>0){
-        return(<Text style={style.positive}>↑{score}</Text>);
-    }else if(score==0){
-        return(<Text style={style.neutral}>↕{score}</Text>);
-    }else{
-        return(<Text style={style.negative}>↓{score}</Text>); 
+const Score = ({ score }) => {
+    Score.propTypes = {
+        score: PropTypes.number
+    }
+    if (score > 0) {
+        return (<Text style={style.positive}>↑{score}</Text>)
+    } else if (score === 0) {
+        return (<Text style={style.neutral}>↕{score}</Text>)
+    } else {
+        return (<Text style={style.negative}>↓{score}</Text>)
     }
 }
 
-const FavCount = ({favCount}) => {
-    return(
+const FavCount = ({ favCount }) => {
+    FavCount.propTypes = {
+        favCount: PropTypes.number
+    }
+    return (
         <Text style={style.containerText}>{favCount}♥</Text>
     )
 }
 
-const Description = ({description}) => {
-    <View>
-        {description && (
-            <View style={style.container}>
-                <Text style={[style.containerText,{fontWeight: 700, paddingBottom: 1}]}>Description:</Text>
-                <DText text={description}/>
-        </View>)}
-    </View>
+const Description = ({ description }) => {
+    Description.propTypes = {
+        description: PropTypes.string
+    }
+    return (
+        <View>
+            {description && (
+                <View style={style.container}>
+                    <Text style={[style.containerText, { fontWeight: 700, paddingBottom: 1 }]}>Description:</Text>
+                    <DText text={description}/>
+                </View>
+            )}
+        </View>
+    )
 }
-
+// Linted until here
 const PostImage = ({ post }) => {
-    if (!post?.id) return <Text style={{color:'#fff'}}>Loading...</Text>;
+    if (!post?.file) return <Text style={{color: '#fff' }}>Loading...</Text>
     const fileExtension = post.file.ext;
     if (fileExtension === 'jpg' || fileExtension === 'png' || fileExtension === 'gif') {
-        return <Image source={{ uri: post.file.url }} style={[style.image,{marginVertical:5}]} />;
+        return <Image source={{ uri: post.file.url }} style={[style.image, { marginVertical: 5 }]} />
     } else {
         return <Text>{`This file type (".${fileExtension}") is not supported (yet).`}</Text>;
     }
@@ -61,6 +77,10 @@ const PostComments = ({postId}) => {
             .then(data => setComments(data))
             .catch(error => console.error(error));
     }
+
+    useEffect(() => {
+        fetchComments();
+    },[]);
 
     return (
         <View style={style.container}>{comments.map((comment)=>(

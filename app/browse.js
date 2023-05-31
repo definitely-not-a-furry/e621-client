@@ -9,15 +9,39 @@ import {
 } from 'react-native';
 import { useEffect, useState } from 'react';
 import { Link, useRouter } from 'expo-router';
-import { defaultDark } from '../themes/default';
+import { classic, defaultDark } from '../themes/default';
 import { Image } from 'expo-image';
 import { StatusBar } from 'expo-status-bar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Browse() {
-    const style = defaultDark;
+
+    const [style,setStyle] = useState(defaultDark);
+
+    const setTheme = async () => {
+        var themeItem = await AsyncStorage.getItem('@theme')
+        switch(themeItem){
+            case "defaultDark":
+                var theme = defaultDark
+                break
+            case "classic":
+                var theme = classic
+                break
+            default:
+                console.log(themeItem)
+                var theme = defaultDark
+                console.log('error while setting theme, falling back to defaultDark')
+        }
+    }
+    
+    setStyle(theme)
+
+    setTheme()
+
+
     const [posts, setPosts] = useState([]);
     const [text, setText] = useState('fiddleafox');
-    const [searchTerm, setSearchTerm] = useState('fiddleafox'); //Temporarily using this as default tag, just because their art is cute :3 (and because needed to test searching)
+    const [searchTerm, setSearchTerm] = useState('fiddleafox'); //Temporarily using this as default tag, just because their art is cute :3 (and because needed to test searching) (yes, I know she's transphobic, but her art isn't, so frankly I don't care)
     const router = useRouter();
 
     const updateSearchTerm = () => {
@@ -27,7 +51,7 @@ export default function Browse() {
 
     useEffect(() => {
         console.log('(Re)fetching posts');
-        apiUrl = `https://e621.net/posts.json?tags=rating:safe+${searchTerm.split(' ').join('+')}`
+        let apiUrl = `https://e621.net/posts.json?tags=rating:safe+${searchTerm.split(' ').join('+')}`
         fetch(`${apiUrl}`,{headers:{'Accept': 'application/json'}})
         .then(response => response.json())
         .then(data => setPosts(data.posts))
