@@ -3,7 +3,7 @@ E621-client will be a browsing application for e621.net on IOS and Android made 
 
 **Note:** This project is currently in early alpha, do not expect anything to work properly first-try. Nothing here is final for any potential release.
 
-## features
+## Features
 E621-client will have features and functions extended from their web-counterpart, including:
 - easier post ordering and meta-filtering while browsing posts
 - cleaner favorites list
@@ -11,11 +11,11 @@ E621-client will have features and functions extended from their web-counterpart
 - personal pools/postlists: you will be able to create lists of various posts to access them quickly
 - settings i.e. safe mode, page length (amount of posts visible on one page) and blacklists
 
-## limitations
+## Limitations
 There are some things the API can't do yet, and thus can't be implemented. These include, but are not limited to:
-- Commenting
-- Reading comments 
-- Voting on comments
+~~- Commenting~~
+~~- Reading comments~~
+~~- Voting on comments~~
 
 ## additional information
 ### future plans
