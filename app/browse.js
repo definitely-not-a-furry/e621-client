@@ -3,71 +3,45 @@ import {
     View,
     SafeAreaView,
     ScrollView,
-    StyleSheet,
     TextInput,
-    TouchableOpacity,
-} from 'react-native';
-import { useEffect, useState } from 'react';
-import { Link, useRouter } from 'expo-router';
-import { classic, defaultDark } from '../themes/default';
-import { Image } from 'expo-image';
-import { StatusBar } from 'expo-status-bar';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+    TouchableOpacity
+} from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Link, useRouter } from 'expo-router'
+import SelectedTheme from '../themes/default'
+import { Image } from 'expo-image'
+import { StatusBar } from 'expo-status-bar'
 
-export default function Browse() {
-
-    const [style,setStyle] = useState(defaultDark);
-
-    const setTheme = async () => {
-        var themeItem = await AsyncStorage.getItem('@theme')
-        switch(themeItem){
-            case "defaultDark":
-                var theme = defaultDark
-                break
-            case "classic":
-                var theme = classic
-                break
-            default:
-                console.log(themeItem)
-                var theme = defaultDark
-                console.log('error while setting theme, falling back to defaultDark')
-        }
-    }
-    
-    setStyle(theme)
-
-    setTheme()
-
-
-    const [posts, setPosts] = useState([]);
-    const [text, setText] = useState('fiddleafox');
-    const [searchTerm, setSearchTerm] = useState('fiddleafox'); //Temporarily using this as default tag, just because their art is cute :3 (and because needed to test searching) (yes, I know she's transphobic, but her art isn't, so frankly I don't care)
-    const router = useRouter();
+export default function Browse () {
+    const style = SelectedTheme
+    const [posts, setPosts] = useState([])
+    const [text, setText] = useState('fiddleafox')
+    const [searchTerm, setSearchTerm] = useState('fiddleafox') // Temporarily using this as default tag, just because their art is cute :3 (and because needed to test searching) (yes, I know she's transphobic, but her art isn't, so frankly I don't care)
+    const router = useRouter()
 
     const updateSearchTerm = () => {
-        console.log(text);
-        setSearchTerm(text);
-    };
+        console.log(text)
+        setSearchTerm(text)
+    }
 
     useEffect(() => {
-        console.log('(Re)fetching posts');
-        let apiUrl = `https://e621.net/posts.json?tags=rating:safe+${searchTerm.split(' ').join('+')}`
-        fetch(`${apiUrl}`,{headers:{'Accept': 'application/json'}})
-        .then(response => response.json())
-        .then(data => setPosts(data.posts))
-        .catch(error => console.log(`Error while fetching posts: "${error}"`));
-    }, [searchTerm]);
+        console.log('(Re)fetching posts')
+        fetch(`https://e621.net/posts.json?tags=rating:safe+${searchTerm.split(' ').join('+')}`)
+            .then(response => response.json())
+            .then(data => setPosts(data.posts))
+            .catch(error => console.log(`Error while fetching posts: "${error}"`))
+    }, [searchTerm])
 
-    async function goToPost(postId) {
-        console.log(postId)
-        router.push({pathname:'/postview',params:{id:postId}})
-    };
+    const goToPost = (postId) => {
+        console.log(`Navigating to post with id: ${postId}`)
+        router.push({ pathname: '/postview', params: { id: postId } })
+    }
 
     return (
-        <SafeAreaView style={{backgroundColor: "#000",flex:1}}>
+        <SafeAreaView style={{ backgroundColor: '#000', flex: 1 }}>
             <View style={style.searchContainer}>
                 <View style={style.button}>
-                    <Link href="/home" style={styles.searchButtonText}>Back</Link>
+                    <Link href="/home" style={[style.containerText, { textAlign: 'center', fontWeight: 'bold' }]}>Back</Link>
                 </View>
                 <TextInput
                     style={style.searchInput}
@@ -77,133 +51,29 @@ export default function Browse() {
                     onSubmitEditing={updateSearchTerm}
                 />
                 <TouchableOpacity style={style.button} onPress={updateSearchTerm}>
-                    <Text style={styles.searchButtonText}>Search</Text>
+                    <Text style={[style.containerText, { textAlign: 'center', fontWeight: 'bold' }]}>Search</Text>
                 </TouchableOpacity>
             </View>
             <ScrollView>
                 <View style={style.parentContainer}>
-                {posts.map(post => (
-                    <TouchableOpacity onPress={()=>goToPost(post.id)} key={post.id} style={{width:'50%'}} >
-                        <View style={[style.container,{padding:10}]}>
-                            {<Image 
-                            source={{ uri: post.preview.url }} 
-                            contentFit='contain' 
-                            transition={{effect:'cross-dissolve', duration: 250}} 
-                            style={style.image} 
-                            />}
-                            <View style={style.childContainer}><Text style={[style.positive]}>↑{post.score.up} </Text><Text style={style.negative}> ↓{post.score.down}</Text><Text style={style.negative}>♥{post.fav_count}</Text></View>
-                        </View>
-                    </TouchableOpacity>
-                ))}
+                    {posts.map(post => (
+                        <TouchableOpacity onPress={() => goToPost(post.id)} key={post.id} style={{ width: '50%' }} >
+                            <View style={[style.container, { padding: 10 }]}>
+                                {<Image
+                                    source={{ uri: post.preview.url }}
+                                    contentFit='contain'
+                                    transition={{ effect: 'cross-dissolve', duration: 250 }}
+                                    style={style.image}
+                                />}
+                                <View style={style.childContainer}><Text style={[style.positive]}>↑{post.score.up} </Text><Text style={style.negative}> ↓{post.score.down}</Text><Text style={style.negative}>♥{post.fav_count}</Text></View>
+                            </View>
+                        </TouchableOpacity>
+                    ))}
                 </View>
                 <StatusBar hidden={true}></StatusBar>
             </ScrollView>
         </SafeAreaView>
-    );
+    )
 }
 
-//TODO: add page control
-
-const styles = StyleSheet.create({
-
-    container: {
-        flex: 1,
-        color: '#fff',
-        backgroundColor: '#020f23',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    searchContainer: {
-        flexDirection: 'row',
-        alignSelf: 'stretch',
-        alignItems: 'center',
-        backgroundColor: '#152f56',
-        justifyContent: 'center',
-        padding: 10,
-    },
-    searchInput: {
-        color: '#fff',
-        flex: 1,
-        width: '100%',
-        height: 'auto',
-        borderWidth: 2,
-        borderRadius: 5,
-        borderColor: '#25477b',
-        marginHorizontal: 10,
-        padding: 10,
-        paddingLeft: 10,
-    
-    },
-    searchButton: {
-        backgroundColor: '#25477b',
-        borderWidth: 2,
-        borderRadius: 5,
-        borderColor: '#25477b',
-        padding: 10,
-    },
-    searchButtonText: {
-        color: '#fff',
-        textAlign: 'center',
-        fontWeight: 'bold',
-    },
-    postContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        padding: 10,
-    },
-    postCard: {
-        backgroundColor: '#152f56',
-        borderRadius: 5,
-        elevation: 3,
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
-        padding: 10,
-    },
-    postImage: {
-        height: 200,
-        width: '100%',
-        borderRadius: 5,
-        marginBottom: 5,
-    },
-    postScore: {
-        fontSize: 14,
-        marginBottom: 5,
-    },
-    postScoreContainer: {
-        alignSelf: 'flex-start',
-        flexDirection: 'row',
-    },
-    postScoreUp:{
-        color: '#006400',
-        flex: 1,
-    },
-    postScoreDown: {
-        color: '#800000',
-        flex: 1,
-    },
-    postFaves: {
-        color: '#cf0404',
-        fontSize: 14,
-        marginBottom: 5,
-    },
-    postBody: {
-        fontSize: 16,
-        marginBottom: 5,
-    },
-    postButton: {
-        backgroundColor: '#25477b',
-        borderRadius: 5,
-        padding: 5,
-        alignContent: 'left',
-        alignSelf: 'left',
-        fontSize: 20,
-        width: 'auto',
-    },
-    postButtonText: {
-        color: '#fff',
-        textAlign: 'left',
-        fontSize: 18,
-    },
-});
+// TODO: add page control
