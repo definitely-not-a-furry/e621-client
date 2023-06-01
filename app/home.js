@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
 import { SafeAreaView, View, Text, ImageBackground, StyleSheet, TouchableOpacity, Platform } from 'react-native'
+import { LinearGradient } from 'expo-linear-gradient'
 import { StatusBar } from 'expo-status-bar'
 import { BlurView } from 'expo-blur'
 import { useRouter } from 'expo-router'
 import { impactAsync, ImpactFeedbackStyle } from 'expo-haptics'
+import SelectedTheme from '../themes/default'
 
 function App () {
     const [moreExpanded, setExpanded] = useState(false)
     const router = useRouter()
-
+    const style = SelectedTheme
     const handleMore = () => {
         setExpanded(!moreExpanded)
     }
@@ -34,29 +36,31 @@ function App () {
     return (
         <SafeAreaView style={styles.background}>
             <StatusBar hidden={true}></StatusBar>
-            <ImageBackground style={styles.backgroundImage} src={'https://static1.e621.net/data/mascots/913a8fd0240b14bfbb63d6a9cfc3faf2.jpg'}>
-                <View style={{ flex: 2 }}></View>
-                <View style={[styles.blurContainer, { flex: 1 }]}>
-                    <BlurView style={styles.blur} intensity={25}>
-                        <View style={styles.mascotBox}>
-                            <Text style={styles.title}>e621</Text>
-                            <View>
-                                <TouchableOpacity style={styles.button} onPress={() => { buttonHaptic(1); router.push('/browse') }}><Text style={styles.buttonText}>Browse</Text></TouchableOpacity>
-                                {!moreExpanded &&
-                                <View style={styles.buttonContainer}>
-                                    <TouchableOpacity style={styles.button} onPress={() => { buttonHaptic(1); handleMore() }}><Text style={styles.buttonText}>More</Text></TouchableOpacity>
-                                </View>}
-                                {moreExpanded &&
+            <LinearGradient colors={['#000', '##1e437c']} end={{ x: 1, y: 1 }}>
+                <ImageBackground style={styles.backgroundImage} src={'https://static1.e621.net/data/mascots/913a8fd0240b14bfbb63d6a9cfc3faf2.jpg'}>
+                    <View style={{ flex: 3 }}></View>
+                    <View style={[styles.blurContainer, { flex: 1 }]}>
+                        <BlurView style={styles.blur} intensity={25}>
+                            <View style={styles.mascotBox}>
+                                <Text style={styles.title}>e621</Text>
                                 <View>
-                                    <TouchableOpacity style={styles.button} onPress={() => handleMore()}><Text style={styles.buttonText}>Less</Text></TouchableOpacity>
-                                    <TouchableOpacity style={styles.button} onPress={() => router.push('/testingarea')}><Text style={styles.buttonText}>debug</Text></TouchableOpacity>
-                                    <TouchableOpacity style={styles.button} onPress={() => { buttonHaptic(1); router.push('/users') }}><Text style={styles.buttonText}>Users</Text></TouchableOpacity>
-                                </View>}
+                                    <TouchableOpacity style={styles.button} onPress={() => { buttonHaptic(1); router.push('/browse') }}><Text style={styles.buttonText}>Browse</Text></TouchableOpacity>
+                                    {!moreExpanded &&
+                                    <View style={styles.buttonContainer}>
+                                        <TouchableOpacity style={styles.button} onPress={() => { buttonHaptic(1); handleMore() }}><Text style={styles.buttonText}>More</Text></TouchableOpacity>
+                                    </View>}
+                                    {moreExpanded &&
+                                    <View>
+                                        <TouchableOpacity style={styles.button} onPress={() => handleMore()}><Text style={styles.buttonText}>Less</Text></TouchableOpacity>
+                                        <TouchableOpacity style={styles.button} onPress={() => router.push('/testingarea')}><Text style={styles.buttonText}>debug</Text></TouchableOpacity>
+                                        <TouchableOpacity style={styles.button} onPress={() => { buttonHaptic(1); router.push('/users') }}><Text style={styles.buttonText}>Users</Text></TouchableOpacity>
+                                    </View>}
+                                </View>
                             </View>
-                        </View>
-                    </BlurView>
-                </View>
-            </ImageBackground>
+                        </BlurView>
+                    </View>
+                </ImageBackground>
+            </LinearGradient>
         </SafeAreaView>
     )
 }
@@ -76,7 +80,7 @@ const styles = StyleSheet.create({
     blur: {
         borderRadius: 5,
         padding: 5,
-        alignSelf: 'stretch'
+        flexGrow: 1
     },
     blurContainer: {
         overflow: 'hidden',

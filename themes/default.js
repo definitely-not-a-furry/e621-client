@@ -189,7 +189,15 @@ export const classic = StyleSheet.create({
     tagsInvalid: { color: '#ff3d3d' },
     tagsSpecies: { color: '#ff3d3d' },
     tagsCopyright: { color: '#d0d' },
-    tagsLore: { color: '#282' }
+    tagsLore: { color: '#282' },
+    transparent: {
+        button: {
+            backgroundColor: 'rgba(10,10,10,0.5)',
+            padding: 7,
+            margin: 5,
+            borderRadius: 5
+        }
+    }
 })
 
 const styleStr = AsyncStorage.getItem('@theme')
