@@ -35,8 +35,9 @@ function App () {
 
     return (
         <SafeAreaView style={styles.background}>
+
             <StatusBar hidden={true}></StatusBar>
-            <LinearGradient colors={['#000', '##1e437c']} end={{ x: 1, y: 1 }}>
+            {/* <LinearGradient colors={['#000', '##1e437c']} end={{ x: 1, y: 1 }}> */}
                 <ImageBackground style={styles.backgroundImage} src={'https://static1.e621.net/data/mascots/913a8fd0240b14bfbb63d6a9cfc3faf2.jpg'}>
                     <View style={{ flex: 3 }}></View>
                     <View style={[styles.blurContainer, { flex: 1 }]}>
@@ -60,7 +61,7 @@ function App () {
                         </BlurView>
                     </View>
                 </ImageBackground>
-            </LinearGradient>
+            {/* </LinearGradient> */}
         </SafeAreaView>
     )
 }

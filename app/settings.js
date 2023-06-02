@@ -1,69 +1,79 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Switch, TextInput, Picker, StyleSheet } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {
+    useState,
+    useEffect
+} from 'react'
+import {
+    View,
+    Text,
+    Switch,
+    TextInput,
+    Picker,
+    StyleSheet
+} from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import Toast from 'react-native-root-toast'
+import { RootSiblingParent } from 'react-native-root-siblings';
+import { useRouter } from 'expo-router'
 
 const SettingsScreen = () => {
-    const [safeMode, setSafeMode] = useState(false);
-    const [maxPageLength, setMaxPageLength] = useState('');
-    const [theme, setTheme] = useState('Dark');
+    const [safeMode, setSafeMode] = useState(false)
+    const [maxPageLength, setMaxPageLength] = useState('')
+    const [theme, setTheme] = useState('defaultDark')
+    const router = useRouter()
 
     // Load settings from AsyncStorage on component mount
     useEffect(() => {
-        loadSettings();
-    }, []);
+        loadSettings()
+    }, [])
 
     // Load settings from AsyncStorage
     const loadSettings = async () => {
         try {
-            const settings = await AsyncStorage.getItem('settings');
+            const settings = await AsyncStorage.getItem('@settings')
+            setTheme(await AsyncStorage.getItem('@theme'))
             if (settings) {
-                const parsedSettings = JSON.parse(settings);
-                setSafeMode(parsedSettings.safeMode); // Linted here
-        setMaxPageLength(parsedSettings.maxPageLength);
-        setTheme(parsedSettings.theme);
-      }
-    } catch (error) {
-      console.log('Error loading settings:', error);
+                const parsedSettings = JSON.parse(settings)
+                setSafeMode(parsedSettings.safeMode)
+                setMaxPageLength(parsedSettings.maxPageLength)
+            }
+        } catch (error) {
+            console.log('Error loading settings:', error)
+        }
     }
-  };
 
-  // Save settings to AsyncStorage
-  const saveSettings = async () => {
-    try {
-      const settings = {
-        safeMode: safeMode,
-        maxPageLength: maxPageLength,
-        theme: theme,
-      };
-      await AsyncStorage.setItem('settings', JSON.stringify(settings));
-      console.log('Settings saved successfully!');
-    } catch (error) {
-      console.log('Error saving settings:', error);
+    // Save settings to AsyncStorage
+    const saveSettings = async () => {
+        try {
+            const settings = {
+                safeMode,
+                maxPageLength
+            }
+            await AsyncStorage.setItem('@settings', JSON.stringify(settings))
+            await AsyncStorage.setItem('@theme', theme)
+            console.log('Settings saved successfully!')
+        } catch (error) {
+            console.log('Error saving settings:', error)
+        }
     }
-  };
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Safe Mode</Text>
-      <Switch value={safeMode} onValueChange={(value) => setSafeMode(value)} />
+    return (
+        <View style = { styles.container }>
+            <RootSiblingParent>
+                <TouchableOpacity onPress={null}><Text>Back</Text></TouchableOpacity>
+                <Text style = { styles.label }>Safe Mode</Text>
+                <Switch value = { safeMode } onValueChange = {(value) => setSafeMode(value)}/>
 
-      <Text style={styles.label}>Max Page Length</Text>
-      <TextInput
-        style={styles.input}
-        value={maxPageLength}
-        onChangeText={(value) => setMaxPageLength(value)}
-        keyboardType="numeric"
-      />
+                <Text style={styles.label}>Max Page Length</Text>
+                <TextInput style={styles.input} value={maxPageLength} onChangeText={(value) => setMaxPageLength(value)} keyboardType="numeric"/>
 
-      <Text style={styles.label}>Theme</Text>
-            <Picker
-                style={styles.picker}
-                selectedValue={theme}
-                onValueChange={(value) => setTheme(value)}
-            >
-                <Picker.Item label="Dark (default)" value="Dark" />
-                <Picker.Item label="Classic" value="Classic" />
-            </Picker>
+                <Text style={styles.label}>Theme</Text>
+                <Picker style={styles.picker} selectedValue={theme} onValueChange = {(value) => setTheme(value)}>
+                    <Picker.Item label = "Dark (default)" value = "defaultDark" />
+                    <Picker.Item label = "Classic" value = "classic" />
+                </Picker>
+                <TouchableOpacity onPress={() => { saveSettings(); Toast.show('Saved!') }}><Text>Save</Text></TouchableOpacity>
+            </RootSiblingParent>
         </View>
     )
 }
@@ -90,4 +100,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default SettingsScreen;
+export default SettingsScreen

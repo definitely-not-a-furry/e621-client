@@ -19,7 +19,7 @@ import { Relations } from '../components/Relations'
 
 const App = () => {
     const style = SelectedTheme
-
+    console.log(style)
     const router = useRouter()
     const params = useSearchParams()
     const [post, setPost] = useState()
@@ -67,6 +67,10 @@ const App = () => {
             .then(data => setPost(data.post))
             .catch(error => console.error(error))
     }, [params])
+
+    if (style === undefined) {
+        return <Text>Loading...</Text>
+    }
 
     return (
         <View style={{ backgroundColor: '#000', height: '100%', width: '100%' }}>

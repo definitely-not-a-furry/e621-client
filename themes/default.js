@@ -202,7 +202,7 @@ export const classic = StyleSheet.create({
 
 const styleStr = AsyncStorage.getItem('@theme')
 var SelectedTheme
-
+console.log(`theme: ${styleStr}`)
 switch (styleStr) {
 case 'defaultDark':
     SelectedTheme = defaultDark
