@@ -7,14 +7,14 @@ import {
     Text,
     Switch,
     TextInput,
-    Picker,
     StyleSheet
 } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import Toast from 'react-native-root-toast'
-import { RootSiblingParent } from 'react-native-root-siblings';
+import { RootSiblingParent } from 'react-native-root-siblings'
 import { useRouter } from 'expo-router'
+import { Picker } from '@react-native-picker/picker'
 
 const SettingsScreen = () => {
     const [safeMode, setSafeMode] = useState(false)
@@ -60,7 +60,7 @@ const SettingsScreen = () => {
     return (
         <View style = { styles.container }>
             <RootSiblingParent>
-                <TouchableOpacity onPress={null}><Text>Back</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => router.push('/home')}><Text>Back</Text></TouchableOpacity>
                 <Text style = { styles.label }>Safe Mode</Text>
                 <Switch value = { safeMode } onValueChange = {(value) => setSafeMode(value)}/>
 

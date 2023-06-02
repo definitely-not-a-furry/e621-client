@@ -8,14 +8,14 @@ import {
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Link, useRouter } from 'expo-router'
-import SelectedTheme from '../themes/default'
+import { defaultDark, classic } from '../themes/default'
 import { Image } from 'expo-image'
 import { StatusBar } from 'expo-status-bar'
-import RootSiblingsManager, { RootSiblingParent } from 'react-native-root-siblings'
-import Toast from 'react-native-root-toast'
+import { RootSiblingParent } from 'react-native-root-siblings'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function Browse () {
-    const style = SelectedTheme
+    const [style, setStyle] = useState()
     const [posts, setPosts] = useState([])
     const [text, setText] = useState('fiddleafox')
     const [searchTerm, setSearchTerm] = useState('fiddleafox') // Temporarily using this as default tag, just because their art is cute :3 (and because needed to test searching) (yes, I know she's transphobic, but her art isn't, so frankly I don't care)
@@ -26,24 +26,30 @@ export default function Browse () {
         setSearchTerm(text)
     }
 
-    const checkInternetConnectivity = async () => {
+    async function setTheme () {
+        setStyle(await getTheme())
+    }
+
+    const getTheme = async () => {
         try {
-            const response = await fetch('https://e621.net/')
-            if (response.status === 200) {
-                console.log('Internet connectivity is available to the website.')
-            } else {
-                console.log('Unable to connect to the website.')
-                Toast.show('Couldn\'t connect to e621.net\'s API.')
-                Toast.show('Check if you have a valid internet connection')
+            const theme = await AsyncStorage.getItem('@theme')
+            switch (theme) {
+            case 'defaultDark':
+                return defaultDark
+            case 'classic':
+                return classic
+            default:
+                return defaultDark
             }
-        } catch (error) {
-            console.log('Error occurred while checking internet connectivity:', error)
+        } catch (e) {
+            console.log(e)
+            return defaultDark
         }
     }
 
     useEffect(() => {
+        setTheme()
         console.log('(Re)fetching posts')
-        checkInternetConnectivity()
         fetch(`https://e621.net/posts.json?tags=rating:safe+${searchTerm.split(' ').join('+')}`)
             .then(response => response.json())
             .then(data => setPosts(data.posts))
@@ -53,6 +59,10 @@ export default function Browse () {
     const goToPost = (postId) => {
         console.log(`Navigating to post with id: ${postId}`)
         router.push({ pathname: '/postview', params: { id: postId } })
+    }
+
+    if (!style) {
+        return <Text>Loading...</Text>
     }
 
     return (

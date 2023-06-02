@@ -10,16 +10,15 @@ import {
     TouchableWithoutFeedback
 } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { SelectedTheme } from '../themes/default'
+import { defaultDark, classic } from '../themes/default'
 import TagsView from '../components/PostTags'
-import { Description, PostImage } from '../components/Components'
+import { Description, PostImage, toTheme } from '../components/Components'
 import { ScoreBar } from '../components/ScoreBar'
 import { InfoView } from '../components/InfoView'
 import { Relations } from '../components/Relations'
 
 const App = () => {
-    const style = SelectedTheme
-    console.log(style)
+    const [style, setStyle] = useState()
     const router = useRouter()
     const params = useSearchParams()
     const [post, setPost] = useState()
@@ -32,6 +31,27 @@ const App = () => {
         { key: 'InfoView' },
         { key: 'Relations' }
     ])
+
+    async function setTheme () {
+        setStyle(await getTheme())
+    }
+
+    const getTheme = async () => {
+        try {
+            const theme = await AsyncStorage.getItem('@theme')
+            switch (theme) {
+            case 'defaultDark':
+                return defaultDark
+            case 'classic':
+                return classic
+            default:
+                return defaultDark
+            }
+        } catch (e) {
+            console.log(e)
+            return defaultDark
+        }
+    }
 
     const renderComponent = ({ item, drag }) => {
         switch (item.key) {
@@ -53,6 +73,7 @@ const App = () => {
     }
 
     useEffect(() => {
+        setTheme()
         AsyncStorage.getItem('@arrangement')
             .then((data) => {
                 if (data) {

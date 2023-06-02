@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { Text, View } from 'react-native'
-import SelectedTheme from '../themes/default'
+import { themeStr, classic, defaultDark } from '../themes/default'
 import DText from './DText'
 import { Image } from 'expo-image'
 import PropTypes from 'prop-types'
 
-const style = SelectedTheme
+const toTheme = (string) => {
+    switch (string) {
+    case 'defaultDark':
+        return defaultDark
+    case 'classic':
+        return classic
+    default:
+        return defaultDark
+    }
+}
+
+const style = toTheme(themeStr)
 
 const Rating = ({ rating }) => {
     Rating.propTypes = {
@@ -104,5 +115,6 @@ export {
     FavCount,
     Description,
     PostImage,
-    PostComments
+    PostComments,
+    toTheme
 }

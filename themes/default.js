@@ -200,18 +200,19 @@ export const classic = StyleSheet.create({
     }
 })
 
-const styleStr = AsyncStorage.getItem('@theme')
-var SelectedTheme
-console.log(`theme: ${styleStr}`)
-switch (styleStr) {
-case 'defaultDark':
-    SelectedTheme = defaultDark
-    break
-case 'classic':
-    SelectedTheme = classic
-    break
-default:
-    SelectedTheme = defaultDark
+export const getTheme = async () => {
+    try {
+        const theme = await AsyncStorage.getItem('@theme')
+        switch (theme) {
+        case 'defaultDark':
+            return defaultDark
+        case 'classic':
+            return classic
+        default:
+            return defaultDark
+        }
+    } catch (e) {
+        console.log(e)
+        return defaultDark
+    }
 }
-
-export default SelectedTheme

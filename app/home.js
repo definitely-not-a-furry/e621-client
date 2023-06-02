@@ -5,15 +5,9 @@ import { StatusBar } from 'expo-status-bar'
 import { BlurView } from 'expo-blur'
 import { useRouter } from 'expo-router'
 import { impactAsync, ImpactFeedbackStyle } from 'expo-haptics'
-import SelectedTheme from '../themes/default'
 
 function App () {
-    const [moreExpanded, setExpanded] = useState(false)
     const router = useRouter()
-    const style = SelectedTheme
-    const handleMore = () => {
-        setExpanded(!moreExpanded)
-    }
 
     const buttonHaptic = (strength) => {
         if (Platform.OS === 'ios' || Platform.OS === 'android') {
@@ -35,33 +29,25 @@ function App () {
 
     return (
         <SafeAreaView style={styles.background}>
-
             <StatusBar hidden={true}></StatusBar>
-            {/* <LinearGradient colors={['#000', '##1e437c']} end={{ x: 1, y: 1 }}> */}
+            <LinearGradient style={{ height: '100%', width: '100%' }} colors={['#000', '##1e437c']} end={{ x: 1, y: 1 }}>
                 <ImageBackground style={styles.backgroundImage} src={'https://static1.e621.net/data/mascots/913a8fd0240b14bfbb63d6a9cfc3faf2.jpg'}>
                     <View style={{ flex: 3 }}></View>
                     <View style={[styles.blurContainer, { flex: 1 }]}>
                         <BlurView style={styles.blur} intensity={25}>
                             <View style={styles.mascotBox}>
                                 <Text style={styles.title}>e621</Text>
-                                <View>
+                                <View style={styles.buttonContainer}>
                                     <TouchableOpacity style={styles.button} onPress={() => { buttonHaptic(1); router.push('/browse') }}><Text style={styles.buttonText}>Browse</Text></TouchableOpacity>
-                                    {!moreExpanded &&
-                                    <View style={styles.buttonContainer}>
-                                        <TouchableOpacity style={styles.button} onPress={() => { buttonHaptic(1); handleMore() }}><Text style={styles.buttonText}>More</Text></TouchableOpacity>
-                                    </View>}
-                                    {moreExpanded &&
-                                    <View>
-                                        <TouchableOpacity style={styles.button} onPress={() => handleMore()}><Text style={styles.buttonText}>Less</Text></TouchableOpacity>
-                                        <TouchableOpacity style={styles.button} onPress={() => router.push('/testingarea')}><Text style={styles.buttonText}>debug</Text></TouchableOpacity>
-                                        <TouchableOpacity style={styles.button} onPress={() => { buttonHaptic(1); router.push('/users') }}><Text style={styles.buttonText}>Users</Text></TouchableOpacity>
-                                    </View>}
+                                    <TouchableOpacity style={styles.button} onPress={() => { buttonHaptic(1); router.push('/testingarea') }}><Text style={styles.buttonText}>debug</Text></TouchableOpacity>
+                                    <TouchableOpacity style={styles.button} onPress={() => { buttonHaptic(1); router.push('/users') }}><Text style={styles.buttonText}>Users</Text></TouchableOpacity>
+                                    <TouchableOpacity style={styles.button} onPress={() => { buttonHaptic(1); router.push('/settings') }}><Text style={styles.buttonText}>Settings</Text></TouchableOpacity>
                                 </View>
                             </View>
                         </BlurView>
                     </View>
                 </ImageBackground>
-            {/* </LinearGradient> */}
+            </LinearGradient>
         </SafeAreaView>
     )
 }
@@ -85,7 +71,10 @@ const styles = StyleSheet.create({
     },
     blurContainer: {
         overflow: 'hidden',
-        borderRadius: 5
+        borderRadius: 5,
+        flexGrow: 1,
+        alignSelf: 'stretch',
+        margin: 10
     },
     title: {
         color: '#fff',
@@ -98,17 +87,21 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+        flexWrap: 'wrap'
     },
     button: {
         backgroundColor: 'rgba(10,10,10,0.5)',
         padding: 7,
         margin: 5,
+        width: '35%',
+        alignContent: 'center',
         borderRadius: 5
 
     },
     buttonText: {
         color: '#fff',
+        textAlign: 'center',
         paddingHorizontal: 10
     }
 

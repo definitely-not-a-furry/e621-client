@@ -1,9 +1,9 @@
-import {Text,View} from "react-native";
-import { defaultDark, classic } from "../themes/default";
-import { Rating } from "./Components";
+import { Text, View } from 'react-native'
+import { stylestr } from '../themes/default'
+import { Rating, toTheme } from './Components'
 
 const InfoView = ({post}) => {
-    const style = defaultDark
+    const style = toTheme(stylestr)
     return(
         <View style={style.container}>
             <Text style={style.containerText}>
