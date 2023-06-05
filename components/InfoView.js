@@ -1,10 +1,37 @@
+import React, { useEffect } from 'react'
 import { Text, View } from 'react-native'
-import { stylestr } from '../themes/default'
-import { Rating, toTheme } from './Components'
+import { classic, defaultDark } from '../themes/default'
+import { Rating } from './Components'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const InfoView = ({post}) => {
-    const style = toTheme(stylestr)
-    return(
+    var style = defaultDark
+    async function setTheme () {
+        style = await getTheme()
+    }
+
+    const getTheme = async () => {
+        try {
+            const theme = await AsyncStorage.getItem('@theme')
+            switch (theme) {
+            case 'defaultDark':
+                return defaultDark
+            case 'classic':
+                return classic
+            default:
+                return defaultDark
+            }
+        } catch (e) {
+            console.log(e)
+            return defaultDark
+        }
+    }
+
+    useEffect(() => {
+        setTheme()
+    }, [])
+
+    return (
         <View style={style.container}>
             <Text style={style.containerText}>
                 <Text style={{fontWeight: 500}}>{`ID: `}<Text style={{fontWeight: 200}}>{post.id}</Text></Text>{'\n'}

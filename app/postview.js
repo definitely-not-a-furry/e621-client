@@ -12,7 +12,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { defaultDark, classic } from '../themes/default'
 import TagsView from '../components/PostTags'
-import { Description, PostImage, toTheme } from '../components/Components'
+import { Description, PostImage } from '../components/Components'
 import { ScoreBar } from '../components/ScoreBar'
 import { InfoView } from '../components/InfoView'
 import { Relations } from '../components/Relations'

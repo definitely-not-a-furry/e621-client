@@ -70,7 +70,7 @@ export default function Browse () {
             <SafeAreaView style={{ backgroundColor: '#000', flex: 1 }}>
                 <View style={style.searchContainer}>
                     <View style={style.button}>
-                        <Link href="/home" style={[style.containerText, { textAlign: 'center', fontWeight: 'bold' }]}>Back</Link>
+                        <Link href="/home" style={[style.containerText, { textAlign: 'center', fontWeight: 'bold', padding: 1 }]}>Back</Link>
                     </View>
                     <TextInput
                         style={style.searchInput}
@@ -80,7 +80,7 @@ export default function Browse () {
                         onSubmitEditing={updateSearchTerm}
                     />
                     <TouchableOpacity style={style.button} onPress={updateSearchTerm}>
-                        <Text style={[style.containerText, { textAlign: 'center', fontWeight: 'bold' }]}>Search</Text>
+                        <Text style={[style.containerText, { textAlign: 'center', fontWeight: 'bold', padding: 1 }]}>Search</Text>
                     </TouchableOpacity>
                 </View>
                 <ScrollView>
@@ -94,7 +94,7 @@ export default function Browse () {
                                         transition={{ effect: 'cross-dissolve', duration: 250 }}
                                         style={style.image}
                                     />}
-                                    <View style={[style.childContainer, { borderColor: '#666', borderWidth: 2, backgroundColor: '#444' }]}><Text style={[style.positive]}>↑{post.score.up} </Text><Text style={style.negative}> ↓{post.score.down}</Text><Text style={style.negative}>♥{post.fav_count}</Text></View>
+                                    <View style={[style.childContainer]}><Text style={[style.positive]}>↑{post.score.up} </Text><Text style={style.negative}> ↓{post.score.down}</Text><Text style={style.negative}>♥{post.fav_count}</Text></View>
                                 </View>
                             </TouchableOpacity>
                         ))}

@@ -1,26 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Text, View } from 'react-native'
-import { themeStr, classic, defaultDark } from '../themes/default'
 import DText from './DText'
 import { Image } from 'expo-image'
 import PropTypes from 'prop-types'
 
-const toTheme = (string) => {
-    switch (string) {
-    case 'defaultDark':
-        return defaultDark
-    case 'classic':
-        return classic
-    default:
-        return defaultDark
-    }
-}
-
-const style = toTheme(themeStr)
-
-const Rating = ({ rating }) => {
+const Rating = ({ rating, style }) => {
     Rating.propTypes = {
-        rating: PropTypes.string
+        rating: PropTypes.string,
+        style: PropTypes.object
     }
     if (rating === 's') {
         return (<Text style={[style.positive, { padding: 10, fontWeight: 700 }]}>Safe</Text>)
@@ -31,9 +18,10 @@ const Rating = ({ rating }) => {
     } else return (<Text>error</Text>)
 }
 
-const Score = ({ score }) => {
+const Score = ({ score, style }) => {
     Score.propTypes = {
-        score: PropTypes.number
+        score: PropTypes.number,
+        style: PropTypes.object
     }
     if (score > 0) {
         return (<Text style={style.positive}>↑{score}</Text>)
@@ -44,18 +32,20 @@ const Score = ({ score }) => {
     }
 }
 
-const FavCount = ({ favCount }) => {
+const FavCount = ({ favCount, style }) => {
     FavCount.propTypes = {
-        favCount: PropTypes.number
+        favCount: PropTypes.number,
+        style: PropTypes.object
     }
     return (
         <Text style={style.containerText}>{favCount}♥</Text>
     )
 }
 
-const Description = ({ description }) => {
+const Description = ({ description, style }) => {
     Description.propTypes = {
-        description: PropTypes.string
+        description: PropTypes.string,
+        style: PropTypes.object
     }
     return (
         <View>
@@ -69,9 +59,10 @@ const Description = ({ description }) => {
     )
 }
 
-const PostImage = ({ post }) => {
+const PostImage = ({ post, style }) => {
     PostImage.propTypes = {
-        post: PropTypes.object
+        post: PropTypes.object,
+        style: PropTypes.object
     }
     if (!post?.file) return <Text style={{ color: '#fff' }}>Loading...</Text>
     const fileExtension = post.file.ext
@@ -82,9 +73,10 @@ const PostImage = ({ post }) => {
     }
 }
 
-const PostComments = ({ postId }) => {
+const PostComments = ({ postId, style }) => {
     PostComments.propTypes = {
-        postId: PropTypes.number
+        postId: PropTypes.number,
+        style: PropTypes.object
     }
     const [comments, setComments] = useState([])
 
@@ -115,6 +107,5 @@ export {
     FavCount,
     Description,
     PostImage,
-    PostComments,
-    toTheme
+    PostComments
 }

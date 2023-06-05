@@ -1,6 +1,7 @@
+import React, { useEffect } from 'react'
 import { Text, View } from 'react-native'
-import { stylestr } from '../themes/default'
-import { toTheme } from './Components'
+import { classic, defaultDark } from '../themes/default'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const isEmpty = (array) => {
     if (array === undefined || array.length === 0) {
@@ -9,12 +10,37 @@ const isEmpty = (array) => {
 }
 
 const TagsView = ({post}) => {
-    const style = toTheme(stylestr)
+    var style = defaultDark
+    async function setTheme () {
+        style = await getTheme()
+    }
+
+    const getTheme = async () => {
+        try {
+            const theme = await AsyncStorage.getItem('@theme')
+            switch (theme) {
+            case 'defaultDark':
+                return defaultDark
+            case 'classic':
+                return classic
+            default:
+                return defaultDark
+            }
+        } catch (e) {
+            console.log(e)
+            return defaultDark
+        }
+    }
+
+    useEffect(() => {
+        setTheme()
+    }, [])
+
     const regex = /_/g
     return (
         <View style={style.container}>
             <Text style={style.containerText}> Tags: {'\n\n'}
-                <Text style={style.tagHeader}>{!isEmpty(post.tags.artist) && `Artists:\n`}</Text>
+                <Text style={style.tagHeader}>{!isEmpty(post.tags.artist) && 'Artists:\n'}</Text>
                 {post.tags.artist.map(tag => <Text style={style.tagsArtist} key={tag}>{`\t${tag.replace(regex, ' ')}\n`}</Text>)}
                 <Text style={style.tagHeader}>{!isEmpty(post.tags.copyright) && `Copyright:\n`}</Text>
                 {post.tags.copyright.map(tag => <Text style={style.tagsCopyright} key={tag}>{`\t${tag.replace(regex, ' ')}\n`}</Text>)}
