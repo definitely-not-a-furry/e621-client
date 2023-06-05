@@ -16,7 +16,7 @@ There are some things the API can't do yet, and thus can't be implemented. These
 - ~~Commenting~~
 - ~~Reading comments~~
 - ~~Voting on comments~~
-(recently discovered that these are available, but the API documentation doesnt mention them)
+(recently discovered that these *are* in fact available, but the API documentation doesn't mention them (thanks DonovanDMC!)
 
 ## additional information
 ### future plans
