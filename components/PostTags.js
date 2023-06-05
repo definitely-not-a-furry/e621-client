@@ -9,33 +9,7 @@ const isEmpty = (array) => {
     } else return false
 }
 
-const TagsView = ({post}) => {
-    var style = defaultDark
-    async function setTheme () {
-        style = await getTheme()
-    }
-
-    const getTheme = async () => {
-        try {
-            const theme = await AsyncStorage.getItem('@theme')
-            switch (theme) {
-            case 'defaultDark':
-                return defaultDark
-            case 'classic':
-                return classic
-            default:
-                return defaultDark
-            }
-        } catch (e) {
-            console.log(e)
-            return defaultDark
-        }
-    }
-
-    useEffect(() => {
-        setTheme()
-    }, [])
-
+const TagsView = ({post, style}) => {
     const regex = /_/g
     return (
         <View style={style.container}>

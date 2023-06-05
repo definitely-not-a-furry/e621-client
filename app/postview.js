@@ -12,6 +12,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { defaultDark, classic } from '../themes/default'
 import TagsView from '../components/PostTags'
+import SkeletonContent from 'react-native-skeleton-content'
 import { Description, PostImage } from '../components/Components'
 import { ScoreBar } from '../components/ScoreBar'
 import { InfoView } from '../components/InfoView'
@@ -56,17 +57,17 @@ const App = () => {
     const renderComponent = ({ item, drag }) => {
         switch (item.key) {
         case 'PostImage':
-            return (<TouchableWithoutFeedback onLongPress={drag}><View><PostImage post={post} /></View></TouchableWithoutFeedback>)
+            return (<TouchableWithoutFeedback onLongPress={drag}><View><PostImage style={style} post={post} /></View></TouchableWithoutFeedback>)
         case 'ScoreBar':
-            return (<TouchableWithoutFeedback onLongPress={drag}><View><ScoreBar post={post} /></View></TouchableWithoutFeedback>)
+            return (<TouchableWithoutFeedback onLongPress={drag}><View><ScoreBar style={style} post={post} /></View></TouchableWithoutFeedback>)
         case 'Description':
-            return (<TouchableWithoutFeedback onLongPress={drag}><View><Description description={post.description} /></View></TouchableWithoutFeedback>)
+            return (<TouchableWithoutFeedback onLongPress={drag}><View><Description style={style} description={post.description} /></View></TouchableWithoutFeedback>)
         case 'TagsView':
-            return (<TouchableWithoutFeedback onLongPress={drag}><View><TagsView post={post} /></View></TouchableWithoutFeedback>)
+            return (<TouchableWithoutFeedback onLongPress={drag}><View><TagsView style={style} post={post} /></View></TouchableWithoutFeedback>)
         case 'InfoView':
-            return (<TouchableWithoutFeedback onLongPress={drag}><View><InfoView post={post} /></View></TouchableWithoutFeedback>)
+            return (<TouchableWithoutFeedback onLongPress={drag}><View><InfoView style={style} post={post} /></View></TouchableWithoutFeedback>)
         case 'Relations':
-            return (<TouchableWithoutFeedback onLongPress={drag}><View><Relations post={post} /></View></TouchableWithoutFeedback>)
+            return (<TouchableWithoutFeedback onLongPress={drag}><View><Relations style={style} post={post} /></View></TouchableWithoutFeedback>)
         default:
             return null
         }
@@ -86,6 +87,7 @@ const App = () => {
         fetch(`https://e621.net/posts/${postId}.json`)
             .then(response => response.json())
             .then(data => setPost(data.post))
+            .then(() => console.log(post.id))
             .catch(error => console.error(error))
     }, [params])
 
@@ -98,9 +100,10 @@ const App = () => {
             <SafeAreaView style={{ backgroundColor: '#222' }}>
                 <StatusBar hidden={true}/>
                 <TouchableOpacity style={[style.button, { margin: 7, marginBottom: 10 }]} onPress={() => { router.push('/browse') }}><Text style={style.link}> back </Text></TouchableOpacity>
-                {post && (
+                <SkeletonContent isLoading={post}>{post && (
                     <SafeAreaView style={{ flexShrink: 1 }}>
                         <DraggableFlatList
+                            style={{ flexShrink: 1 }}
                             data={arrangementData}
                             showsVerticalScrollIndicator={false}
                             renderItem={renderComponent}
@@ -110,6 +113,7 @@ const App = () => {
                                 AsyncStorage.setItem('@arrangement', JSON.stringify(arrangementData))
                             }}/>
                     </SafeAreaView>)}
+                </SkeletonContent>
             </SafeAreaView>
         </View>
     )
