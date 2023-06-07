@@ -80,23 +80,28 @@ const PostComments = ({ postId, style }) => {
     }
     const [comments, setComments] = useState([])
 
-    const fetchComments = () => {
+    useEffect(() => {
+        let isMounted = false
         fetch(`https://e621.net/comments.json?group_by=comment&search[post_id]=${postId}`)
             .then(response => response.json())
-            .then(data => setComments(data))
+            .then(data => {
+                if (!isMounted) {
+                    setComments(data.comments)
+                }
+            })
+            .then(() => console.log('Comments:', comments))
             .catch(error => console.error(error))
-    }
-
-    useEffect(() => {
-        fetchComments()
+        return () => {
+            isMounted = true
+        }
     }, [])
 
     return (
-        <View style={style.container}>{comments.map((comment) => (
+        <View style={style.container}>{!(comments === undefined || comments === null) && <View>{comments.map((comment) => (
             <View key={comment.id} style={style.childContainer}>
                 <Text style={[style.containerText, { fontWeight: 800 }]}>{comment.creator}</Text>
                 <DText text={comment.body}/>
-            </View>))}
+            </View>))}</View>}
         </View>
     )
 }

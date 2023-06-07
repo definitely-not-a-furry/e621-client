@@ -8,7 +8,7 @@ const DText = ({text}) => {
     const styledParts = parts.map((part, index) => {
         if (part.match(pattern)) {
             content = part.match(/\[[^\]]*\](.*?)\[[^\]]*\]/)[1]
-            tag = part.match(/\[([^\]]*)*\].*?\[[^\]]*\]/)[1]
+            const tag = part.match(/\[([^\]]*)*\].*?\[[^\]]*\]/)[1]
             let style = defaultDark.containerText;
             let viewStyle={};
             if (tag == 'b') {

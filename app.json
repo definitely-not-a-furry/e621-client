@@ -6,7 +6,7 @@
     },
     "splash": {
       "image": "./assets/E621Logo.png",
-      "backgroundColor": "#1e2f55",
+      "backgroundColor": "#182b55",
 
       "resizeMode": "contain"
     },

@@ -62,7 +62,7 @@ export default function Browse () {
     }
 
     if (!style) {
-        return <Text>Loading...</Text>
+        return <SafeAreaView style={{ height: '100%', backgroundColor: '#000' }}></SafeAreaView>
     }
 
     return (

@@ -17,6 +17,9 @@ export const defaultDark = StyleSheet.create({
         backgroundColor: '#444',
         borderRadius: 5
     },
+    themeColor: {
+        backgroundColor: '#222'
+    },
     childContainer: {
         backgroundColor: '#666',
         flexDirection: 'row',
@@ -112,6 +115,9 @@ export const classic = StyleSheet.create({
         backgroundColor: '#152f56',
         borderRadius: 5
     },
+    themeColor: {
+        backgroundColor: '#020f23'
+    },
     childContainer: {
         backgroundColor: '#1e437c',
         flexDirection: 'row',
@@ -147,9 +153,10 @@ export const classic = StyleSheet.create({
         paddingBottom: 3
     },
     link: {
-        fontSize: 18,
-        color: '#fff',
-        borderRadius: 5
+        backgroundColor: '#152f56',
+        borderRadius: 5,
+        padding: 12,
+        marginBottom: 0
     },
     searchInput: {
         color: '#fff',
