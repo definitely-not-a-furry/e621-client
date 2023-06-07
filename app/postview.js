@@ -12,7 +12,6 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { defaultDark, classic } from '../themes/default'
 import TagsView from '../components/PostTags'
-import SkeletonContent from 'react-native-skeleton-content'
 import { Description, PostImage } from '../components/Components'
 import { ScoreBar } from '../components/ScoreBar'
 import { InfoView } from '../components/InfoView'
@@ -74,6 +73,7 @@ const App = () => {
     }
 
     useEffect(() => {
+        let isMounted = true
         setTheme()
         AsyncStorage.getItem('@arrangement')
             .then((data) => {
@@ -86,9 +86,11 @@ const App = () => {
             })
         fetch(`https://e621.net/posts/${postId}.json`)
             .then(response => response.json())
-            .then(data => setPost(data.post))
-            .then(() => console.log(post.id))
+            .then(data => { if (isMounted) { setPost(data.post) } })
             .catch(error => console.error(error))
+        return () => {
+            isMounted = false
+        }
     }, [params])
 
     if (style === undefined) {
@@ -100,7 +102,7 @@ const App = () => {
             <SafeAreaView style={{ backgroundColor: '#222' }}>
                 <StatusBar hidden={true}/>
                 <TouchableOpacity style={[style.button, { margin: 7, marginBottom: 10 }]} onPress={() => { router.push('/browse') }}><Text style={style.link}> back </Text></TouchableOpacity>
-                <SkeletonContent isLoading={post}>{post && (
+                {post && (
                     <SafeAreaView style={{ flexShrink: 1 }}>
                         <DraggableFlatList
                             style={{ flexShrink: 1 }}
@@ -113,7 +115,6 @@ const App = () => {
                                 AsyncStorage.setItem('@arrangement', JSON.stringify(arrangementData))
                             }}/>
                     </SafeAreaView>)}
-                </SkeletonContent>
             </SafeAreaView>
         </View>
     )
