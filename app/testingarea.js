@@ -5,12 +5,13 @@ import DText from '../components/DText'
 import { defaultDark } from '../themes/default'
 
 const App = () => {
+    const router = useRouter()
     return (
         <SafeAreaView>
-            <TouchableOpacity style={defaultDark.button} onPress={() => { useRouter().push('/home') }}><Text>Back</Text></TouchableOpacity>
-            <View style={{ height: '100%', backgroundColor: '#000' }}>
+            <TouchableOpacity style={defaultDark.button} onPress={() => { router.push('/home') }}><Text>Back</Text></TouchableOpacity>
+            <View style={{ height: '100%', backgroundColor: '#222' }}>
                 <Text style={defaultDark.containerText}>
-                    <DText text={'[quote]test quote[/]\ntest comment'}/>
+                    <DText style={defaultDark} text={'[quote]test quote\nline2[/quote] test comment [b]bold[/b]'}/>
                 </Text>
             </View>
         </SafeAreaView>

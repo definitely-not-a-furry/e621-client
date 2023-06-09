@@ -67,7 +67,7 @@ const PostImage = ({ post, style }) => {
     if (!post?.file) return <Text style={{ color: '#fff' }}>Loading...</Text>
     const fileExtension = post.file.ext
     if (fileExtension === 'jpg' || fileExtension === 'png' || fileExtension === 'gif') {
-        return <Image source={{ uri: post.file.url }} style={[style.image, { marginVertical: 5 }]} />
+        return <Image transition={{ effect: 'cross-dissolve', duration: 250 }} source={{ uri: post.file.url }} style={[style.image, { marginVertical: 5 }]} />
     } else {
         return <Text>{`This file type (".${fileExtension}") is not supported (yet).`}</Text>
     }
@@ -75,10 +75,9 @@ const PostImage = ({ post, style }) => {
 
 const PostComments = ({ postId, style }) => {
     PostComments.propTypes = {
-        postId: PropTypes.number,
         style: PropTypes.object
     }
-    const [comments, setComments] = useState([])
+    const [comments, setComments] = useState(null)
 
     useEffect(() => {
         let isMounted = false
@@ -86,10 +85,9 @@ const PostComments = ({ postId, style }) => {
             .then(response => response.json())
             .then(data => {
                 if (!isMounted) {
-                    setComments(data.comments)
+                    setComments(data)
                 }
             })
-            .then(() => console.log('Comments:', comments))
             .catch(error => console.error(error))
         return () => {
             isMounted = true
@@ -97,11 +95,13 @@ const PostComments = ({ postId, style }) => {
     }, [])
 
     return (
-        <View style={style.container}>{!(comments === undefined || comments === null) && <View>{comments.map((comment) => (
-            <View key={comment.id} style={style.childContainer}>
-                <Text style={[style.containerText, { fontWeight: 800 }]}>{comment.creator}</Text>
-                <DText text={comment.body}/>
-            </View>))}</View>}
+        <View>
+            {!(comments === undefined || comments === null || comments?.comments) && (<View style={style.container}><Text style={[style.tagHeader, { color: '#fff', fontWeight: 800 }]}>Comments: </Text>{comments.map((comment) => (
+                <View key={comment.id} style={[style.childContainer, { margin: 7, marginVertical: 5, flexDirection: 'column', alignItems: 'flex-start', padding: 5 }]}>
+                    <Text style={[style.containerText, { fontWeight: 800 }]}>{comment.creator_name}</Text>
+                    <DText style={style} text={comment.body}/>
+                </View>))}
+            </View>)}
         </View>
     )
 }

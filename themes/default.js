@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-// Default theme
 export const defaultDark = StyleSheet.create({
     parentContainer: {
         flex: 1,
@@ -39,7 +38,7 @@ export const defaultDark = StyleSheet.create({
     button: {
         backgroundColor: '#444',
         borderRadius: 5,
-        padding: 7,
+        padding: 12,
         marginBottom: 0
     },
     image: {
@@ -55,9 +54,10 @@ export const defaultDark = StyleSheet.create({
         paddingBottom: 3
     },
     link: {
-        fontSize: 18,
-        color: '#fff',
-        borderRadius: 5
+        backgroundColor: '#152f56',
+        borderRadius: 5,
+        padding: 7,
+        marginBottom: 0
     },
     searchInput: {
         color: '#fff',
@@ -82,7 +82,8 @@ export const defaultDark = StyleSheet.create({
     quote: {
         backgroundColor: '#404040',
         borderColor: '#404040',
-        borderLeftColor: '677717b',
+        borderLeftColor: '#67717b',
+        paddingVertical: 5,
         borderRadius: 3,
         borderWidth: 3
     },
@@ -155,7 +156,7 @@ export const classic = StyleSheet.create({
     link: {
         backgroundColor: '#152f56',
         borderRadius: 5,
-        padding: 12,
+        padding: 7,
         marginBottom: 0
     },
     searchInput: {
@@ -179,9 +180,10 @@ export const classic = StyleSheet.create({
         padding: 10
     },
     quote: {
-        backgroundColor: '#404040',
-        borderColor: '#404040',
-        borderLeftColor: '677717b',
+        backgroundColor: '#3668b3',
+        borderColor: '#3668b3',
+        paddingHorizontal: 5,
+        borderLeftColor: '#b4c7d9',
         borderRadius: 3,
         borderWidth: 3
     },

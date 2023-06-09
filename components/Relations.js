@@ -3,17 +3,18 @@ import { Text, View, TouchableOpacity } from 'react-native'
 import { useRouter } from 'expo-router'
 import PropTypes from 'prop-types'
 
-function goToPost (postid) {
-    const router = useRouter()
-    console.log(postid)
-    router.push({ pathname: '/postview', params: { id: postid } })
-};
-
 const Relations = ({ post, style }) => {
     Relations.propTypes = {
         post: PropTypes.object,
         style: PropTypes.object
     }
+    const router = useRouter()
+
+    function goToPost (postid) {
+        console.log(postid)
+        router.push({ pathname: '/postview', params: { id: postid } })
+    }
+
     return (
         <View>
             {post.relationships.parent_id && <View style={[style.container, { marginBottom: 7 }]}><Text style={[style.containerText, { fontWeight: 800 }]}>Parent:</Text><TouchableOpacity onPress={() => goToPost(post.relationships.parent_id)}><Text style={style.containerText}>post #{post.relationships.parent_id}</Text></TouchableOpacity></View>}

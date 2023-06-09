@@ -22,7 +22,6 @@ export default function Browse () {
     const router = useRouter()
 
     const updateSearchTerm = () => {
-        console.log(text)
         setSearchTerm(text)
     }
 
@@ -49,7 +48,6 @@ export default function Browse () {
 
     useEffect(() => {
         setTheme()
-        console.log('(Re)fetching posts')
         fetch(`https://e621.net/posts.json?tags=rating:safe+${searchTerm.split(' ').join('+')}`)
             .then(response => response.json())
             .then(data => setPosts(data.posts))

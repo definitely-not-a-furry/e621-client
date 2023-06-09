@@ -1,31 +1,106 @@
-import { defaultDark, classic } from '../themes/default';
-import {Text,View} from 'react-native';
+import React from 'react'
+import { Text, View, TouchableOpacity } from 'react-native'
 
-const DText = ({text}) => {
-    // Regex pattern to match supported tags
-    const pattern = /(\[[^\]]*\].*?\[[^\]]*\])/
-    const parts = text.split(pattern);
-    const styledParts = parts.map((part, index) => {
-        if (part.match(pattern)) {
-            content = part.match(/\[[^\]]*\](.*?)\[[^\]]*\]/)[1]
-            const tag = part.match(/\[([^\]]*)*\].*?\[[^\]]*\]/)[1]
-            let style = defaultDark.containerText;
-            let viewStyle={};
-            if (tag == 'b') {
-                style = {fontWeight: 'bold'};
-            } else if (tag == 'i') {
-                style = {fontStyle: 'italic'};
-            } else if (tag == 's') {
-                style={textDecorationLine: 'line-through'};
-            } else if (tag == 'quote') {
-                viewStyle=defaultDark.quote;
-            } else {content = `[${tag}]${content}[/${tag}]`}
-            return (<View style={viewStyle}><Text key={index} style={[style,defaultDark.containerText]}>{content}</Text></View>);
+const DText = ({ text, style }) => {
+    const parseMarkup = (text) => {
+        const regex = /\[(\/?[a-z]+)(?:=([a-z0-9#]+))?\]([\S\s]*)\[\/\1\]/g
+        let matches
+        const parsedText = []
+        let currentIndex = 0
+
+        while ((matches = regex.exec(text)) !== null) {
+            const [fullMatch, tag, color, content] = matches
+
+            const plainText = text.substring(currentIndex, matches.index)
+            parsedText.push(
+                <Text key={`plain_${currentIndex}`} style={{ color: '#fff' }}>
+                    {plainText}
+                </Text>
+            )
+
+            if (tag === 'b') {
+                parsedText.push(
+                    <Text key={`bold_${currentIndex}`} style={{ fontWeight: 'bold' }}>
+                        {content}
+                    </Text>
+                )
+            } else if (tag === 's') {
+                parsedText.push(
+                    <Text key={`strikethrough_${currentIndex}`} style={{ textDecorationLine: 'line-through' }}>
+                        {content}
+                    </Text>
+                )
+            } else if (tag === 'u') {
+                parsedText.push(
+                    <Text key={`underline_${currentIndex}`} style={{ textDecorationLine: 'underline' }}>
+                        {content}
+                    </Text>
+                )
+            } else if (tag === 'i') {
+                parsedText.push(
+                    <Text key={`italic_${currentIndex}`} style={{ fontStyle: 'italic' }}>
+                        {content}
+                    </Text>
+                )
+            } else if (tag === 'sup') {
+                parsedText.push(
+                    <Text key={`superscript_${currentIndex}`} style={{ fontSize: 10, lineHeight: 10 }}>
+                        {content}
+                    </Text>
+                )
+            } else if (tag === 'sub') {
+                parsedText.push(
+                    <Text key={`subscript_${currentIndex}`} style={{ fontSize: 10, lineHeight: 10 }}>
+                        {content}
+                    </Text>
+                )
+            } else if (tag === 'spoiler') {
+                parsedText.push(
+                    <TouchableOpacity>
+                        <View
+                            key={`spoiler_${currentIndex}`}
+                            style={{
+                                backgroundColor: 'black',
+                                alignSelf: 'flex-start',
+                                paddingHorizontal: 4
+                            }}
+                        >
+                            <Text style={{ color: '#fff' }}>Spoiler</Text>
+                        </View>
+                    </TouchableOpacity>
+                )
+            } else if (tag === 'color' && color) {
+                parsedText.push(
+                    <Text key={`color_${currentIndex}`} style={{ color }}>
+                        {content}
+                    </Text>
+                )
+            } else if (tag === 'quote') {
+                parsedText.push(
+                    <View style={style.quote}>
+                        <Text key={`quote_${currentIndex}`} style={{ color: '#fff' }}>
+                            {content}
+                        </Text>
+                    </View>
+                )
+            }
+
+            currentIndex = matches.index + fullMatch.length
         }
-        return <Text key={index}>{part}</Text>;
-    });
-    return <Text>{styledParts}</Text>;
-};
 
-export default DText;
+        const remainingText = text.substring(currentIndex)
+        parsedText.push(
+            <Text key={`plain_${currentIndex}`} style={{ color: '#fff' }}>
+                {remainingText}
+            </Text>
+        )
 
+        return parsedText
+    }
+
+    const parsedText = parseMarkup(text)
+
+    return <Text>{parsedText}</Text>
+}
+
+export default DText
