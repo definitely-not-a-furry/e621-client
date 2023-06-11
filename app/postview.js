@@ -10,6 +10,8 @@ import {
     TouchableWithoutFeedback
 } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import Toast from 'react-native-root-toast'
+import { RootSiblingParent } from 'react-native-root-siblings'
 import { defaultDark, classic } from '../themes/default'
 import TagsView from '../components/PostTags'
 import { Description, PostImage, PostComments } from '../components/Components'
@@ -76,18 +78,23 @@ const App = () => {
         }
     }
 
+    const onDragEnd = ({ data }) => {
+        setArrangementData(data)
+        haptic(1)
+    }
+
     useEffect(() => {
         let isMounted = true
         setTheme()
-        // AsyncStorage.getItem('@arrangement')
-        //     .then((data) => {
-        //         if (data) {
-        //             setArrangementData(JSON.parse(data))
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.log('Error loading data from AsyncStorage:', error)
-        //     })
+        AsyncStorage.getItem('@arrangement')
+            .then((data) => {
+                if (data) {
+                    setArrangementData(JSON.parse(data))
+                }
+            })
+            .catch((error) => {
+                console.log('Error loading data from AsyncStorage:', error)
+            })
         fetch(`https://e621.net/posts/${postId}.json`)
             .then(response => response.json())
             .then(data => { if (isMounted) { setPost(data.post) } })
@@ -97,36 +104,44 @@ const App = () => {
         }
     }, [params])
 
+    const saveArrangement = () => {
+        AsyncStorage.setItem('@arrangement', JSON.stringify(arrangementData))
+        haptic(1)
+        Toast.show('Arrangement saved!')
+        setTimeout(() => { haptic(2) }, 125)
+    }
+
     if (style === undefined) {
         return <SafeAreaView style={{ height: '100%', backgroundColor: '#000' }}></SafeAreaView>
     }
 
     return (
-        <View style={{ backgroundColor: '#000', height: '100%', width: '100%' }}>
-            <SafeAreaView style={[style.themeColor, { flex: 1 }]}>
-                <StatusBar hidden={true}/>
-                <TouchableOpacity style={[style.link, { margin: 7, marginBottom: 7 }]} onPress={() => { router.push('/browse') }}><Text style={{ color: '#fff', fontWeight: 800 }}> back </Text></TouchableOpacity>
-                <SafeAreaView style={{ flex: 1 }}>
-                    {post && (
-                        <DraggableFlatList
-                            style={{ marginBottom: 5 }}
-                            contentContainerStyle={{ flexGrow: 1 }}
-                            onDragBegin={() => { haptic(3) }}
-                            data={arrangementData}
-                            showsVerticalScrollIndicator={false}
-                            renderItem={renderComponent}
-                            keyExtractor={(item) => item.key}
-                            onDragEnd={({ data }) => {
-                                haptic(2)
-                                setArrangementData(data)
-                                AsyncStorage.setItem('@arrangement', JSON.stringify(arrangementData)).then(console.log('saved arrangement'))
-                                haptic(1)
-                            }}
-                        />
-                    )}
+        <RootSiblingParent>
+            <View style={{ backgroundColor: '#000', height: '100%', width: '100%' }}>
+                <SafeAreaView style={[style.themeColor.dark, { flex: 1 }]}>
+                    <StatusBar hidden={true}/>
+                    <View style={[{ flexDirection: 'row', justifyContent: 'space-between' }, style.themeColor.mid]}>
+                        <TouchableOpacity style={[style.link, { margin: 7, marginBottom: 7 }]} onPress={() => { router.push('/browse') }}><Text style={{ color: '#fff', fontWeight: 800 }}> back </Text></TouchableOpacity>
+                        <TouchableOpacity style={[style.link, { margin: 7, marginBottom: 7 }]} onPress={() => { saveArrangement() }}><Text style={{ color: '#fff', fontWeight: 800 }}> save arrangement </Text></TouchableOpacity>
+                    </View>
+                    <SafeAreaView style={{ flex: 1, marginTop: 5 }}>
+                        {post && (
+                            <DraggableFlatList
+                                style={{ marginBottom: 5 }}
+                                contentContainerStyle={{ flexGrow: 1 }}
+                                onDragBegin={() => { haptic(3) }}
+                                data={arrangementData}
+                                showsVerticalScrollIndicator={false}
+                                renderItem={renderComponent}
+                                keyExtractor={(item) => item.key}
+                                onRelease={() => { haptic(1) }}
+                                onDragEnd={onDragEnd}
+                            />
+                        )}
+                    </SafeAreaView>
                 </SafeAreaView>
-            </SafeAreaView>
-        </View>
+            </View>
+        </RootSiblingParent>
     )
 }
 

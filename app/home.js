@@ -1,13 +1,45 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView, View, Text, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { StatusBar } from 'expo-status-bar'
 import { BlurView } from 'expo-blur'
 import { useRouter } from 'expo-router'
+import { defaultDark, classic } from '../themes/default'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import haptic from '../components/haptic'
 
 function App () {
     const router = useRouter()
+    const [style, setStyle] = useState()
+
+    async function setTheme () {
+        setStyle(await getTheme())
+    }
+
+    const getTheme = async () => {
+        try {
+            const theme = await AsyncStorage.getItem('@theme')
+            switch (theme) {
+            case 'defaultDark':
+                return defaultDark
+            case 'classic':
+                return classic
+            default:
+                return defaultDark
+            }
+        } catch (e) {
+            console.log(e)
+            return defaultDark
+        }
+    }
+
+    useEffect(() => {
+        setTheme()
+    }, [])
+
+    if (!style) {
+        return (<View style={{ height: '100%', width: '100%', backgroundColor: '#000' }}></View>)
+    }
 
     return (
         <SafeAreaView style={styles.background}>
@@ -20,10 +52,10 @@ function App () {
                             <View style={styles.mascotBox}>
                                 <Text style={styles.title}>e621</Text>
                                 <View style={styles.buttonContainer}>
-                                    <TouchableOpacity style={styles.button} onPress={() => { haptic(1); router.push('/browse') }}><Text style={styles.buttonText}>Browse</Text></TouchableOpacity>
-                                    <TouchableOpacity style={styles.button} onPress={() => { haptic(1); router.push('/testingarea') }}><Text style={styles.buttonText}>debug</Text></TouchableOpacity>
-                                    <TouchableOpacity style={styles.button} onPress={() => { haptic(1); router.push('/users') }}><Text style={styles.buttonText}>Users</Text></TouchableOpacity>
-                                    <TouchableOpacity style={styles.button} onPress={() => { haptic(1); router.push('/settings') }}><Text style={styles.buttonText}>Settings</Text></TouchableOpacity>
+                                    <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/browse') }}><Text style={styles.buttonText}>Browse</Text></TouchableOpacity>
+                                    <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/testingarea') }}><Text style={styles.buttonText}>debug</Text></TouchableOpacity>
+                                    <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/users') }}><Text style={styles.buttonText}>Users</Text></TouchableOpacity>
+                                    <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/settings') }}><Text style={styles.buttonText}>Settings</Text></TouchableOpacity>
                                 </View>
                             </View>
                         </BlurView>

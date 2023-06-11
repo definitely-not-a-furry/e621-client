@@ -7,7 +7,7 @@ import {
     TouchableOpacity
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { Link, useRouter } from 'expo-router'
+import { useRouter } from 'expo-router'
 import { defaultDark, classic } from '../themes/default'
 import { Image } from 'expo-image'
 import { StatusBar } from 'expo-status-bar'
@@ -67,8 +67,8 @@ export default function Browse () {
         <RootSiblingParent>
             <SafeAreaView style={{ backgroundColor: '#000', flex: 1 }}>
                 <View style={style.searchContainer}>
-                    <View style={style.button}>
-                        <Link href="/home" style={[style.containerText, { textAlign: 'center', fontWeight: 'bold', padding: 1 }]}>Back</Link>
+                    <View>
+                        <TouchableOpacity style={[style.link, { margin: 7, marginBottom: 7 }]} onPress={() => { router.back() }}><Text style={{ color: '#fff', fontWeight: 800 }}> back </Text></TouchableOpacity>
                     </View>
                     <TextInput
                         style={style.searchInput}
@@ -77,9 +77,7 @@ export default function Browse () {
                         placeholder="Enter tags..."
                         onSubmitEditing={updateSearchTerm}
                     />
-                    <TouchableOpacity style={style.button} onPress={updateSearchTerm}>
-                        <Text style={[style.containerText, { textAlign: 'center', fontWeight: 'bold', padding: 1 }]}>Search</Text>
-                    </TouchableOpacity>
+                    <TouchableOpacity style={[style.link, { margin: 7, marginBottom: 7 }]} onPress={() => { updateSearchTerm() }}><Text style={{ color: '#fff', fontWeight: 800 }}> search </Text></TouchableOpacity>
                 </View>
                 <ScrollView>
                     <View style={style.parentContainer}>

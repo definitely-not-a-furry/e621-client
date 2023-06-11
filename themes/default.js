@@ -17,7 +17,9 @@ export const defaultDark = StyleSheet.create({
         borderRadius: 5
     },
     themeColor: {
-        backgroundColor: '#222'
+        mid: { backgroundColor: '#222' },
+        dark: { backgroundColor: '#111' }
+
     },
     childContainer: {
         backgroundColor: '#666',
@@ -54,7 +56,7 @@ export const defaultDark = StyleSheet.create({
         paddingBottom: 3
     },
     link: {
-        backgroundColor: '#152f56',
+        backgroundColor: '#444',
         borderRadius: 5,
         padding: 7,
         marginBottom: 0
@@ -68,7 +70,7 @@ export const defaultDark = StyleSheet.create({
         borderRadius: 5,
         borderColor: '#444',
         marginHorizontal: 10,
-        padding: 10,
+        padding: 5,
         paddingLeft: 10
     },
     searchContainer: {
@@ -76,8 +78,7 @@ export const defaultDark = StyleSheet.create({
         alignSelf: 'stretch',
         alignItems: 'center',
         backgroundColor: '#222',
-        justifyContent: 'center',
-        padding: 10
+        justifyContent: 'center'
     },
     quote: {
         backgroundColor: '#404040',
@@ -98,7 +99,15 @@ export const defaultDark = StyleSheet.create({
     tagsInvalid: { color: '#ff3d3d' },
     tagsSpecies: { color: '#ff3d3d' },
     tagsCopyright: { color: '#d0d' },
-    tagsLore: { color: '#282' }
+    tagsLore: { color: '#282' },
+    transparent: {
+        button: {
+            backgroundColor: 'rgba(10,10,10,0.5)',
+            padding: 7,
+            margin: 5,
+            borderRadius: 5
+        }
+    }
 })
 
 export const classic = StyleSheet.create({
@@ -117,7 +126,8 @@ export const classic = StyleSheet.create({
         borderRadius: 5
     },
     themeColor: {
-        backgroundColor: '#020f23'
+        mid: { backgroundColor: '#222' },
+        dark: { backgroundColor: '#111' }
     },
     childContainer: {
         backgroundColor: '#1e437c',
@@ -164,11 +174,11 @@ export const classic = StyleSheet.create({
         flex: 1,
         width: '100%',
         height: 'auto',
-        borderWidth: 3,
+        borderWidth: 2,
         borderRadius: 5,
         borderColor: '#1e437c',
         marginHorizontal: 10,
-        padding: 10,
+        padding: 5,
         paddingLeft: 10
     },
     searchContainer: {
@@ -176,8 +186,7 @@ export const classic = StyleSheet.create({
         alignSelf: 'stretch',
         alignItems: 'center',
         backgroundColor: '#152f56',
-        justifyContent: 'center',
-        padding: 10
+        justifyContent: 'center'
     },
     quote: {
         backgroundColor: '#3668b3',
