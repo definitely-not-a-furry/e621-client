@@ -67,7 +67,7 @@ const PostImage = ({ post, style }) => {
     if (!post?.file) return <Text style={{ color: '#fff' }}>Loading...</Text>
     const fileExtension = post.file.ext
     if (fileExtension === 'jpg' || fileExtension === 'png' || fileExtension === 'gif') {
-        return <Image transition={{ effect: 'cross-dissolve', duration: 250 }} source={{ uri: post.file.url }} style={[style.image, { marginVertical: 5 }]} />
+        return <Image transition={{ effect: 'cross-dissolve', duration: 250 }} source={{ uri: post.file.url }} style={[style.image, { marginVertical: 5 }, style.themeColor.mid]} />
     } else {
         return <Text>{`This file type (".${fileExtension}") is not supported (yet).`}</Text>
     }
