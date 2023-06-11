@@ -14,7 +14,7 @@ function App () {
             <StatusBar hidden={true}></StatusBar>
             <LinearGradient style={{ height: '100%', width: '100%' }} colors={['#000', '##1e437c']} end={{ x: 1, y: 1 }}>
                 <ImageBackground style={styles.backgroundImage} src={'https://static1.e621.net/data/mascots/913a8fd0240b14bfbb63d6a9cfc3faf2.jpg'}>
-                    <View style={{ flex: 2 }}></View>
+                    <View style={{ flexGrow: 4 }}></View>
                     <View style={[styles.blurContainer, { flex: 1 }]}>
                         <BlurView style={styles.blur} intensity={25}>
                             <View style={styles.mascotBox}>
