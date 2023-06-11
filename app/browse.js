@@ -9,6 +9,7 @@ import {
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'expo-router'
 import { defaultDark, classic } from '../themes/default'
+import { Rating, Score } from '../components/Components'
 import { Image } from 'expo-image'
 import { StatusBar } from 'expo-status-bar'
 import { RootSiblingParent } from 'react-native-root-siblings'
@@ -68,29 +69,29 @@ export default function Browse () {
             <SafeAreaView style={{ backgroundColor: '#000', flex: 1 }}>
                 <View style={style.searchContainer}>
                     <View>
-                        <TouchableOpacity style={[style.link, { margin: 7, marginBottom: 7 }]} onPress={() => { router.back() }}><Text style={{ color: '#fff', fontWeight: 800 }}> back </Text></TouchableOpacity>
+                        <TouchableOpacity style={[style.link, { padding: 7, borderRadius: 5, margin: 7, marginBottom: 7 }]} onPress={() => { router.back() }}><Text style={{ color: '#fff', fontWeight: 800 }}> back </Text></TouchableOpacity>
                     </View>
                     <TextInput
-                        style={style.searchInput}
+                        style={[style.searchInput, { flex: 1, height: 'auto', borderWidth: 2, borderRadius: 5, width: '100%', marginHorizontal: 2, padding: 5, paddingLeft: 10 }]}
                         value={text}
                         onChangeText={setText}
                         placeholder="Enter tags..."
                         onSubmitEditing={updateSearchTerm}
                     />
-                    <TouchableOpacity style={[style.link, { margin: 7, marginBottom: 7 }]} onPress={() => { updateSearchTerm() }}><Text style={{ color: '#fff', fontWeight: 800 }}> search </Text></TouchableOpacity>
+                    <TouchableOpacity style={[style.link, { padding: 7, borderRadius: 5, margin: 7, marginBottom: 7 }]} onPress={() => { updateSearchTerm() }}><Text style={{ color: '#fff', fontWeight: 800 }}> search </Text></TouchableOpacity>
                 </View>
                 <ScrollView>
                     <View style={style.parentContainer}>
                         {posts.map(post => (
                             <TouchableOpacity onPress={() => goToPost(post.id)} key={post.id} style={{ width: '50%' }} >
-                                <View style={[style.container, { padding: 10 }]}>
+                                <View style={[[style.container, { flexDirection: 'column', margin: 5, marginHorizontal: 10, borderRadius: 5 }], { padding: 10 }]}>
                                     {<Image
                                         source={{ uri: post.preview.url }}
                                         contentFit='contain'
                                         transition={{ effect: 'cross-dissolve', duration: 250 }}
                                         style={style.image}
                                     />}
-                                    <View style={[style.childContainer]}><Text style={[style.positive]}>↑{post.score.up} </Text><Text style={style.negative}> ↓{post.score.down}</Text><Text style={style.negative}>♥{post.fav_count}</Text></View>
+                                    <View style={[style.childContainer, { justifyContent: 'space-between', flexWrap: 'wrap' }]}><View style={{ paddingBottom: 4 }}><Score style={style} score={post.score.total}/></View><Text style={[style.negative, { paddingVertical: 10 }]}>♥{post.fav_count}</Text><Rating style={style} rating={post.rating}/></View>
                                 </View>
                             </TouchableOpacity>
                         ))}

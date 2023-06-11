@@ -36,7 +36,7 @@ const InfoView = ({ post, style }) => {
     }, [])
 
     return (
-        <View style={style.container}>
+        <View style={[style.container, { flexDirection: 'row', margin: 5, marginHorizontal: 10, borderRadius: 5 }]}>
             <Text style={style.containerText}>
                 <Text style={{ fontWeight: 500 }}>{'ID: '}<Text style={{ fontWeight: 200 }}>{post.id}</Text></Text>{'\n'}
                 <Text style={{ fontWeight: 500 }}>{'Rating: '}<Text>{Rating({ style, rating: post.rating })}</Text></Text>{'\n'}

@@ -121,8 +121,8 @@ const App = () => {
                 <SafeAreaView style={[style.themeColor.dark, { flex: 1 }]}>
                     <StatusBar hidden={true}/>
                     <View style={[{ flexDirection: 'row', justifyContent: 'space-between' }, style.themeColor.mid]}>
-                        <TouchableOpacity style={[style.link, { margin: 7, marginBottom: 7 }]} onPress={() => { router.push('/browse') }}><Text style={{ color: '#fff', fontWeight: 800 }}> back </Text></TouchableOpacity>
-                        <TouchableOpacity style={[style.link, { margin: 7, marginBottom: 7 }]} onPress={() => { saveArrangement() }}><Text style={{ color: '#fff', fontWeight: 800 }}> save arrangement </Text></TouchableOpacity>
+                        <TouchableOpacity style={[style.link, { padding: 5, borderRadius: 5, margin: 7, marginBottom: 7 }]} onPress={() => { router.push('/browse') }}><Text style={{ color: '#fff', fontWeight: 800 }}> back </Text></TouchableOpacity>
+                        <TouchableOpacity style={[style.link, { padding: 5, borderRadius: 5, margin: 7, marginBottom: 7 }]} onPress={() => { saveArrangement() }}><Text style={{ color: '#fff', fontWeight: 800 }}> save arrangement </Text></TouchableOpacity>
                     </View>
                     <SafeAreaView style={{ flex: 1, marginTop: 5 }}>
                         {post && (

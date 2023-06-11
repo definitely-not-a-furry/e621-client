@@ -54,7 +54,6 @@ function App () {
                                 <View style={styles.buttonContainer}>
                                     <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/browse') }}><Text style={styles.buttonText}>Browse</Text></TouchableOpacity>
                                     <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/testingarea') }}><Text style={styles.buttonText}>debug</Text></TouchableOpacity>
-                                    <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/users') }}><Text style={styles.buttonText}>Users</Text></TouchableOpacity>
                                     <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/settings') }}><Text style={styles.buttonText}>Settings</Text></TouchableOpacity>
                                 </View>
                             </View>

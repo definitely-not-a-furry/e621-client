@@ -56,22 +56,11 @@ export const defaultDark = StyleSheet.create({
         paddingBottom: 3
     },
     link: {
-        backgroundColor: '#444',
-        borderRadius: 5,
-        padding: 7,
-        marginBottom: 0
+        backgroundColor: '#444'
     },
     searchInput: {
         color: '#fff',
-        flex: 1,
-        width: '100%',
-        height: 'auto',
-        borderWidth: 2,
-        borderRadius: 5,
-        borderColor: '#444',
-        marginHorizontal: 10,
-        padding: 5,
-        paddingLeft: 10
+        borderColor: '#444'
     },
     searchContainer: {
         flexDirection: 'row',
@@ -119,15 +108,11 @@ export const classic = StyleSheet.create({
         padding: 10
     },
     container: {
-        flexDirection: 'column',
-        margin: 5,
-        marginHorizontal: 10,
-        backgroundColor: '#152f56',
-        borderRadius: 5
+        backgroundColor: '#152f56'
     },
     themeColor: {
-        mid: { backgroundColor: '#222' },
-        dark: { backgroundColor: '#111' }
+        mid: { backgroundColor: '#152f56' },
+        dark: { backgroundColor: '#020f23' }
     },
     childContainer: {
         backgroundColor: '#1e437c',
@@ -164,22 +149,11 @@ export const classic = StyleSheet.create({
         paddingBottom: 3
     },
     link: {
-        backgroundColor: '#152f56',
-        borderRadius: 5,
-        padding: 7,
-        marginBottom: 0
+        backgroundColor: '#1e437c'
     },
     searchInput: {
         color: '#fff',
-        flex: 1,
-        width: '100%',
-        height: 'auto',
-        borderWidth: 2,
-        borderRadius: 5,
-        borderColor: '#1e437c',
-        marginHorizontal: 10,
-        padding: 5,
-        paddingLeft: 10
+        borderColor: '#1e437c'
     },
     searchContainer: {
         flexDirection: 'row',

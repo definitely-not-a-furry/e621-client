@@ -10,8 +10,9 @@ export const ScoreBar = ({ post, style }) => {
     }
     return (
         <View>
-            <View style={[style.container, { flexDirection: 'row', justifyContent: 'flex-start' }]}>
-                <Text style={style.containerText}><Score style={style} score={post.score.total}/></Text>
+            <View style={[style.container, { flexDirection: 'row', margin: 5, marginHorizontal: 10, borderRadius: 5, justifyContent: 'flex-start' }]}>
+                <Text style={style.containerText}>Up:<Score style={style} score={post.score.up}/></Text>
+                <Text style={style.containerText}>Down:<Score style={style} score={post.score.down}/></Text>
                 <Text style={[style.containerText, { padding: 5 }]}><FavCount style={style} favCount={post.fav_count}/></Text>
                 <Text style={style.containerText}>Rating: <Rating style={style} rating={post.rating}/></Text>
             </View>

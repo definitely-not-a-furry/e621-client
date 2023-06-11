@@ -15,7 +15,7 @@ const TagsView = ({ post, style }) => {
     }
     const regex = /_/g
     return (
-        <View style={style.container}>
+        <View style={[style.container, { flexDirection: 'row', margin: 5, marginHorizontal: 10, borderRadius: 5 }]}>
             <Text style={style.containerText}> Tags: {'\n\n'}
                 <Text style={style.tagHeader}>{!isEmpty(post.tags.artist) && 'Artists:\n'}</Text>
                 {post.tags.artist.map(tag => <Text style={style.tagsArtist} key={tag}>{`\t${tag.replace(regex, ' ')}\n`}</Text>)}

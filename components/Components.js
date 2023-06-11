@@ -10,11 +10,11 @@ const Rating = ({ rating, style }) => {
         style: PropTypes.object
     }
     if (rating === 's') {
-        return (<Text style={[style.positive, { padding: 10, fontWeight: 700 }]}>Safe</Text>)
+        return (<Text style={[style.positive, { paddingVertical: 10, fontWeight: 700 }]}>Safe</Text>)
     } else if (rating === 'e') {
-        return (<Text style={[style.explicit, { padding: 10, fontWeight: 700 }]}>Explicit</Text>)
+        return (<Text style={[style.explicit, { paddingVertical: 10, fontWeight: 700 }]}>Explicit</Text>)
     } else if (rating === 'q') {
-        return (<Text style={[style.questionable, { padding: 10, fontWeight: 700 }]}>Questionable</Text>)
+        return (<Text style={[style.questionable, { paddingVertical: 10, fontWeight: 700 }]}>Questionable</Text>)
     } else return (<Text>error</Text>)
 }
 
@@ -50,7 +50,7 @@ const Description = ({ description, style }) => {
     return (
         <View>
             {description && (
-                <View style={style.container}>
+                <View style={[style.container, { flexDirection: 'row', margin: 5, marginHorizontal: 10, borderRadius: 5 }]}>
                     <Text style={[style.containerText, { fontWeight: 700, paddingBottom: 1 }]}>Description:</Text>
                     <DText text={description}/>
                 </View>
@@ -96,7 +96,7 @@ const PostComments = ({ postId, style }) => {
 
     return (
         <View>
-            {!(comments === undefined || comments === null || comments?.comments) && (<View style={style.container}><Text style={[style.tagHeader, { color: '#fff', fontWeight: 800 }]}>Comments: </Text>{comments.map((comment) => (
+            {!(comments === undefined || comments === null || comments?.comments) && (<View style={[style.container, { flexDirection: 'column', margin: 5, marginHorizontal: 10, borderRadius: 5 }]}><Text style={[style.tagHeader, { color: '#fff', fontWeight: 800 }]}>Comments: </Text>{comments.map((comment) => (
                 <View key={comment.id} style={[style.childContainer, { margin: 7, marginVertical: 5, flexDirection: 'column', alignItems: 'flex-start', padding: 5 }]}>
                     <Text style={[style.containerText, { fontWeight: 800 }]}>{comment.creator_name}</Text>
                     <DText style={style} text={comment.body}/>
