@@ -2,9 +2,9 @@ import {
     Text,
     View,
     SafeAreaView,
-    ScrollView,
     TextInput,
-    TouchableOpacity
+    TouchableOpacity,
+    FlatList
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'expo-router'
@@ -80,24 +80,31 @@ export default function Browse () {
                     />
                     <TouchableOpacity style={[style.link, { padding: 7, borderRadius: 5, margin: 7, marginBottom: 7 }]} onPress={() => { updateSearchTerm() }}><Text style={{ color: '#fff', fontWeight: 800 }}> search </Text></TouchableOpacity>
                 </View>
-                <ScrollView>
-                    <View style={style.parentContainer}>
-                        {posts.map(post => (
-                            <TouchableOpacity onPress={() => goToPost(post.id)} key={post.id} style={{ width: '50%' }} >
-                                <View style={[[style.container, { flexDirection: 'column', margin: 5, marginHorizontal: 10, borderRadius: 5 }], { padding: 10 }]}>
-                                    {<Image
-                                        source={{ uri: post.preview.url }}
-                                        contentFit='contain'
-                                        transition={{ effect: 'cross-dissolve', duration: 250 }}
-                                        style={style.image}
-                                    />}
-                                    <View style={[style.childContainer, { justifyContent: 'space-between', flexWrap: 'wrap' }]}><View style={{ paddingBottom: 4 }}><Score style={style} score={post.score.total}/></View><Text style={[style.negative, { paddingVertical: 10 }]}>♥{post.fav_count}</Text><Rating style={style} rating={post.rating}/></View>
-                                </View>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                    <StatusBar hidden={true}></StatusBar>
-                </ScrollView>
+                <View style={style.parentContainer}>
+                    <FlatList
+                        style={{ height: '100%' }}
+                        showsVerticalScrollIndicator={false}
+                        data={posts}
+                        numColumns={2}
+                        renderItem={(post) => {
+                            post = post.item
+                            return (
+                                <TouchableOpacity onPress={() => { goToPost(post.id) }} key={post.id} style={{ width: '50%' }} >
+                                    <View style={[[style.container, { flexDirection: 'column', margin: 5, marginHorizontal: 10, borderRadius: 5 }], { padding: 10 }]}>
+                                        {<Image
+                                            source={{ uri: post.preview.url }}
+                                            contentFit='contain'
+                                            transition={{ effect: 'cross-dissolve', duration: 250 }}
+                                            style={style.image}
+                                        />}
+                                        <View style={[style.childContainer, { justifyContent: 'space-between', flexWrap: 'wrap' }]}><View style={{ paddingBottom: 4 }}><Score style={style} score={post.score.total}/></View><Text style={[style.negative, { paddingVertical: 10 }]}>♥{post.fav_count}</Text><Rating style={style} rating={post.rating}/></View>
+                                    </View>
+                                </TouchableOpacity>
+                            )
+                        }}
+                    />
+                </View>
+                <StatusBar hidden={true}></StatusBar>
             </SafeAreaView>
         </RootSiblingParent>
     )
