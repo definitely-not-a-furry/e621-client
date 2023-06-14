@@ -80,9 +80,9 @@ export default function Browse () {
                     />
                     <TouchableOpacity style={[style.link, { padding: 7, borderRadius: 5, margin: 7, marginBottom: 7 }]} onPress={() => { updateSearchTerm() }}><Text style={{ color: '#fff', fontWeight: 800 }}> search </Text></TouchableOpacity>
                 </View>
-                <View style={style.parentContainer}>
+                <View style={[style.parentContainer, { paddingTop: 0 }]}>
                     <FlatList
-                        style={{ height: '100%' }}
+                        style={{ height: '100%', paddingTop: 10 }}
                         showsVerticalScrollIndicator={false}
                         data={posts}
                         numColumns={2}
