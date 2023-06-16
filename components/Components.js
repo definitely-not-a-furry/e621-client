@@ -10,11 +10,11 @@ const Rating = ({ rating, style }) => {
         style: PropTypes.object
     }
     if (rating === 's') {
-        return (<Text style={[style.positive, { paddingVertical: 10, fontWeight: 700 }]}>Safe</Text>)
+        return (<Text style={[style.positive, { fontWeight: 700 }]}>Safe</Text>)
     } else if (rating === 'e') {
-        return (<Text style={[style.explicit, { paddingVertical: 10, fontWeight: 700 }]}>Explicit</Text>)
+        return (<Text style={[style.explicit, { fontWeight: 700 }]}>Explicit</Text>)
     } else if (rating === 'q') {
-        return (<Text style={[style.questionable, { paddingVertical: 10, fontWeight: 700 }]}>Questionable</Text>)
+        return (<Text style={[style.questionable, { fontWeight: 700 }]}>Questionable</Text>)
     } else return (<Text>error</Text>)
 }
 
@@ -38,7 +38,7 @@ const FavCount = ({ favCount, style }) => {
         style: PropTypes.object
     }
     return (
-        <Text style={style.containerText}>{favCount}♥</Text>
+        <Text style={[style.containerText, { padding: 0 }]}>{favCount}♥</Text>
     )
 }
 

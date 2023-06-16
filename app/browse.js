@@ -12,7 +12,6 @@ import { defaultDark, classic } from '../themes/default'
 import { Rating, Score } from '../components/Components'
 import { Image } from 'expo-image'
 import { StatusBar } from 'expo-status-bar'
-import { RootSiblingParent } from 'react-native-root-siblings'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function Browse () {
@@ -65,48 +64,47 @@ export default function Browse () {
     }
 
     return (
-        <RootSiblingParent>
-            <SafeAreaView style={{ backgroundColor: '#000', flex: 1 }}>
-                <View style={style.searchContainer}>
-                    <View>
-                        <TouchableOpacity style={[style.link, { padding: 7, borderRadius: 5, margin: 7, marginBottom: 7 }]} onPress={() => { router.back() }}><Text style={{ color: '#fff', fontWeight: 800 }}> back </Text></TouchableOpacity>
-                    </View>
-                    <TextInput
-                        style={[style.searchInput, { flex: 1, height: 'auto', borderWidth: 2, borderRadius: 5, width: '100%', marginHorizontal: 2, padding: 5, paddingLeft: 10 }]}
-                        value={text}
-                        onChangeText={setText}
-                        placeholder="Enter tags..."
-                        onSubmitEditing={updateSearchTerm}
-                    />
-                    <TouchableOpacity style={[style.link, { padding: 7, borderRadius: 5, margin: 7, marginBottom: 7 }]} onPress={() => { updateSearchTerm() }}><Text style={{ color: '#fff', fontWeight: 800 }}> search </Text></TouchableOpacity>
+
+        <SafeAreaView style={{ backgroundColor: '#000', flex: 1 }}>
+            <View style={style.searchContainer}>
+                <View>
+                    <TouchableOpacity style={[style.link, { padding: 7, borderRadius: 5, margin: 7, marginBottom: 7 }]} onPress={() => { router.back() }}><Text style={{ color: '#fff', fontWeight: 800 }}> back </Text></TouchableOpacity>
                 </View>
-                <View style={[style.parentContainer, { paddingTop: 0 }]}>
-                    <FlatList
-                        style={{ height: '100%', paddingTop: 10 }}
-                        showsVerticalScrollIndicator={false}
-                        data={posts}
-                        numColumns={2}
-                        renderItem={(post) => {
-                            post = post.item
-                            return (
-                                <TouchableOpacity onPress={() => { goToPost(post.id) }} key={post.id} style={{ width: '50%' }} >
-                                    <View style={[[style.container, { flexDirection: 'column', margin: 5, marginHorizontal: 10, borderRadius: 5 }], { padding: 10 }]}>
-                                        {<Image
-                                            source={{ uri: post.preview.url }}
-                                            contentFit='contain'
-                                            transition={{ effect: 'cross-dissolve', duration: 250 }}
-                                            style={style.image}
-                                        />}
-                                        <View style={[style.childContainer, { justifyContent: 'space-between', flexWrap: 'wrap' }]}><View style={{ paddingBottom: 4 }}><Score style={style} score={post.score.total}/></View><Text style={[style.negative, { paddingVertical: 10 }]}>♥{post.fav_count}</Text><Rating style={style} rating={post.rating}/></View>
-                                    </View>
-                                </TouchableOpacity>
-                            )
-                        }}
-                    />
-                </View>
-                <StatusBar hidden={true}></StatusBar>
-            </SafeAreaView>
-        </RootSiblingParent>
+                <TextInput
+                    style={[style.searchInput, { flex: 1, height: 'auto', borderWidth: 2, borderRadius: 5, width: '100%', marginHorizontal: 2, padding: 5, paddingLeft: 10 }]}
+                    value={text}
+                    onChangeText={setText}
+                    placeholder="Enter tags..."
+                    onSubmitEditing={updateSearchTerm}
+                />
+                <TouchableOpacity style={[style.link, { padding: 7, borderRadius: 5, margin: 7, marginBottom: 7 }]} onPress={() => { updateSearchTerm() }}><Text style={{ color: '#fff', fontWeight: 800 }}> search </Text></TouchableOpacity>
+            </View>
+            <View style={[style.parentContainer, { padding: 0, flex: 1 }]}>
+                <FlatList
+                    style={{ height: '100%', padding: 5 }}
+                    showsVerticalScrollIndicator={false}
+                    data={posts}
+                    numColumns={2}
+                    renderItem={(post) => {
+                        post = post.item
+                        return (
+                            <TouchableOpacity onPress={() => { goToPost(post.id) }} key={post.id} style={{ width: '50%' }} >
+                                <View style={[[style.container, { flexDirection: 'column', margin: 5, borderRadius: 5 }], { padding: 10 }]}>
+                                    {<Image
+                                        source={{ uri: post.preview.url }}
+                                        contentFit='contain'
+                                        transition={{ effect: 'cross-dissolve', duration: 250 }}
+                                        style={style.image}
+                                    />}
+                                    <View style={[style.childContainer, { justifyContent: 'space-between', flexWrap: 'wrap' }]}><View style={{ padding: 4 }}><Score style={style} score={post.score.total}/></View><Text style={[style.negative, { padding: 4 }]}>♥{post.fav_count}</Text><View style={{ padding: 4 }}><Rating style={style} rating={post.rating}/></View></View>
+                                </View>
+                            </TouchableOpacity>
+                        )
+                    }}
+                />
+            </View>
+            <StatusBar hidden={true}></StatusBar>
+        </SafeAreaView>
     )
 }
 
