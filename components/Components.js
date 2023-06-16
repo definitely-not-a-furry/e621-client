@@ -38,7 +38,7 @@ const FavCount = ({ favCount, style }) => {
         style: PropTypes.object
     }
     return (
-        <Text style={[style.containerText, { padding: 0 }]}>{favCount}♥</Text>
+        <Text style={[style.negative, { fontWeight: 800 }]}>{favCount}♥</Text>
     )
 }
 

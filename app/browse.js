@@ -9,7 +9,7 @@ import {
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'expo-router'
 import { defaultDark, classic } from '../themes/default'
-import { Rating, Score } from '../components/Components'
+import { FavCount, Rating, Score } from '../components/Components'
 import { Image } from 'expo-image'
 import { StatusBar } from 'expo-status-bar'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -96,7 +96,12 @@ export default function Browse () {
                                         transition={{ effect: 'cross-dissolve', duration: 250 }}
                                         style={style.image}
                                     />}
-                                    <View style={[style.childContainer, { justifyContent: 'space-between', flexWrap: 'wrap' }]}><View style={{ padding: 4 }}><Score style={style} score={post.score.total}/></View><Text style={[style.negative, { padding: 4 }]}>♥{post.fav_count}</Text><View style={{ padding: 4 }}><Rating style={style} rating={post.rating}/></View></View>
+                                    <View style={[style.childContainer, { justifyContent: 'space-between', flexWrap: 'wrap' }]}>
+                                        <View style={{ padding: 4 }}><Score style={style} score={post.score.total}/></View>
+                                        <View style={{ padding: 4 }}><FavCount style={style} favCount={post.fav_count}/></View>
+                                        {/* <Text style={[style.negative, { padding: 4 }]}>♥{post.fav_count}</Text> */}
+                                        <View style={{ padding: 4 }}><Rating style={style} rating={post.rating}/></View>
+                                    </View>
                                 </View>
                             </TouchableOpacity>
                         )
