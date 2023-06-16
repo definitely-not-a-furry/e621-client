@@ -24,11 +24,11 @@ const Score = ({ score, style }) => {
         style: PropTypes.object
     }
     if (score > 0) {
-        return (<Text style={style.positive}>↑{score}</Text>)
+        return (<Text style={[style.positive, { fontWeight: 800 }]}>↑{score}</Text>)
     } else if (score === 0) {
-        return (<Text style={style.neutral}>↕{score}</Text>)
+        return (<Text style={[style.neutral, { fontWeight: 800 }]}>↕{score}</Text>)
     } else {
-        return (<Text style={style.negative}>↓{score}</Text>)
+        return (<Text style={[style.negative, { fontWeight: 800 }]}>↓{score}</Text>)
     }
 }
 
@@ -67,7 +67,7 @@ const PostImage = ({ post, style }) => {
     if (!post?.file) return <Text style={{ color: '#fff' }}>Loading...</Text>
     const fileExtension = post.file.ext
     if (fileExtension === 'jpg' || fileExtension === 'png' || fileExtension === 'gif') {
-        return <Image transition={{ effect: 'cross-dissolve', duration: 250 }} source={{ uri: post.file.url }} style={[style.image, { marginVertical: 5 }, style.themeColor.mid]} />
+        return <Image transition={{ effect: 'cross-dissolve', duration: 250 }} source={{ uri: post.file.url }} style={[style.image, { marginVertical: 5 }]} />
     } else {
         return <Text>{`This file type (".${fileExtension}") is not supported (yet).`}</Text>
     }
