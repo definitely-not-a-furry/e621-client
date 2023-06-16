@@ -10,11 +10,11 @@ const Rating = ({ rating, style }) => {
         style: PropTypes.object
     }
     if (rating === 's') {
-        return (<Text style={[style.positive, { fontWeight: 700 }]}>Safe</Text>)
+        return (<Text style={[style.positive, { fontWeight: 800 }]}>Safe</Text>)
     } else if (rating === 'e') {
-        return (<Text style={[style.explicit, { fontWeight: 700 }]}>Explicit</Text>)
+        return (<Text style={[style.explicit, { fontWeight: 800 }]}>Explicit</Text>)
     } else if (rating === 'q') {
-        return (<Text style={[style.questionable, { fontWeight: 700 }]}>Questionable</Text>)
+        return (<Text style={[style.questionable, { fontWeight: 800 }]}>Questionable</Text>)
     } else return (<Text>error</Text>)
 }
 
@@ -38,7 +38,7 @@ const FavCount = ({ favCount, style }) => {
         style: PropTypes.object
     }
     return (
-        <Text style={[style.negative, { fontWeight: 800 }]}>{favCount}♥</Text>
+        <Text style={[style.negative, { fontWeight: 800 }]}>{favCount}<Text style={{ fontFamily: 'Sans-Serif' }}>♥</Text></Text>
     )
 }
 
@@ -75,7 +75,11 @@ const PostImage = ({ post, style }) => {
 
 const PostComments = ({ postId, style }) => {
     PostComments.propTypes = {
-        style: PropTypes.object
+        style: PropTypes.object,
+        postId: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ])
     }
     const [comments, setComments] = useState(null)
 

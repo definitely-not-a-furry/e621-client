@@ -1,7 +1,12 @@
 import React from 'react'
 import { Text, View, TouchableOpacity } from 'react-native'
+import PropTypes from 'prop-types'
 
 const DText = ({ text, style }) => {
+    DText.propTypes = {
+        text: PropTypes.string,
+        style: PropTypes.object
+    }
     const parseMarkup = (text) => {
         const regex = /\[(\/?[a-z]+)(?:=([a-z0-9#]+))?\]([\S\s]*)\[\/\1\]/g
         let matches
@@ -77,8 +82,8 @@ const DText = ({ text, style }) => {
                 )
             } else if (tag === 'quote') {
                 parsedText.push(
-                    <View style={style.quote}>
-                        <Text key={`quote_${currentIndex}`} style={{ color: '#fff' }}>
+                    <View key={`quote_${currentIndex}`} style={style.quote}>
+                        <Text style={{ color: '#fff' }}>
                             {content}
                         </Text>
                     </View>
