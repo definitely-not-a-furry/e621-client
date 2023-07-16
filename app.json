@@ -7,7 +7,7 @@
     "splash": {
       "image": "./assets/E621Logo.png",
       "backgroundColor": "#182b55",
-
+      "padding": 15,
       "resizeMode": "contain"
     },
     "name": "e621-client",

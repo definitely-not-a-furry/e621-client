@@ -34,8 +34,7 @@ export const defaultDark = StyleSheet.create({
     },
     containerText: {
         color: '#fff',
-        padding: 7,
-        fontFamily: 'Verdana'
+        padding: 7
     },
     button: {
         backgroundColor: '#444',
@@ -127,8 +126,7 @@ export const classic = StyleSheet.create({
     },
     containerText: {
         color: '#fff',
-        padding: 7,
-        fontFamily: 'Verdana'
+        padding: 7
     },
     button: {
         backgroundColor: '#1e437c',
