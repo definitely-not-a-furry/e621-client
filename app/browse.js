@@ -81,7 +81,7 @@ export default function Browse () {
             </View>
             <View style={[style.parentContainer, { padding: 0, flex: 1 }]}>
                 <FlatList
-                    style={{ height: '100%', padding: 5 }}
+                    style={{ height: '100%', padding: 5, margin: 0 }}
                     showsVerticalScrollIndicator={false}
                     data={posts}
                     numColumns={2}
@@ -99,7 +99,6 @@ export default function Browse () {
                                     <View style={[style.childContainer, { justifyContent: 'space-between', flexWrap: 'wrap' }]}>
                                         <View style={{ padding: 4 }}><Score style={style} score={post.score.total}/></View>
                                         <View style={{ padding: 4 }}><FavCount style={style} favCount={post.fav_count}/></View>
-                                        {/* <Text style={[style.negative, { padding: 4 }]}>♥{post.fav_count}</Text> */}
                                         <View style={{ padding: 4 }}><Rating style={style} rating={post.rating}/></View>
                                     </View>
                                 </View>

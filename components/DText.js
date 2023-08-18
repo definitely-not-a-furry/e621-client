@@ -1,5 +1,6 @@
 import React from 'react'
-import { Text, View, TouchableOpacity } from 'react-native'
+import { Text, View, TouchableOpacity, Linking } from 'react-native'
+import SpoilerText from './SpoilerText'
 import PropTypes from 'prop-types'
 
 const DText = ({ text, style }) => {
