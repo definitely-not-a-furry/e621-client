@@ -7,10 +7,12 @@ import { useRouter } from 'expo-router'
 import { defaultDark, classic } from '../themes/default'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import haptic from '../components/haptic'
+import SignInModal from '../components/SignIn'
 
 function App () {
     const router = useRouter()
     const [style, setStyle] = useState()
+    const [loginvisible, setLoginvisible] = useState(false)
 
     async function setTheme () {
         setStyle(await getTheme())
@@ -46,8 +48,14 @@ function App () {
             <StatusBar hidden={true}></StatusBar>
             <LinearGradient style={{ height: '100%', width: '100%' }} colors={['#000', '##1e437c']} end={{ x: 1, y: 1 }}>
                 <ImageBackground style={styles.backgroundImage} src={'https://static1.e621.net/data/mascots/913a8fd0240b14bfbb63d6a9cfc3faf2.jpg'}>
-                    <View style={{ flexGrow: 4 }}></View>
+                    <SignInModal style={style} visible={loginvisible} onClose={() => { setLoginvisible(false) }}/>
                     <View style={[styles.blurContainer, { flex: 1 }]}>
+                        <BlurView style={styles.blur} intensity={25}>
+                            <TouchableOpacity style={[style.transparent.button, { alignSelf: 'flex-start' }]} onPress={() => { setLoginvisible(true) }}><Text style={styles.buttonText}>Sign in</Text></TouchableOpacity>
+                        </BlurView>
+                    </View>
+                    <View style={{ flexGrow: 9 }}></View>
+                    <View style={[styles.blurContainer, { flexGrow: 1 }]}>
                         <BlurView style={styles.blur} intensity={25}>
                             <View style={styles.mascotBox}>
                                 <Text style={styles.title}>e621</Text>

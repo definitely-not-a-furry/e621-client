@@ -7,14 +7,16 @@ import SpoilerText from '../components/SpoilerText'
 import { StatusBar } from 'expo-status-bar'
 
 const App = () => {
-    const router = useRouter()
-
+    var rcc = new Array([
+        'test1',
+        'test2',
+        'test3'
+    ])
     return (
         <SafeAreaView style={{ backgroundColor: '#222', flex: 1 }}>
             <StatusBar hidden={true}/>
             <TouchableOpacity style={defaultDark.button} onPress={() => { router.push('/home') }}><Text style={{ color: '#fff' }}>Back</Text></TouchableOpacity>
             {/* everything from here is a testing area */}
-            <SpoilerText>hello spoiler!</SpoilerText>
         </SafeAreaView>
     )
 }
