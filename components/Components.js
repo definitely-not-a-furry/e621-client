@@ -38,7 +38,7 @@ const FavCount = ({ favCount, style }) => {
         style: PropTypes.object
     }
     return (
-        <Text style={[style.negative, { fontWeight: 800 }]}>{favCount}<Text style={{ fontFamily: null }}>♥</Text></Text>
+        <Text style={[style.negative, { fontWeight: 800 }]}>{favCount}♥</Text>
     )
 }
 
@@ -50,9 +50,11 @@ const Description = ({ description, style }) => {
     return (
         <View>
             {description && (
-                <View style={[style.container, { flexDirection: 'row', margin: 5, marginHorizontal: 10, borderRadius: 5 }]}>
+                <View style={[style.container, { flexDirection: 'column', margin: 5, marginHorizontal: 10, borderRadius: 5 }]}>
                     <Text style={[style.containerText, { fontWeight: 700, paddingBottom: 1 }]}>Description:</Text>
-                    <DText text={description}/>
+                    <View style={{ margin: 7 }}>
+                        <DText text={description}/>
+                    </View>
                 </View>
             )}
         </View>
