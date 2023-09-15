@@ -1,4 +1,4 @@
-// This file is used to connect the application with e621's API more easily, currently it hasn't been fully implemented because some features need to be implemented
+// This file is used to connect the application with e621's API more easily, currently it hasn't been fully implemented
 
 class Post {
     static getByID (ID) {
