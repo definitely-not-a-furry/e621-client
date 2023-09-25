@@ -1,5 +1,5 @@
 # e621-client
-E621-client will be a browsing application for e621.net on IOS and Android made using React Native and Expo.
+E621-client will be a browsing application for e621.net on iOS and Android (mainly iOS) made using React Native and Expo.
 
 **Note:** This project is currently in early alpha, do not expect anything to work properly first-try. Nothing here is final for any potential release.
 
