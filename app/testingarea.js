@@ -5,18 +5,16 @@ import DText from '../components/DText'
 import { defaultDark } from '../themes/default'
 import SpoilerText from '../components/SpoilerText'
 import { StatusBar } from 'expo-status-bar'
+import { RequestHandler } from '../util/RequestHandler'
 
 const App = () => {
-    var rcc = new Array([
-        'test1',
-        'test2',
-        'test3'
-    ])
+    console.log()
     return (
         <SafeAreaView style={{ backgroundColor: '#222', flex: 1 }}>
             <StatusBar hidden={true}/>
             <TouchableOpacity style={defaultDark.button} onPress={() => { router.push('/home') }}><Text style={{ color: '#fff' }}>Back</Text></TouchableOpacity>
             {/* everything from here is a testing area */}
+
         </SafeAreaView>
     )
 }
