@@ -10,14 +10,14 @@ export default class RequestHandler {
         return(`https://e621.net/${path}.json${parameter ? `?${parameter}` : ''}`)
     }
 
-    async request(url: string) {
+    async request(url: string): Promise<[number | null, any | null]> {
         const response = await fetch(url, {headers:{
             'User-Agent': 'e621-client/alpha.0.1(github.com/definitely-not-a-furry)'
         }})
             .catch(error => {
                 return [400, `Error occured: ${error}`]
             })
-        if(response.status ==! undefined) {
+        if(response && 'status' in response) {
             return [response.status, response.json()]
         } else {
             return [null, null]
@@ -29,7 +29,7 @@ export default class RequestHandler {
         switch(type){
             default: 
                 break
-            case 'SEARCH_POSTS':
+            case 'SEARCH_POST':
                 [status, response] = await this.request(this.constructURL(`posts`, `tags=${filter.split(' ').join('+')}`))
             case 'GET_POST':
                 [status, response] = await this.request(this.constructURL(`posts/${filter}`, null))
@@ -44,6 +44,9 @@ export default class RequestHandler {
             console.warn('Warning: HTTP status 203; the enclosed payload has been modified by a transforming proxy. Response may not be identical to the original source.')
             return response
         } else if( status == 404 || status == 400) {
+            return 'request failed'
+        } else {
+            console.warn(`An unknown status occured while fetching content (${status})`)
             return 'request failed'
         }
     }
