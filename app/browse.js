@@ -13,12 +13,17 @@ import { FavCount, Rating, Score } from '../components/Components'
 import { Image } from 'expo-image'
 import { StatusBar } from 'expo-status-bar'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import RequestHandler from '../util/RequestHandler'
+
 
 export default function Browse () {
+    const R = new RequestHandler()
+    R.auth = null
+    R.name = null
     const [style, setStyle] = useState()
     const [posts, setPosts] = useState([])
     const [text, setText] = useState('fiddleafox')
-    const [searchTerm, setSearchTerm] = useState('fiddleafox') // Temporarily using this as default tag, just because their art is cute :3 (and because needed to test searching) (yes, I know she's transphobic, but her art isn't, so frankly I don't care)
+    const [searchTerm, setSearchTerm] = useState('fiddleafox') // Temporarily using this as default tag
     const router = useRouter()
 
     const updateSearchTerm = () => {
@@ -48,10 +53,11 @@ export default function Browse () {
 
     useEffect(() => {
         setTheme()
-        fetch(`https://e621.net/posts.json?tags=rating:safe+${searchTerm.split(' ').join('+')}`)
-            .then(response => response.json())
-            .then(data => setPosts(data.posts))
-            .catch(error => console.log(`Error while fetching posts: "${error}"`))
+        R.get('SEARCH_POST', searchTerm).then(data => setPosts(data.posts))
+        // fetch(`https://e621.net/posts.json?tags=rating:safe+${searchTerm.split(' ').join('+')}`)
+        //     .then(response => response.json())
+        //     .then(data => setPosts(data.posts))
+        //     .catch(error => console.log(`Error while fetching posts: "${error}"`))
     }, [searchTerm])
 
     const goToPost = (postId) => {
