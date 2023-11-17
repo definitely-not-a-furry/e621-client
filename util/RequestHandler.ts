@@ -5,7 +5,7 @@ const version: string = 'Development build'
 export default class RequestHandler {
     name: string | null
     auth: string | null
-    domain: string | null
+    domain: string = 'e926.net'
     
     findOne(haystack: Array<any>, arr: Array<any>) {
         return arr.some(v => haystack.includes(v));
@@ -30,7 +30,7 @@ export default class RequestHandler {
     }
 
     constructURL(path: string, parameter: string | null) {
-        return(`https://e621.net/${path}.json${parameter ? `?${parameter}` : ''}`)
+        return(`https://${this.domain}/${path}.json${parameter ? `?${parameter}` : ''}`)
     }
 
     async request(url: string): Promise<[number | null, any | null]> {

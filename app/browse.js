@@ -52,12 +52,9 @@ export default function Browse () {
     }
 
     useEffect(() => {
+        setPosts([])
         setTheme()
         R.get('SEARCH_POST', searchTerm).then(data => setPosts(data.posts))
-        // fetch(`https://e621.net/posts.json?tags=rating:safe+${searchTerm.split(' ').join('+')}`)
-        //     .then(response => response.json())
-        //     .then(data => setPosts(data.posts))
-        //     .catch(error => console.log(`Error while fetching posts: "${error}"`))
     }, [searchTerm])
 
     const goToPost = (postId) => {

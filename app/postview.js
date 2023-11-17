@@ -2,13 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import DraggableFlatList from 'react-native-draggable-flatlist'
-import {
-    SafeAreaView,
-    Text,
-    TouchableOpacity,
-    View,
-    TouchableWithoutFeedback
-} from 'react-native'
+import { SafeAreaView, Text, TouchableOpacity, View, TouchableWithoutFeedback } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Toast from 'react-native-root-toast'
 import { RootSiblingParent } from 'react-native-root-siblings'
@@ -19,6 +13,7 @@ import { ScoreBar } from '../components/ScoreBar'
 import { InfoView } from '../components/InfoView'
 import { Relations } from '../components/Relations'
 import haptic from '../components/haptic'
+import RequestHandler from '../util/RequestHandler'
 
 const App = () => {
     const [style, setStyle] = useState()
@@ -35,6 +30,9 @@ const App = () => {
         { key: 'InfoView' },
         { key: 'Relations' }
     ])
+    R = new RequestHandler()
+    R.auth = null
+    R.name = null
 
     async function setTheme () {
         setStyle(await getTheme())
@@ -95,10 +93,7 @@ const App = () => {
             .catch((error) => {
                 console.log('Error loading data from AsyncStorage:', error)
             })
-        fetch(`https://e621.net/posts/${postId}.json`)
-            .then(response => response.json())
-            .then(data => { if (isMounted) { setPost(data.post) } })
-            .catch(error => console.error(error))
+        R.get('GET_POST', postId).then(data => setPost(data.post))
         return () => {
             isMounted = false
         }
