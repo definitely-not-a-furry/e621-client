@@ -5,6 +5,11 @@ const version: string = 'Development build'
 export default class RequestHandler {
     name: string | null
     auth: string | null
+    domain: string | null
+    
+    findOne(haystack: Array<any>, arr: Array<any>) {
+        return arr.some(v => haystack.includes(v));
+    };
 
     authcheck() {
         if(this.name == null || this.auth == null) {
@@ -46,7 +51,8 @@ export default class RequestHandler {
     }
 
     async get(type: string, filter: string) {
-        var [response, status]: any = null
+        let response: any
+        let status: any
         switch(type){
             default: 
                 break
@@ -63,7 +69,8 @@ export default class RequestHandler {
                 [status, response] = await this.request(this.constructURL(`tags/autocomplete`, `search[name_matches]=${filter}*`))
                 break
         }
-        if(status.includes([200, 201, 202, 205, 207, 208])) {
+        
+        if([200, 201, 202, 205, 207, 208].includes(status)) {
             return response
         } else if(status == 203) {
             console.warn('Warning: HTTP status 203; the enclosed payload has been modified by a transforming proxy. Response may not be identical to the original source.')
