@@ -69,6 +69,7 @@ export const defaultDark = StyleSheet.create({
         justifyContent: 'center'
     },
     quote: {
+        padding: 5,
         backgroundColor: '#404040',
         borderColor: '#404040',
         borderLeftColor: '#67717b',

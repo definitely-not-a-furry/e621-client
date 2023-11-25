@@ -9,15 +9,16 @@ const DText = ({ text, style }) => {
         style: PropTypes.object
     }
     const parseMarkup = (text) => {
-        const regex = /\[(\/?[a-z]+)(?:=([a-z0-9#]+))?\]([\S\s]*)\[\/\1\]/g
+        const regex = /\[(\/?[a-z]+)(?:=([a-z0-9#]+))?]([\S\s]*)\[\/\1]/g
+        const link = /"(\S*)":(\S*)/g
         let matches
         const parsedText = []
         let currentIndex = 0
-
+        text.replace(link, '$1')
         while ((matches = regex.exec(text)) !== null) {
             const [fullMatch, tag, color, content] = matches
-
             const plainText = text.substring(currentIndex, matches.index)
+
             parsedText.push(
                 <Text key={`plain_${currentIndex}`} style={{ color: '#fff' }}>
                     {plainText}

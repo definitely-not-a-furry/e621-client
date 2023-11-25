@@ -2,7 +2,7 @@ import { impactAsync, ImpactFeedbackStyle } from 'expo-haptics'
 import { Platform } from 'react-native'
 
 const haptic = (strength) => {
-    if (Platform.OS === 'ios' || Platform.OS === 'android') {
+    try {
         switch (strength) {
         case 1:
             impactAsync(ImpactFeedbackStyle.Light)
@@ -16,7 +16,7 @@ const haptic = (strength) => {
         default:
             impactAsync()
         }
-    }
+    } catch {}
 }
 
 export default haptic

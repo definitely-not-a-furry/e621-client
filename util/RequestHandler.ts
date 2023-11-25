@@ -6,10 +6,6 @@ export default class RequestHandler {
     name: string | null
     auth: string | null
     domain: string = 'e926.net'
-    
-    findOne(haystack: Array<any>, arr: Array<any>) {
-        return arr.some(v => haystack.includes(v));
-    };
 
     authcheck() {
         if(this.name == null || this.auth == null) {
@@ -66,7 +62,11 @@ export default class RequestHandler {
                 [status, response] = await this.request(this.constructURL(`comments.json`, `group_by=comment&search[post_id]=${filter}`))
                 break
             case 'AUTOCOMPLETE_TAG':
-                [status, response] = await this.request(this.constructURL(`tags/autocomplete`, `search[name_matches]=${filter}*`))
+                if(filter.length <= 1) {
+                    [status, response] = [200, []]
+                    break
+                }
+                [status, response] = await this.request(this.constructURL(`tags/autocomplete`, `search[name_matches]=${filter}*&limit=6`))
                 break
         }
         

@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import {
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    Modal,
-    StyleSheet
-} from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native'
 import { BlurView } from 'expo-blur'
 import { defaultDark, classic } from '../themes/default'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 const SignInModal = ({ visible, onClose, style }) => {
     const [username, setUsername] = useState('')
@@ -38,7 +30,7 @@ const SignInModal = ({ visible, onClose, style }) => {
 
     return (
         <Modal visible={visible} animationType="slide" transparent>
-            <BlurView style={[styles.container, {color: '#000'}]} intensity={50}>
+            <BlurView style={[styles.container, {color: '#fff'}]} intensity={50}>
                 <View style={[style.container, { width: '80%', padding: 12 }]}>
                     <Text style={styles.title}>Sign in</Text>
                     <TextInput

@@ -1,11 +1,4 @@
-import {
-    Text,
-    View,
-    SafeAreaView,
-    TextInput,
-    TouchableOpacity,
-    FlatList
-} from 'react-native'
+import { Text, View, SafeAreaView, TextInput, TouchableOpacity, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'expo-router'
 import { defaultDark, classic } from '../themes/default'
@@ -14,6 +7,7 @@ import { Image } from 'expo-image'
 import { StatusBar } from 'expo-status-bar'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import RequestHandler from '../util/RequestHandler'
+import TagSearch from "../components/TagSearch";
 
 
 export default function Browse () {
@@ -24,6 +18,7 @@ export default function Browse () {
     const [posts, setPosts] = useState([])
     const [text, setText] = useState('fiddleafox')
     const [searchTerm, setSearchTerm] = useState('fiddleafox') // Temporarily using this as default tag
+    const [showSuggestion, setShowSuggestion] = useState(false)
     const router = useRouter()
 
     const updateSearchTerm = () => {
@@ -77,11 +72,17 @@ export default function Browse () {
                     style={[style.searchInput, { flex: 1, height: 'auto', borderWidth: 2, borderRadius: 5, width: '100%', marginHorizontal: 2, padding: 5, paddingLeft: 10 }]}
                     value={text}
                     onChangeText={setText}
+                    autoCapitalize={'none'}
+                    autoCorrect={false}
+                    enterKeyHint={'search'}
                     placeholder="Enter tags..."
+                    onFocus={()=>setShowSuggestion(true)}
+                    onBlur={()=>setShowSuggestion(false)}
                     onSubmitEditing={updateSearchTerm}
                 />
                 <TouchableOpacity style={[style.link, { padding: 7, borderRadius: 5, margin: 7, marginBottom: 7 }]} onPress={() => { updateSearchTerm() }}><Text style={{ color: '#fff', fontWeight: 800 }}> search </Text></TouchableOpacity>
             </View>
+            {showSuggestion && (<View style={{margin: 7, marginTop: 0}}><TagSearch input={text} style={style}/></View>)}
             <View style={[style.parentContainer, { padding: 0, flex: 1 }]}>
                 <FlatList
                     style={{ height: '100%', padding: 5, margin: 0 }}
