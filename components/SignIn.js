@@ -2,8 +2,13 @@ import React, { useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native'
 import { BlurView } from 'expo-blur'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import PropTypes from 'prop-types'
 
 const SignInModal = ({ visible, onClose }) => {
+    SignInModal.propTypes = {
+        visible: PropTypes.bool,
+        onClose: PropTypes.func
+    }
     const [username, setUsername] = useState('')
     const [apiKey, setApiKey] = useState('')
 

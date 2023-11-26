@@ -43,7 +43,7 @@ export const defaultDark = StyleSheet.create({
         marginBottom: 0
     },
     image: {
-        backgroundColor: '#000',
+        backgroundColor: '#111',
         contentFit: 'contain',
         aspectRatio: 1,
         width: '100%',
@@ -136,7 +136,7 @@ export const classic = StyleSheet.create({
         marginBottom: 0
     },
     image: {
-        backgroundColor: '#000',
+        backgroundColor: '#020f23',
         contentFit: 'contain',
         aspectRatio: 1,
         width: '100%',

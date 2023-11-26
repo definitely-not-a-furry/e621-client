@@ -1,19 +1,20 @@
 import React from 'react'
 import { Text, View, TouchableOpacity } from 'react-native'
 import PropTypes from 'prop-types'
+import SpoilerText from './SpoilerText'
 
-const DText = ({ text, style }) => {
+const DText = (content) => {
     DText.propTypes = {
-        text: PropTypes.string,
         style: PropTypes.object
     }
+    const text = content.children.replace(/"(\S*)":(\S*)/g, '$1')
+    const style = content.style
     const parseMarkup = (text) => {
         const regex = /\[(\/?[a-z]+)(?:=([a-z0-9#]+))?]([\S\s]*)\[\/\1]/g
         const link = /"(\S*)":(\S*)/g
         let matches
         const parsedText = []
         let currentIndex = 0
-        text.replace(link, '$1')
         while ((matches = regex.exec(text)) !== null) {
             const [fullMatch, tag, color, content] = matches
             const plainText = text.substring(currentIndex, matches.index)
@@ -87,6 +88,14 @@ const DText = ({ text, style }) => {
                         <Text style={{ color: '#fff' }}>
                             {content}
                         </Text>
+                    </View>
+                )
+            } else if (tag === 'spoiler') {
+                parsedText.push(
+                    <View key={`spoiler_${currentIndex}`}>
+                        <SpoilerText>
+                            {content}
+                        </SpoilerText>
                     </View>
                 )
             }

@@ -53,7 +53,7 @@ const Description = ({ description, style }) => {
                 <View style={[style.container, { flexDirection: 'column', margin: 5, marginHorizontal: 10, borderRadius: 5 }]}>
                     <Text style={[style.containerText, { fontWeight: 700, paddingBottom: 1 }]}>Description:</Text>
                     <View style={{ margin: 7 }}>
-                        <DText text={description}/>
+                        <DText style={style}>{description}</DText>
                     </View>
                 </View>
             )}
@@ -99,13 +99,13 @@ const PostComments = ({ postId, style }) => {
             isMounted = true
         }
     }, [])
-
+    console.log(style)
     return (
         <View>
             {!(comments === undefined || comments === null || comments?.comments) && (<View style={[style.container, { flexDirection: 'column', margin: 5, marginHorizontal: 10, borderRadius: 5 }]}><Text style={[style.tagHeader, { color: '#fff', fontWeight: 800 }]}>Comments: </Text>{comments.map((comment) => (
                 <View key={comment.id} style={[style.childContainer, { margin: 7, marginVertical: 5, flexDirection: 'column', alignItems: 'flex-start', padding: 5 }]}>
                     <Text style={[style.containerText, { fontWeight: 800 }]}>{comment.creator_name}</Text>
-                    <DText style={style} text={comment.body}/>
+                    <DText style={style}>{comment.body}</DText>
                 </View>))}
             </View>)}
         </View>
