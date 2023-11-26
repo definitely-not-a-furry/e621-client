@@ -48,7 +48,7 @@ function App () {
             <StatusBar hidden={true}></StatusBar>
             <LinearGradient style={{ height: '100%', width: '100%' }} colors={['#000', '##1e437c']} end={{ x: 1, y: 1 }}>
                 <ImageBackground style={styles.backgroundImage} src={'https://static1.e621.net/data/mascots/913a8fd0240b14bfbb63d6a9cfc3faf2.jpg'}>
-                    <SignInModal style={style} visible={loginvisible} onClose={() => { setLoginvisible(false) }}/>
+                    <SignInModal visible={loginvisible} onClose={() => { setLoginvisible(false) }}/>
                     <View style={[styles.blurContainer, { flex: 1 }]}>
                         <BlurView style={styles.blur} intensity={25}>
                             <TouchableOpacity style={[style.transparent.button, { alignSelf: 'flex-start' }]} onPress={() => { setLoginvisible(true) }}><Text style={styles.buttonText}>Sign in</Text></TouchableOpacity>
@@ -61,7 +61,7 @@ function App () {
                                 <Text style={styles.title}>e621</Text>
                                 <View style={styles.buttonContainer}>
                                     <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/browse') }}><Text style={styles.buttonText}>Browse</Text></TouchableOpacity>
-                                    <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/testingarea') }}><Text style={styles.buttonText}>debug</Text></TouchableOpacity>
+                                    <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/testingarea') }}><Text style={styles.buttonText}>DText Debug</Text></TouchableOpacity>
                                     <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/settings') }}><Text style={styles.buttonText}>Settings</Text></TouchableOpacity>
                                 </View>
                             </View>

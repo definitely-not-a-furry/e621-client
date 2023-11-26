@@ -1,7 +1,6 @@
 import { impactAsync, ImpactFeedbackStyle } from 'expo-haptics'
-import { Platform } from 'react-native'
 
-const haptic = (strength) => {
+export default haptic = (strength) => {
     try {
         switch (strength) {
         case 1:
@@ -18,5 +17,3 @@ const haptic = (strength) => {
         }
     } catch {}
 }
-
-export default haptic

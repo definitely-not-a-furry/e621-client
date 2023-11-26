@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native'
 import { BlurView } from 'expo-blur'
-import { defaultDark, classic } from '../themes/default'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-const SignInModal = ({ visible, onClose, style }) => {
+const SignInModal = ({ visible, onClose }) => {
     const [username, setUsername] = useState('')
     const [apiKey, setApiKey] = useState('')
 
@@ -30,8 +29,8 @@ const SignInModal = ({ visible, onClose, style }) => {
 
     return (
         <Modal visible={visible} animationType="slide" transparent>
-            <BlurView style={[styles.container, {color: '#fff'}]} intensity={50}>
-                <View style={[style.container, { width: '80%', padding: 12 }]}>
+            <BlurView style={[styles.container, { color: '#fff' }]} intensity={50}>
+                <View style={[{ width: '80%', padding: 12 }]}>
                     <Text style={styles.title}>Sign in</Text>
                     <TextInput
                         style={styles.input}
@@ -45,10 +44,10 @@ const SignInModal = ({ visible, onClose, style }) => {
                         value={apiKey}
                         onChangeText={setApiKey}
                     />
-                    <TouchableOpacity style={style.transparent.button} onPress={handleLogin}>
+                    <TouchableOpacity style={{ padding: 5, borderRadius: 5, backgroundColor: 'rgba(0,0,0,0.2)' }} onPress={handleLogin}>
                         <Text style={styles.buttonText}>Submit</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { Cancel() }}>
+                    <TouchableOpacity style={{ pdding: 5, marginTop: 5 }} onPress={() => { Cancel() }}>
                         <Text style={styles.buttonText}>Cancel</Text>
                     </TouchableOpacity>
                 </View>

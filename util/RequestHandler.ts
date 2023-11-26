@@ -1,10 +1,11 @@
-//UPDATE ACCORDINGLY
+// UPDATE ACCORDINGLY
 
 const version: string = 'Development build'
 
 export default class RequestHandler {
     name: string | null
     auth: string | null
+    limit: string = '25'
     domain: string = 'e926.net'
 
     authcheck() {
@@ -29,9 +30,9 @@ export default class RequestHandler {
         return(`https://${this.domain}/${path}.json${parameter ? `?${parameter}` : ''}`)
     }
 
-    async request(url: string): Promise<[number | null, any | null]> {
+    async request (url: string): Promise<[number | null, any | null]> {
         try {
-            const response = await fetch(url, {headers:this.constructHeader()})
+            const response = await fetch(url, { headers: this.constructHeader() })
                 .catch(error => {
                     return [400, `Error occured: ${error}`]
                 })
@@ -53,13 +54,13 @@ export default class RequestHandler {
             default: 
                 break
             case 'SEARCH_POST':
-                [status, response] = await this.request(this.constructURL(`posts`, `tags=${filter.split(' ').join('+')}`))
+                [status, response] = await this.request(this.constructURL(`posts`, `tags=${filter.split(' ').join('+')}&limit=${this.limit}`))
                 break
             case 'GET_POST':
                 [status, response] = await this.request(this.constructURL(`posts/${filter}`, null))
                 break
             case 'GET_COMMENTS':
-                [status, response] = await this.request(this.constructURL(`comments.json`, `group_by=comment&search[post_id]=${filter}`))
+                [status, response] = await this.request(this.constructURL(`comments`, `group_by=comment&search[post_id]=${filter}`))
                 break
             case 'AUTOCOMPLETE_TAG':
                 if(filter.length <= 1) {

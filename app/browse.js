@@ -7,10 +7,10 @@ import { Image } from 'expo-image'
 import { StatusBar } from 'expo-status-bar'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import RequestHandler from '../util/RequestHandler'
-import TagSearch from "../components/TagSearch";
+import TagSearch from '../components/TagSearch'
+import { load } from '../components/AsyncStore'
 
-
-export default function Browse () {
+function Browse () {
     const R = new RequestHandler()
     R.auth = null
     R.name = null
@@ -26,6 +26,7 @@ export default function Browse () {
     }
 
     async function setTheme () {
+        R.limit = await load('@pagelength')
         setStyle(await getTheme())
     }
 
@@ -53,8 +54,7 @@ export default function Browse () {
     }, [searchTerm])
 
     const goToPost = (postId) => {
-        console.log(`Navigating to post with id: ${postId}`)
-        router.push({ pathname: '/postview', params: { id: postId } })
+        router.push({ pathname: './postview', params: { id: postId } })
     }
 
     if (!style) {
@@ -62,7 +62,6 @@ export default function Browse () {
     }
 
     return (
-
         <SafeAreaView style={{ backgroundColor: '#000', flex: 1 }}>
             <View style={style.searchContainer}>
                 <View>
@@ -76,13 +75,13 @@ export default function Browse () {
                     autoCorrect={false}
                     enterKeyHint={'search'}
                     placeholder="Enter tags..."
-                    onFocus={()=>setShowSuggestion(true)}
-                    onBlur={()=>setShowSuggestion(false)}
+                    onFocus={() => setShowSuggestion(true)}
+                    onBlur={() => setShowSuggestion(false)}
                     onSubmitEditing={updateSearchTerm}
                 />
                 <TouchableOpacity style={[style.link, { padding: 7, borderRadius: 5, margin: 7, marginBottom: 7 }]} onPress={() => { updateSearchTerm() }}><Text style={{ color: '#fff', fontWeight: 800 }}> search </Text></TouchableOpacity>
             </View>
-            {showSuggestion && (<View style={{margin: 7, marginTop: 0}}><TagSearch input={text} style={style}/></View>)}
+            {showSuggestion && (<View style={{ margin: 7, marginTop: 0 }}><TagSearch input={text} style={style}/></View>)}
             <View style={[style.parentContainer, { padding: 0, flex: 1 }]}>
                 <FlatList
                     style={{ height: '100%', padding: 5, margin: 0 }}
@@ -117,3 +116,5 @@ export default function Browse () {
 }
 
 // TODO: add page control
+
+export default Browse

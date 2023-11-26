@@ -1,11 +1,11 @@
 module.exports = function (api) {
-  api.cache.using(() => process.env.NODE_ENV);
-  return {
-    presets: ["babel-preset-expo"],
-    plugins: [
-      "@babel/plugin-proposal-export-namespace-from",
-      "react-native-reanimated/plugin",
-      require.resolve("expo-router/babel"),
-    ],
-  };
-};
+    api.cache.using(() => process.env.NODE_ENV)
+    return {
+        presets: ['babel-preset-expo'],
+        plugins: [
+            '@babel/plugin-proposal-export-namespace-from',
+            'react-native-reanimated/plugin',
+            require.resolve('expo-router/babel')
+        ]
+    }
+}
