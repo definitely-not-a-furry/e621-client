@@ -69,6 +69,10 @@ export default class RequestHandler {
                 }
                 [status, response] = await this.request(this.constructURL(`tags/autocomplete`, `search[name_matches]=${filter}*&limit=6`))
                 break
+            case 'SEARCH_WIKI':
+                [status, response] = await this.request(this.constructURL(`wiki_pages`, `search[title]=*${filter}*`))
+            case 'GET_WIKI':
+                [status, response] = await this.request(this.constructURL(`wiki_pages/${filter}`, null))
         }
         
         if([200, 201, 202, 205, 207, 208].includes(status)) {

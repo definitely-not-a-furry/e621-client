@@ -63,6 +63,7 @@ function App () {
                                     <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/browse') }}><Text style={styles.buttonText}>Browse</Text></TouchableOpacity>
                                     <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/testingarea') }}><Text style={styles.buttonText}>DText Debug</Text></TouchableOpacity>
                                     <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/settings') }}><Text style={styles.buttonText}>Settings</Text></TouchableOpacity>
+                                    <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/wiki/browse') }}><Text style={styles.buttonText}>Wiki</Text></TouchableOpacity>
                                 </View>
                             </View>
                         </BlurView>
