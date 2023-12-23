@@ -9,16 +9,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import RequestHandler from '../../util/RequestHandler'
 import TagSearch from '../../components/TagSearch'
 import { load } from '../../components/AsyncStore'
+import DText from '../../components/DText'
 
 function Browse () {
     const R = new RequestHandler()
     R.auth = null
     R.name = null
     const [style, setStyle] = useState()
-    const [posts, setPosts] = useState([])
-    const [text, setText] = useState('fiddleafox')
-    const [searchTerm, setSearchTerm] = useState('fiddleafox') // Temporarily using this as default tag
-    const [showSuggestion, setShowSuggestion] = useState(false)
+    const [wikiEntries, setEntries] = useState([])
+    const [text, setText] = useState('DText')
+    const [searchTerm, setSearchTerm] = useState('DText') // Temporarily using this as default search term
     const router = useRouter()
 
     const updateSearchTerm = () => {
@@ -48,9 +48,9 @@ function Browse () {
     }
 
     useEffect(() => {
-        setPosts([])
+        setEntries([])
         setTheme()
-        R.get('SEARCH_WIKI', searchTerm).then(data => setPosts(data.posts))
+        R.get('SEARCH_WIKI', searchTerm).then(data => setEntries(data))
     }, [searchTerm])
 
     const goToPost = (postId) => {
@@ -83,24 +83,13 @@ function Browse () {
                 <FlatList
                     style={{ height: '100%', padding: 5, margin: 0 }}
                     showsVerticalScrollIndicator={false}
-                    data={posts}
-                    numColumns={2}
+                    data={wikiEntries}
                     renderItem={(post) => {
                         post = post.item
                         return (
-                            <TouchableOpacity onPress={() => { goToPost(post.id) }} key={post.id} style={{ width: '50%' }} >
+                            <TouchableOpacity onPress={() => { goToPost(post.id) }} key={post.id} style={{ width: '100%' }} >
                                 <View style={[[style.container, { flexDirection: 'column', margin: 5, borderRadius: 5 }], { padding: 10 }]}>
-                                    {<Image
-                                        source={{ uri: post.preview.url }}
-                                        contentFit='contain'
-                                        transition={{ effect: 'cross-dissolve', duration: 250 }}
-                                        style={style.image}
-                                    />}
-                                    <View style={[style.childContainer, { justifyContent: 'space-between', flexWrap: 'wrap' }]}>
-                                        <View style={{ padding: 4 }}><Score style={style} score={post.score.total}/></View>
-                                        <View style={{ padding: 4 }}><FavCount style={style} favCount={post.fav_count}/></View>
-                                        <View style={{ padding: 4 }}><Rating style={style} rating={post.rating}/></View>
-                                    </View>
+                                    <Text style={style.containerText}><DText style={style}>{(post.body).replace(/\[\[([\S\s]*?)\]\]/g, '$1')}</DText></Text>
                                 </View>
                             </TouchableOpacity>
                         )
