@@ -71,7 +71,6 @@ export default class RequestHandler {
                 break
             case 'SEARCH_WIKI':
                 [status, response] = await this.request(this.constructURL(`wiki_pages`, `search[title]=*${filter}*`))
-                console.log(JSON.stringify(response))
                 break
             case 'GET_WIKI':
                 [status, response] = await this.request(this.constructURL(`wiki_pages/${filter}`, null))

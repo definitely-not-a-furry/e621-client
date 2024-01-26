@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router'
 import { defaultDark } from '../themes/default'
 import { StatusBar } from 'expo-status-bar'
 import DText from '../components/DText'
+import parseTable from '../util/TableParser'
 
 
 const App = () => {
@@ -14,7 +15,6 @@ const App = () => {
             <TouchableOpacity style={[defaultDark.button, { margin: 7, padding: 5 }]} onPress={() => { router.push('/home') }}><Text style={{ color: '#fff' }}>Back</Text></TouchableOpacity>
             {/* everything from here is a testing area */}
             <View style={{ margin: 7 }}>
-                <Text style={defaultDark.containerText}><DText style={defaultDark}>{'hello [b]bold[/b]\nh1. dohfhjo'}</DText></Text>
             </View>
         </SafeAreaView>
     )

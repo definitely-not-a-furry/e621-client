@@ -16,6 +16,7 @@
         "react"
     ],
     "rules": {
-        "indent": ["error", 4]
+        "indent": ["error", 4],
+        "no-unused-vars": [2, {"vars": "all", "args": {"all-except-prefixes": ["_"]}}]
     }
 }

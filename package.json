@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "npx expo start --tunnel",
+    "tunnel": "expo start --tunnel",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web"
@@ -20,7 +20,6 @@
     "expo-sharing": "~11.5.0",
     "expo-splash-screen": "^0.20.5",
     "expo-status-bar": "~1.6.0",
-    "http": "^0.0.1-security",
     "https": "^1.0.0",
     "prop-types": "^15.8.1",
     "react": "18.2.0",
@@ -39,7 +38,6 @@
     "react-native-svg": "^13.9.0",
     "react-native-video": "^5.2.1",
     "react-native-web": "~0.19.9",
-    "react-native-webview": "^13.6.3",
     "rn-fetch-blob": "^0.12.0",
     "yarn": "^1.22.21"
   },
