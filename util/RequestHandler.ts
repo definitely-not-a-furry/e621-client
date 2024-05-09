@@ -5,6 +5,7 @@ const version: string = 'Development build'
 export default class RequestHandler {
     name: string | null
     auth: string | null
+    useSSL: boolean = false
     limit: string = '25'
     domain: string = 'e926.net'
 
@@ -27,7 +28,7 @@ export default class RequestHandler {
     }
 
     constructURL(path: string, parameter: string | null) {
-        return(`https://${this.domain}/${path}.json${parameter ? `?${parameter}` : ''}`)
+        return(`${this.useSSL ? 'https' : 'http'}://${this.domain}/${path}.json${parameter ? `?${parameter}` : ''}`)
     }
 
     async request (url: string): Promise<[number | null, any | null]> {

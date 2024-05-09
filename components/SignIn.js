@@ -22,7 +22,7 @@ const SignInModal = ({ visible, onClose }) => {
         }
     }
 
-    const Cancel = async () => {
+    const cancel = async () => {
         try {
             await AsyncStorage.setItem('username', '')
             await AsyncStorage.setItem('apiKey', '')
@@ -33,9 +33,9 @@ const SignInModal = ({ visible, onClose }) => {
     }
 
     return (
-        <Modal visible={visible} animationType="slide" transparent>
-            <BlurView style={[styles.container, { color: '#fff' }]} intensity={50}>
-                <View style={[{ width: '80%', padding: 12 }]}>
+        <Modal visible={visible} animationType="fade" transparent>
+            <BlurView style={[styles.container, { color: '#fff' }]} intensity={20}>
+                <View style={[{ width: '80%', padding: 12, borderRadius: 5, backgroundColor: 'rgba(0,0,0,0.4)' }]}>
                     <Text style={styles.title}>Sign in</Text>
                     <TextInput
                         style={styles.input}
@@ -49,10 +49,10 @@ const SignInModal = ({ visible, onClose }) => {
                         value={apiKey}
                         onChangeText={setApiKey}
                     />
-                    <TouchableOpacity style={{ padding: 5, borderRadius: 5, backgroundColor: 'rgba(0,0,0,0.2)' }} onPress={handleLogin}>
+                    <TouchableOpacity style={{ padding: 10, borderRadius: 5, backgroundColor: 'rgba(0,0,0,0.2)' }} onPress={handleLogin}>
                         <Text style={styles.buttonText}>Submit</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ pdding: 5, marginTop: 5 }} onPress={() => { Cancel() }}>
+                    <TouchableOpacity style={{ pdding: 10, marginTop: 12 }} onPress={() => { cancel() }}>
                         <Text style={styles.buttonText}>Cancel</Text>
                     </TouchableOpacity>
                 </View>

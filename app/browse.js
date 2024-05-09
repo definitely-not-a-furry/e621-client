@@ -16,8 +16,8 @@ function Browse () {
     R.name = null
     const [style, setStyle] = useState()
     const [posts, setPosts] = useState([])
-    const [text, setText] = useState('fiddleafox')
-    const [searchTerm, setSearchTerm] = useState('fiddleafox') // Temporarily using this as default tag
+    const [text, setText] = useState('tom_fischbach')
+    const [searchTerm, setSearchTerm] = useState('tom_fischbach') // Temporarily using this as default tag
     const [showSuggestion, setShowSuggestion] = useState(false)
     const router = useRouter()
 
@@ -27,6 +27,7 @@ function Browse () {
 
     async function setTheme () {
         R.limit = await load('@pagelength')
+        R.useSSL = await load('@usessl') | false
         setStyle(await getTheme())
     }
 
