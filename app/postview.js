@@ -10,6 +10,7 @@ import { Description, PostImage, PostComments } from '../components/Components'
 import { ScoreBar } from '../components/ScoreBar'
 import { InfoView } from '../components/InfoView'
 import { Relations } from '../components/Relations'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import haptic from '../components/haptic'
 import RequestHandler from '../util/RequestHandler'
 
@@ -113,17 +114,19 @@ const Post = () => {
                 </View>
                 <SafeAreaView style={{ flex: 1, marginTop: 5 }}>
                     {post && (
-                        <DraggableFlatList
-                            style={{ marginBottom: 5 }}
-                            contentContainerStyle={{ flexGrow: 1 }}
-                            onDragBegin={() => { haptic(3) }}
-                            data={arrangementData}
-                            showsVerticalScrollIndicator={false}
-                            renderItem={renderComponent}
-                            keyExtractor={(item) => item.key}
-                            onRelease={() => { haptic(1) }}
-                            onDragEnd={onDragEnd}
-                        />
+                        <GestureHandlerRootView>
+                            <DraggableFlatList
+                                style={{ marginBottom: 5 }}
+                                contentContainerStyle={{ flexGrow: 1 }}
+                                onDragBegin={() => { haptic(3) }}
+                                data={arrangementData}
+                                showsVerticalScrollIndicator={false}
+                                renderItem={renderComponent}
+                                keyExtractor={(item) => item.key}
+                                onRelease={() => { haptic(1) }}
+                                onDragEnd={onDragEnd}
+                            />
+                        </GestureHandlerRootView>
                     )}
                 </SafeAreaView>
             </SafeAreaView>
