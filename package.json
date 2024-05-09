@@ -7,6 +7,10 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.18.2",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.12.7",
+    "@types/react": "^18.2.77",
+    "@types/react-dom": "^18.2.25",
     "expo": "^49.0.21",
     "expo-av": "^13.4.1",
     "expo-blur": "~12.4.1",
@@ -53,7 +57,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "typescript": "^5.3.2",
+    "typescript": "^5.4.5",
     "webpack-hot-middleware": "^2.25.4"
   },
   "resolutions": {

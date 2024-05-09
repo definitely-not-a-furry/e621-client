@@ -4,7 +4,6 @@ import { useRouter } from 'expo-router'
 import { defaultDark } from '../themes/default'
 import { StatusBar } from 'expo-status-bar'
 import DText from '../components/DText'
-import parseTable from '../util/TableParser'
 
 
 const App = () => {
