@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Text, View } from 'react-native'
-import DText from './DText'
 import { Image } from 'expo-image'
-import PropTypes from 'prop-types'
+import { SymbolView } from 'expo-symbols'
+import DText from './DText'
 
-const Rating = ({ rating, style }) => {
-    Rating.propTypes = {
-        rating: PropTypes.string,
-        style: PropTypes.object
-    }
+import type { StyleSheet } from 'react-native'
+import type { SFSymbol, SymbolType, SymbolWeight } from 'expo-symbols'
+
+const Rating = ({ rating, style }: { rating: string, style: StyleSheet.NamedStyles<any> }): JSX.Element => {
     if (rating === 's') {
         return (<Text style={[style.positive, { fontWeight: 800 }]}>Safe</Text>)
     } else if (rating === 'e') {
@@ -18,38 +17,26 @@ const Rating = ({ rating, style }) => {
     } else return (<Text>error</Text>)
 }
 
-const Score = ({ score, style }) => {
-    Score.propTypes = {
-        score: PropTypes.number,
-        style: PropTypes.object
-    }
+const Score = ({ score, style }: { score: number, style: StyleSheet.NamedStyles<any> }): JSX.Element => {
     if (score > 0) {
         return (<Text style={[style.positive, { fontWeight: 800 }]}>↑{score}</Text>)
     } else if (score === 0) {
-        return (<Text style={[style.neutral, { fontWeight: 800 }]}>↕{score}</Text>)
+        return (<Text style={[style.neutral, { fontWeight: 800 }]}>{score}</Text>)
     } else {
         return (<Text style={[style.negative, { fontWeight: 800 }]}>↓{score}</Text>)
     }
 }
 
-const FavCount = ({ favCount, style }) => {
-    FavCount.propTypes = {
-        favCount: PropTypes.number,
-        style: PropTypes.object
-    }
+const FavCount = ({ favCount, style }: { favCount: number, style: StyleSheet.NamedStyles<any> }): JSX.Element => {
     return (
         <Text style={[style.negative, { fontWeight: 800 }]}>{favCount}♥</Text>
     )
 }
 
-const Description = ({ description, style }) => {
-    Description.propTypes = {
-        description: PropTypes.string,
-        style: PropTypes.object
-    }
+const Description = ({ description, style }: { description: string, style: StyleSheet.NamedStyles<any> }): JSX.Element => {
     return (
         <View>
-            {description && (
+            {description != null && (
                 <View style={[style.container, { flexDirection: 'column', margin: 5, marginHorizontal: 10, borderRadius: 5 }]}>
                     <Text style={[style.containerText, { fontWeight: 700, paddingBottom: 1 }]}>Description:</Text>
                     <View style={{ margin: 7 }}>
@@ -61,12 +48,8 @@ const Description = ({ description, style }) => {
     )
 }
 
-const PostImage = ({ post, style }) => {
-    PostImage.propTypes = {
-        post: PropTypes.object,
-        style: PropTypes.object
-    }
-    if (!post?.file) return <Text style={{ color: '#fff' }}>Loading...</Text>
+const PostImage = ({ post, style }: { post: object, style: StyleSheet.NamedStyles<any> }): JSX.Element => {
+    if (post?.file == null) return <Text style={{ color: '#fff' }}>Loading...</Text>
     const fileExtension = post.file.ext
     if (fileExtension === 'jpg' || fileExtension === 'png' || fileExtension === 'gif') {
         return <Image transition={{ effect: 'cross-dissolve', duration: 250 }} source={{ uri: post.file.url }} style={[style.image, { marginVertical: 5 }]} />
@@ -75,26 +58,19 @@ const PostImage = ({ post, style }) => {
     }
 }
 
-const PostComments = ({ postId, style }) => {
-    PostComments.propTypes = {
-        style: PropTypes.object,
-        postId: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number
-        ])
-    }
+const PostComments = ({ postId, style }: { postId: number | string, style: StyleSheet.NamedStyles<any> }): JSX.Element => {
     const [comments, setComments] = useState(null)
 
     useEffect(() => {
         let isMounted = false
         fetch(`https://e621.net/comments.json?group_by=comment&search[post_id]=${postId}`)
-            .then(response => response.json())
+            .then(async response => await response.json())
             .then(data => {
                 if (!isMounted) {
                     setComments(data)
                 }
             })
-            .catch(error => console.error(error))
+            .catch(error => { console.error(error) })
         return () => {
             isMounted = true
         }
@@ -102,7 +78,7 @@ const PostComments = ({ postId, style }) => {
     console.log(style)
     return (
         <View>
-            {!(comments === undefined || comments === null || comments?.comments) && (<View style={[style.container, { flexDirection: 'column', margin: 5, marginHorizontal: 10, borderRadius: 5 }]}><Text style={[style.tagHeader, { color: '#fff', fontWeight: 800 }]}>Comments: </Text>{comments.map((comment) => (
+            {!(comments === undefined || comments === null || comments?.comments) && (<View style={[style.container, { flexDirection: 'column', margin: 5, marginHorizontal: 10, borderRadius: 5 }]}><Text style={[style.tagHeader, { color: '#fff', fontWeight: 800 }]}>Comments: </Text>{comments.map(comment => (
                 <View key={comment.id} style={[style.childContainer, { margin: 7, marginVertical: 5, flexDirection: 'column', alignItems: 'flex-start', padding: 5 }]}>
                     <Text style={[style.containerText, { fontWeight: 800 }]}>{comment.creator_name}</Text>
                     <DText style={style}>{comment.body}</DText>
@@ -112,11 +88,18 @@ const PostComments = ({ postId, style }) => {
     )
 }
 
+const Symbol = ({ name, size, color = '#fff', type = 'monochrome', weight = 'semibold' }: { name: SFSymbol, size: number, color?: string, type?: SymbolType, weight?: SymbolWeight }): JSX.Element => {
+    return (
+        <SymbolView resizeMode='scaleAspectFit' type={type} weight={weight} name={name} size={size} tintColor={color}></SymbolView>
+    )
+}
+
 export {
     Rating,
     Score,
     FavCount,
     Description,
     PostImage,
-    PostComments
+    PostComments,
+    Symbol
 }

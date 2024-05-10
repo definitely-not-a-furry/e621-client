@@ -18,12 +18,12 @@ const InfoView = ({ post, style }) => {
         try {
             const theme = await AsyncStorage.getItem('@theme')
             switch (theme) {
-            case 'defaultDark':
-                return defaultDark
-            case 'classic':
-                return classic
-            default:
-                return defaultDark
+                case 'defaultDark':
+                    return defaultDark
+                case 'classic':
+                    return classic
+                default:
+                    return defaultDark
             }
         } catch (e) {
             console.log(e)

@@ -34,12 +34,12 @@ function Browse () {
         try {
             const theme = await AsyncStorage.getItem('@theme')
             switch (theme) {
-            case 'defaultDark':
-                return defaultDark
-            case 'classic':
-                return classic
-            default:
-                return defaultDark
+                case 'defaultDark':
+                    return defaultDark
+                case 'classic':
+                    return classic
+                default:
+                    return defaultDark
             }
         } catch (e) {
             console.log(e)
@@ -50,7 +50,7 @@ function Browse () {
     useEffect(() => {
         setEntries([])
         setTheme()
-        R.get('SEARCH_WIKI', searchTerm).then(data => setEntries(data))
+        R.get('SEARCH_WIKI', searchTerm).then(data => { setEntries(data) })
     }, [searchTerm])
 
     const goToPost = (postId) => {

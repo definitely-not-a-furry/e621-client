@@ -9,7 +9,7 @@ const SpoilerText = (content) => {
             {show
                 ? (<Text style={{ backgroundColor: '#000', alignSelf: 'flex-start', color: '#fff' }}>{content.children}</Text>)
                 : (
-                    <TouchableHighlight style={{ alignSelf: 'flex-start' }} onPress={() => setShow(true)}>
+                    <TouchableHighlight style={{ alignSelf: 'flex-start' }} onPress={() => { setShow(true) }}>
                         <View style={{ backgroundColor: 'black' }}>
                             <Text style={{ color: 'black' }}>{content.children}</Text>
                         </View>

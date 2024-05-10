@@ -8,26 +8,27 @@ import { defaultDark, classic } from '../themes/default'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import haptic from '../components/haptic'
 import SignInModal from '../components/SignIn'
+import { SymbolView } from 'expo-symbols'
 
-function App () {
+const App = (): JSX.Element => {
     const router = useRouter()
-    const [style, setStyle] = useState()
+    const [style, setStyle] = useState<StyleSheet.NamedStyles<any>>()
     const [loginvisible, setLoginvisible] = useState(false)
 
-    async function setTheme () {
+    const setTheme = async (): Promise<void> => {
         setStyle(await getTheme())
     }
 
-    const getTheme = async () => {
+    const getTheme = async (): Promise<StyleSheet.NamedStyles<any>> => {
         try {
             const theme = await AsyncStorage.getItem('@theme')
             switch (theme) {
-            case 'defaultDark':
-                return defaultDark
-            case 'classic':
-                return classic
-            default:
-                return defaultDark
+                case 'defaultDark':
+                    return defaultDark
+                case 'classic':
+                    return classic
+                default:
+                    return defaultDark
             }
         } catch (e) {
             console.log(e)
@@ -50,8 +51,9 @@ function App () {
                 <ImageBackground style={styles.backgroundImage} source={{uri: 'https://static1.e621.net/data/mascots/913a8fd0240b14bfbb63d6a9cfc3faf2.jpg'}}>
                     <SignInModal visible={loginvisible} onClose={() => { setLoginvisible(false) }}/>
                     <View style={[styles.blurContainer, { flex: 1 }]}>
-                        <BlurView style={styles.blur} intensity={25}>
-                            <TouchableOpacity style={[style.transparent.button, { alignSelf: 'flex-start' }]} onPress={() => { setLoginvisible(true) }}><Text style={styles.buttonText}>Sign in</Text></TouchableOpacity>
+                        <BlurView style={[styles.blur, { flexDirection: 'row' }]} intensity={25}>
+                            <TouchableOpacity style={[style.transparent.button, { alignSelf: 'flex-start' }]} onPress={() => { setLoginvisible(true) }}><SymbolView resizeMode='scaleAspectFit' size={15} tintColor={'#fff'} weight='semibold' type='monochrome' name='person.crop.circle.fill'></SymbolView></TouchableOpacity>
+                            <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/settings') }}><SymbolView resizeMode='scaleAspectFit' size={15} tintColor={'#fff'} weight='semibold' type='monochrome' name='gear'></SymbolView></TouchableOpacity>
                         </BlurView>
                     </View>
                     <View style={{ flexGrow: 9 }}></View>
@@ -62,7 +64,6 @@ function App () {
                                 <View style={styles.buttonContainer}>
                                     <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/browse') }}><Text style={styles.buttonText}>Browse</Text></TouchableOpacity>
                                     <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/testingarea') }}><Text style={styles.buttonText}>DText Debug</Text></TouchableOpacity>
-                                    <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/settings') }}><Text style={styles.buttonText}>Settings</Text></TouchableOpacity>
                                     <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/wiki/browse') }}><Text style={styles.buttonText}>Wiki</Text></TouchableOpacity>
                                 </View>
                             </View>
