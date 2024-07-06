@@ -17,6 +17,13 @@
         "projectId": "e3d2e48f-ac58-4537-ae91-f0083efef12f"
       }
     },
-    "owner": "definitely-not-a-furry"
+    "plugins": [
+      "expo-router"
+    ],
+    "owner": "definitely-not-a-furry",
+    "ios": {
+      "backgroundColor": "#000000",
+      "bundleIdentifier": "com.definitelynotafurry.e621client"
+    }
   }
 }
