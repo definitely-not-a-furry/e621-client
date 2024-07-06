@@ -1,15 +1,8 @@
 import React from 'react'
 import { Modal, View, Text, TouchableOpacity } from 'react-native'
 import { BlurView } from 'expo-blur'
-import PropTypes from 'prop-types'
 
-const InfoModal = ({ visible, onClose, title, content }) => {
-  InfoModal.propTypes = {
-    visible: PropTypes.bool,
-    onClose: PropTypes.func,
-    title: PropTypes.string,
-    content: PropTypes.string
-  }
+const InfoModal = ({ visible, onClose, title, content }: { visible: boolean, onClose: VoidFunction, title: string, content: string }): JSX.Element => {
   return (
     <Modal visible={visible} animationType="slide" transparent>
       <BlurView style={{ color: '#000', flex: 1, justifyContent: 'center', alignItems: 'center' }} intensity={50}>

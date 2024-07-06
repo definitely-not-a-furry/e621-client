@@ -1,6 +1,7 @@
+import * as React from 'react'
 import { View, SafeAreaView, TextInput, TouchableOpacity, FlatList } from 'react-native'
 import type { StyleSheet } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'expo-router'
 import { defaultDark, classic } from '../themes/default'
 import { FavCount, Rating, Score } from '../components/Components'
@@ -17,7 +18,7 @@ const Browse = (): JSX.Element => {
   R.auth = null
   R.name = null
   const [style, setStyle] = useState<StyleSheet.NamedStyles<any>>(defaultDark)
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState<object>()
   const [text, setText] = useState('tom_fischbach')
   const [searchTerm, setSearchTerm] = useState('tom_fischbach') // Temporarily using this as default tag
   const [showSuggestion, setShowSuggestion] = useState(false)

@@ -1,20 +1,31 @@
-import React, { useEffect } from 'react'
+import * as React from 'react'
+import { useEffect } from 'react'
 import { Text, View } from 'react-native'
+import type { StyleSheet } from 'react-native'
 import { classic, defaultDark } from '../themes/default'
 import { Rating } from './Components'
-import PropTypes from 'prop-types'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-const InfoView = ({ post, style }) => {
-  InfoView.propTypes = {
-    post: PropTypes.object,
-    style: PropTypes.object
+interface Post {
+  id: number
+  rating: string
+  uploader_id: number
+  file: {
+    width: number
+    height: number
   }
-  async function setTheme() {
+  score: {
+    up: number
+    down: number
+  }
+}
+
+const InfoView = ({ post, style }: { post: Post, style: StyleSheet.NamedStyles<any> }): JSX.Element => {
+  async function setTheme (): Promise<void> {
     style = await getTheme()
   }
 
-  const getTheme = async () => {
+  const getTheme = async (): Promise<StyleSheet.NamedStyles<any>> => {
     try {
       const theme = await AsyncStorage.getItem('@theme')
       switch (theme) {
@@ -32,7 +43,7 @@ const InfoView = ({ post, style }) => {
   }
 
   useEffect(() => {
-    setTheme()
+    setTheme().catch(() => {})
   }, [])
 
   return (

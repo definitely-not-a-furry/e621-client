@@ -2,7 +2,7 @@ import React from 'react'
 import { Text, View } from 'react-native'
 import PropTypes from 'prop-types'
 
-const TagsView = ({ post, style }) => {
+const TagsView = ({ post, style }): JSX.Element => {
   TagsView.propTypes = {
     post: PropTypes.object,
     style: PropTypes.object

@@ -13,14 +13,14 @@ const DText = (props) => {
     style.quote = {}
   }
 
-  const parseText = (text) => {
+  const parseText = (text: string) => {
     const unparsed = text
     const tagRegex = /\[(\/?[a-z]+)(?:=([a-z0-9#]+))?]([\S\s]*?)\[\/\1]/
     const headerRegex = /h([1-6])\.(.+)/
     const regexes = [tagRegex, headerRegex]
 
     let lastIndex = 0
-    const resultArray = []
+    const resultArray = Array()
 
     regexes.forEach(regex => {
       const matches = unparsed.match(regex)
