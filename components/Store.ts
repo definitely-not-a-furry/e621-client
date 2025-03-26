@@ -1,12 +1,13 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import AsyncStorage from "@react-native-async-storage/async-storage"
+const Storage = AsyncStorage
 
 const store = async (key: string, content: string): Promise<any> => {
-  return await AsyncStorage.setItem(key, content)
+  return await Storage.setItem(key, content)
     .catch(e => { console.log(`Error loading data from AsyncStorage: ${e}`); return null })
 }
 
 const load = async (key: string): Promise<any> => {
-  return await AsyncStorage.getItem(key)
+  return await Storage.getItem(key)
     .catch(e => { console.log(`Error loading data from AsyncStorage: ${e}`); return null })
 }
 

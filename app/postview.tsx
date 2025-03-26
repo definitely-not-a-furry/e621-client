@@ -14,7 +14,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import haptic from '../components/haptic'
 import RequestHandler, { FetchType } from '../util/RequestHandler'
 import type { StyleSheet } from 'react-native'
-import { load, store } from '../components/AsyncStore'
+import { load, store } from '../components/Store'
 
 const Post = (): JSX.Element => {
   const [style, setStyle] = useState<StyleSheet.NamedStyles<any>>()
@@ -32,7 +32,7 @@ const Post = (): JSX.Element => {
     { key: 'Relations' }
   ])
   const R = new RequestHandler()
-  R.auth = null
+  R.authenticationToken = null
   R.name = null
 
   const setTheme = async (): Promise<void> => {

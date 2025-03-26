@@ -8,12 +8,12 @@ import { StatusBar } from 'expo-status-bar'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import RequestHandler from '../../util/RequestHandler'
 import TagSearch from '../../components/TagSearch'
-import { load } from '../../components/AsyncStore'
+import { load } from '../../components/Store'
 import DText from '../../components/DText'
 
 function Browse () {
     const R = new RequestHandler()
-    R.auth = null
+    R.authenticationToken = null
     R.name = null
     const [style, setStyle] = useState()
     const [wikiEntries, setEntries] = useState([])

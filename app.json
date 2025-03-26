@@ -1,5 +1,6 @@
 {
   "expo": {
+    "jsEngine": "hermes",
     "scheme": "acme",
     "web": {
       "bundler": "metro"
@@ -18,10 +19,12 @@
       }
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-video"
     ],
     "owner": "definitely-not-a-furry",
     "ios": {
+      "jsEngine": "jsc",
       "backgroundColor": "#000000",
       "bundleIdentifier": "com.definitelynotafurry.e621client"
     }

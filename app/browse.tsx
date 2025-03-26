@@ -10,12 +10,12 @@ import { StatusBar } from 'expo-status-bar'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import RequestHandler, { FetchType } from '../util/RequestHandler'
 import TagSearch from '../components/TagSearch'
-import { load } from '../components/AsyncStore'
+import { load } from '../components/Store'
 import { SymbolView } from 'expo-symbols'
 
 const Browse = (): JSX.Element => {
-  const R = new RequestHandler()
-  R.auth = null
+  const R = new RequestHandler(null, null, true, 25, 'e926.net')
+  R.authenticationToken = null
   R.name = null
   const [style, setStyle] = useState<StyleSheet.NamedStyles<any>>(defaultDark)
   const [posts, setPosts] = useState<object>()

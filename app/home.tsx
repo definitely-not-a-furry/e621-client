@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView, View, Text, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native'
-import { LinearGradient } from 'expo-linear-gradient'
 import { StatusBar } from 'expo-status-bar'
 import { BlurView } from 'expo-blur'
 import { router } from 'expo-router'
@@ -10,6 +9,7 @@ import haptic from '../components/haptic'
 import SignInModal from '../components/SignIn'
 import { SymbolView } from 'expo-symbols'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { setBackgroundColorAsync } from 'expo-system-ui'
 
 const App = (): JSX.Element => {
   const [style, setStyle] = useState<StyleSheet.NamedStyles<any>>()
@@ -24,10 +24,13 @@ const App = (): JSX.Element => {
       const theme = await AsyncStorage.getItem('@theme')
       switch (theme) {
         case 'defaultDark':
+          setBackgroundColorAsync('#000')
           return defaultDark
         case 'classic':
+          setBackgroundColorAsync('#020f23')
           return classic
         default:
+          setBackgroundColorAsync('#000')
           return defaultDark
       }
     } catch (e) {
@@ -49,7 +52,7 @@ const App = (): JSX.Element => {
       <View style={{ backgroundColor: '#10b730', flex: 1 }}>
         <SafeAreaView style={styles.background}>
           <StatusBar hidden={true}></StatusBar>
-          <ImageBackground style={styles.backgroundImage} source={{ uri: 'https://static1.e621.net/data/mascots/913a8fd0240b14bfbb63d6a9cfc3faf2.jpg' }}>
+          <ImageBackground style={styles.backgroundImage} source={{ uri: 'https://static1.e926.net/data/mascots/913a8fd0240b14bfbb63d6a9cfc3faf2.jpg' }}>
             <SignInModal visible={loginvisible} onClose={() => { setLoginvisible(false) }} />
             <View style={[styles.blurContainer, { flex: 1 }]}>
               <BlurView style={[styles.blur, { flexDirection: 'row' }]} intensity={25}>

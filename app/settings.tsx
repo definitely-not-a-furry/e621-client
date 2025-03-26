@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 import { useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import { load, store } from '../components/AsyncStore'
+import { load, store } from '../components/Store'
 import haptic from '../components/haptic'
 
 const SettingsScreen = (): JSX.Element => {

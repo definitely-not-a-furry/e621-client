@@ -5,7 +5,7 @@ import { View, Text, FlatList } from 'react-native'
 const AutoCorrect = ({ input, style }) => {
   const [completions, setCompletions] = useState([])
   const R = new RequestHandler()
-  R.auth = null
+  R.authenticationToken = null
   R.name = null
   R.domain = 'e926.net'
 

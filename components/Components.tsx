@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Text, View } from 'react-native'
+import { useEvent } from 'expo'
+import { Text, View, Button } from 'react-native'
 import { Image } from 'expo-image'
+import { useVideoPlayer, VideoView } from 'expo-video'
 import { SymbolView } from 'expo-symbols'
 import DText from './DText'
 
 import type { StyleSheet } from 'react-native'
 import type { SFSymbol, SymbolType, SymbolWeight } from 'expo-symbols'
+
+interface FileInformation {
+
+}
 
 const Rating = ({ rating, style }: { rating: string, style: StyleSheet.NamedStyles<any> }): JSX.Element => {
   if (rating === 's') {
@@ -51,8 +57,32 @@ const Description = ({ description, style }: { description: string, style: Style
 const PostImage = ({ post, style }: { post: object, style: StyleSheet.NamedStyles<any> }): JSX.Element => {
   if (post?.file == null) return <Text style={{ color: '#fff' }}>Loading...</Text>
   const fileExtension = post.file.ext
+  console.log(fileExtension)
   if (fileExtension === 'jpg' || fileExtension === 'png' || fileExtension === 'gif') {
     return <Image transition={{ effect: 'cross-dissolve', duration: 250 }} source={{ uri: post.file.url }} style={[style.image, { marginVertical: 5 }]} />
+  } else if (fileExtension === 'webm' || fileExtension === 'mp4') {
+
+    const player = useVideoPlayer(post.file.url, player => {
+      player.loop = true;
+      player.play();
+    })
+  
+    const { isPlaying } = useEvent(player, 'playingChange', { isPlaying: player.playing })
+  
+    return <View>
+      <VideoView player={player} style={[style.image, { marginVertical: 5 }]} allowsFullscreen allowsPictureInPicture/>
+      <Button
+        title={isPlaying ? 'Pause' : 'Play'}
+        onPress={() => {
+          if (isPlaying) {
+            player.pause();
+          } else {
+            player.play();
+          }
+        }}
+      />
+      </View>
+  
   } else {
     return <Text>{`This file type (".${fileExtension}") is not supported (yet).`}</Text>
   }
@@ -75,7 +105,6 @@ const PostComments = ({ postId, style }: { postId: number | string, style: Style
       isMounted = true
     }
   }, [])
-  console.log(style)
   return (
     <View>
       {!(comments === undefined || comments === null || comments?.comments) && (<View style={[style.container, { flexDirection: 'column', margin: 5, marginHorizontal: 10, borderRadius: 5 }]}><Text style={[style.tagHeader, { color: '#fff', fontWeight: 800 }]}>Comments: </Text>{comments.map(comment => (
