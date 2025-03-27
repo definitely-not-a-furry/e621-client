@@ -10,7 +10,7 @@ const AutoCorrect = ({ input, style }) => {
   R.domain = 'e926.net'
 
   useEffect(() => {
-    R.get('AUTOCOMPLETE_TAG', input).then(data => { setCompletions(data) })
+    R.get('tags/autocomplete', [{key: 'seach[name_matches]', value: `${input}*`}]).then(data => { setCompletions(data) })
   }, [input])
 
   const Item = ({ name, count, type }) => {

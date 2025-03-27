@@ -21,7 +21,7 @@ const App = (): JSX.Element => {
 
   const getTheme = async (): Promise<StyleSheet.NamedStyles<any>> => {
     try {
-      const theme = await AsyncStorage.getItem('@theme')
+      const theme = await AsyncStorage.getItem('theme')
       switch (theme) {
         case 'defaultDark':
           setBackgroundColorAsync('#000')
@@ -69,7 +69,6 @@ const App = (): JSX.Element => {
                   <View style={styles.buttonContainer}>
                     <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/browse') }}><Text style={styles.buttonText}>Browse</Text></TouchableOpacity>
                     <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/testingarea') }}><Text style={styles.buttonText}>DText Debug</Text></TouchableOpacity>
-                    <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/wiki/browse') }}><Text style={styles.buttonText}>Wiki</Text></TouchableOpacity>
                   </View>
                 </View>
               </BlurView>

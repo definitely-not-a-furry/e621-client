@@ -1,4 +1,4 @@
-import RequestHandler, { FetchType } from '../util/RequestHandler'
+import RequestHandler from '../util/RequestHandler'
 
 export default class Post {
   id: number
@@ -57,12 +57,12 @@ export default class Post {
 
   r: RequestHandler
 
-  public constructor(id: number) {
+  public constructor (id: number) {
     this.id = id
     this.r = new RequestHandler()
   }
 
-  public fetch(): void {
+  public fetch (): void {
     this.r.get(FetchType.Get_post, this.id.toString()).then((data => { Object.assign(self, data) }))
   }
 }

@@ -12,15 +12,16 @@ import { InfoView } from '../components/InfoView'
 import { Relations } from '../components/Relations'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import haptic from '../components/haptic'
-import RequestHandler, { FetchType } from '../util/RequestHandler'
+import RequestHandler from '../util/RequestHandler'
+import type { SinglePost, Post } from '../api/posts'
 import type { StyleSheet } from 'react-native'
 import { load, store } from '../components/Store'
 
-const Post = (): JSX.Element => {
+const App = (): JSX.Element => {
   const [style, setStyle] = useState<StyleSheet.NamedStyles<any>>()
   const router = useRouter()
   const params = useLocalSearchParams()
-  const [post, setPost] = useState()
+  const [post, setPost] = useState<Post>()
   const postId = params.id.toString()
   const [arrangementData, setArrangementData] = useState([
     { key: 'PostImage' },
@@ -32,8 +33,6 @@ const Post = (): JSX.Element => {
     { key: 'Relations' }
   ])
   const R = new RequestHandler()
-  R.authenticationToken = null
-  R.name = null
 
   const setTheme = async (): Promise<void> => {
     setStyle(await getTheme())
@@ -41,7 +40,7 @@ const Post = (): JSX.Element => {
 
   const getTheme = async (): Promise<StyleSheet.NamedStyles<any>> => {
     try {
-      const theme = await AsyncStorage.getItem('@theme')
+      const theme = await AsyncStorage.getItem('theme')
       switch (theme) {
         case 'defaultDark':
           return defaultDark
@@ -84,7 +83,7 @@ const Post = (): JSX.Element => {
 
   useEffect(() => {
     setTheme()
-    load('@arrangement')
+    load('arrangement')
       .then(data => {
         if (data != null) {
           setArrangementData(JSON.parse(data))
@@ -93,11 +92,15 @@ const Post = (): JSX.Element => {
       .catch(e => {
         console.log('Error loading data from AsyncStorage:', e)
       })
-    R.get(FetchType.Get_post, postId).then(data => { setPost(data.post) }).catch(e => { console.error('error while fetching post') })
+    R.get<SinglePost>(`posts/${postId}.json`).then(result => {
+      if (result != null) setPost(result.post)
+    }, reject => {
+      console.log(reject.cause)
+    })
   }, [])
 
   const saveArrangement = (): void => {
-    store('@arrangement', JSON.stringify(arrangementData)).catch(e => { console.error('error while saving arrangement data') })
+    store('arrangement', JSON.stringify(arrangementData)).catch(e => { console.error('error while saving arrangement data') })
     haptic(1)
     setTimeout(() => { haptic(2) }, 100)
   }
@@ -136,4 +139,4 @@ const Post = (): JSX.Element => {
   )
 }
 
-export default Post
+export default App

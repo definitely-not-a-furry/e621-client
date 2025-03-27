@@ -9,12 +9,12 @@ const SettingsScreen = (): JSX.Element => {
   const [safeMode, setSafeMode] = useState(false)
   const [maxPageLength, setMaxPageLength] = useState(25)
   const [theme, setTheme] = useState('defaultDark')
-  let loaded = false
+  const [loaded, setLoaded] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
     loadSettings()
-    loaded = true
+    setLoaded(true)
   }, [])
 
   useEffect(() => {
@@ -24,16 +24,17 @@ const SettingsScreen = (): JSX.Element => {
   }, [safeMode, maxPageLength, theme])
 
   const loadSettings = async (): Promise<void> => {
-    setMaxPageLength(Number(await load('@pagelength')))
-    setSafeMode(Boolean(await load('@safemode')))
-    setTheme(String(await load('@theme')))
+    setMaxPageLength(Number(await load('pagelength')))
+    setSafeMode(Boolean(await load('safemode')))
+    setTheme(String(await load('theme')))
   }
 
   const saveSettings = async (): Promise<void> => {
+    console.log('saving')
     haptic(2)
-    await store('@safemode', safeMode ? 'true' : 'false')
-    await store('@pagelength', '' + maxPageLength)
-    await store('@theme', theme)
+    await store('safemode', safeMode ? 'true' : 'false')
+    await store('pagelength', '' + maxPageLength)
+    await store('theme', theme)
   }
 
   return (
@@ -104,7 +105,6 @@ const SettingsScreen = (): JSX.Element => {
           </TouchableOpacity>
         </View>
       </View>
-
     </View>
   )
 }
