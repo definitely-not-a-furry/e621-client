@@ -3,49 +3,13 @@ import { SafeAreaView, View, Text, ImageBackground, StyleSheet, TouchableOpacity
 import { StatusBar } from 'expo-status-bar'
 import { BlurView } from 'expo-blur'
 import { router } from 'expo-router'
-import { defaultDark, classic } from '../themes/default'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import haptic from '../components/haptic'
 import SignInModal from '../components/SignIn'
 import { SymbolView } from 'expo-symbols'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { setBackgroundColorAsync } from 'expo-system-ui'
 
 const App = (): JSX.Element => {
-  const [style, setStyle] = useState<StyleSheet.NamedStyles<any>>()
   const [loginvisible, setLoginvisible] = useState(false)
-
-  const setTheme = async (): Promise<void> => {
-    setStyle(await getTheme())
-  }
-
-  const getTheme = async (): Promise<StyleSheet.NamedStyles<any>> => {
-    try {
-      const theme = await AsyncStorage.getItem('theme')
-      switch (theme) {
-        case 'defaultDark':
-          setBackgroundColorAsync('#000')
-          return defaultDark
-        case 'classic':
-          setBackgroundColorAsync('#020f23')
-          return classic
-        default:
-          setBackgroundColorAsync('#000')
-          return defaultDark
-      }
-    } catch (e) {
-      console.log(e)
-      return defaultDark
-    }
-  }
-
-  useEffect(() => {
-    setTheme()
-  }, [])
-
-  if (!style) {
-    return (<View style={{ flex: 1, backgroundColor: '#000' }}></View>)
-  }
 
   return (
     <SafeAreaProvider>
@@ -56,8 +20,8 @@ const App = (): JSX.Element => {
             <SignInModal visible={loginvisible} onClose={() => { setLoginvisible(false) }} />
             <View style={[styles.blurContainer, { flex: 1 }]}>
               <BlurView style={[styles.blur, { flexDirection: 'row' }]} intensity={25}>
-                <TouchableOpacity style={[style.transparent.button, { alignSelf: 'flex-start' }]} onPress={() => { setLoginvisible(true) }}><SymbolView resizeMode='scaleAspectFit' size={15} tintColor={'#fff'} weight='semibold' type='monochrome' name='person.crop.circle.fill'></SymbolView></TouchableOpacity>
-                <TouchableOpacity style={[style.transparent.button, { alignSelf: 'flex-start' }]} onPress={() => { haptic(1); router.push('/settings') }}><SymbolView resizeMode='scaleAspectFit' size={15} tintColor={'#fff'} weight='semibold' type='monochrome' name='gear'></SymbolView></TouchableOpacity>
+                <TouchableOpacity style={[styles.button_transparent, { alignSelf: 'flex-start' }]} onPress={() => { setLoginvisible(true) }}><SymbolView resizeMode='scaleAspectFit' size={15} tintColor={'#fff'} weight='semibold' type='monochrome' name='person.crop.circle.fill'></SymbolView></TouchableOpacity>
+                <TouchableOpacity style={[styles.button_transparent, { alignSelf: 'flex-start' }]} onPress={() => { haptic(1); router.push('/settings') }}><SymbolView resizeMode='scaleAspectFit' size={15} tintColor={'#fff'} weight='semibold' type='monochrome' name='gear'></SymbolView></TouchableOpacity>
               </BlurView>
             </View>
             <View style={{ flexGrow: 9 }}></View>
@@ -67,8 +31,8 @@ const App = (): JSX.Element => {
                   <Text style={styles.title}>e621</Text>
 
                   <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/browse') }}><Text style={styles.buttonText}>Browse</Text></TouchableOpacity>
-                    <TouchableOpacity style={style.transparent.button} onPress={() => { haptic(1); router.push('/testingarea') }}><Text style={styles.buttonText}>DText Debug</Text></TouchableOpacity>
+                    <TouchableOpacity style={styles.button_transparent} onPress={() => { haptic(1); router.push('/browse') }}><Text style={styles.buttonText}>Browse</Text></TouchableOpacity>
+                    <TouchableOpacity style={styles.button_transparent} onPress={() => { haptic(1); router.push('/testingarea') }}><Text style={styles.buttonText}>DText Debug</Text></TouchableOpacity>
                   </View>
                 </View>
               </BlurView>
@@ -119,6 +83,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     verticalAlign: 'middle',
     flexWrap: 'wrap'
+  },
+  button_transparent: {
+    backgroundColor: 'rgba(10,10,10,0.5)',
+    padding: 7,
+    margin: 5,
+    borderRadius: 5
   },
   button: {
     backgroundColor: 'rgba(10,10,10,0.5)',

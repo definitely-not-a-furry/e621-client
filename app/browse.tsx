@@ -10,6 +10,7 @@ import { FavCount, Rating, Score } from '../components/Components'
 import TagSearch from '../components/TagSearch'
 import RequestHandler from '../util/RequestHandler'
 import { ThemeProvider, useTheme } from '../context/ThemeContext'
+import { store } from '../components/Store'
 
 const Browse = (): JSX.Element => {
   const R = new RequestHandler()
@@ -22,6 +23,7 @@ const Browse = (): JSX.Element => {
 
   const updateSearchTerm = (): void => {
     setSearchTerm(text)
+    store('previoussearch', searchTerm).catch((reason) => { console.log('Could not save search term') })
   }
 
   useEffect(() => {
@@ -35,7 +37,7 @@ const Browse = (): JSX.Element => {
   }, [searchTerm])
 
   const goToPost = (postId: number): void => {
-    router.push({ pathname: './postview', params: { id: postId } })
+    router.push({ pathname: './posts/[id]', params: { id: postId } })
   }
 
   return (
