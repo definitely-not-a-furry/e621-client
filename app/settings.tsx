@@ -13,13 +13,13 @@ const SettingsScreen = (): JSX.Element => {
   const router = useRouter()
 
   useEffect(() => {
-    loadSettings()
+    void loadSettings()
     setLoaded(true)
   }, [])
 
   useEffect(() => {
     if (loaded) {
-      saveSettings()
+      void saveSettings()
     }
   }, [safeMode, maxPageLength, theme])
 
@@ -30,7 +30,6 @@ const SettingsScreen = (): JSX.Element => {
   }
 
   const saveSettings = async (): Promise<void> => {
-    console.log('saving')
     haptic(2)
     await store('safemode', safeMode ? 'true' : 'false')
     await store('pagelength', '' + maxPageLength)
@@ -94,13 +93,13 @@ const SettingsScreen = (): JSX.Element => {
         <View>
           <TouchableOpacity
             style={[{ padding: 5, borderRadius: 5, margin: 2, backgroundColor: '#555' }, (theme === 'classic' && { backgroundColor: '#666' })]}
-            onPress={() => { setTheme('classic') }}>
+            onPress={() => { setTheme('hexagon') }}>
             <Text style={{ color: '#fff' }}>Hexagon</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[{ padding: 5, borderRadius: 5, margin: 2, backgroundColor: '#555' }, (theme === 'defaultDark' && { backgroundColor: '#666' })]}
-            onPress={() => { setTheme('defaultDark') }}>
+            onPress={() => { setTheme('dark') }}>
             <Text style={{ color: '#fff' }}>Dark</Text>
           </TouchableOpacity>
         </View>

@@ -1,6 +1,8 @@
 interface TextColorTheme {
+  text: string
   positive: string
   negative: string
+  neutral: string
   rating: {
     safe: string
     questionable: string
@@ -45,7 +47,7 @@ interface UserStatusColorTheme {
   adminAlt: string
 }
 
-interface Theme {
+export interface Theme {
   background: string
   foreground: string
   section: string
@@ -58,8 +60,10 @@ interface Theme {
 }
 
 const defaultTextColorTheme: TextColorTheme = {
+  text: '#fff',
   positive: '#3e9e49',
   negative: '#dd3127',
+  neutral: '#aaa',
   rating: {
     explicit: '#e45f5f',
     questionable: '#ffe666',

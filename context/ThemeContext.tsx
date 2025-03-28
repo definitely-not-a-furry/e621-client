@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import * as SecureStore from 'expo-secure-store'
 import { darkTheme, themeStrings } from '../themes/themes'
+import type { Theme as ThemeType } from '../themes/themes'
 
-export type Theme = typeof darkTheme
+export type Theme = ThemeType
 
 interface ThemeContextProps {
   theme: Theme

@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react'
 import RequestHandler from '../util/RequestHandler'
 import { View, Text, FlatList } from 'react-native'
 
-const AutoCorrect = ({ input, style }) => {
+const AutoCorrect = ({ input, style }: {}) => {
   const [completions, setCompletions] = useState([])
   const R = new RequestHandler()
-  R.authenticationToken = null
-  R.name = null
-  R.domain = 'e926.net'
 
   useEffect(() => {
-    R.get('tags/autocomplete', [{key: 'seach[name_matches]', value: `${input}*`}]).then(data => { setCompletions(data) })
+    R.get('tags/autocomplete.json', [{ key: 'search[name_matches]', value: `${input}` }]).then(
+      data => { setCompletions(data) },
+      reject => { console.log(reject) }
+    )
   }, [input])
 
-  const Item = ({ name, count, type }) => {
+  const Item = ({ name, count, type }: { name: string, count: number, type: number }) => {
     let color = style.tagsGeneral
     switch (type) {
       case 0:
@@ -41,6 +41,7 @@ const AutoCorrect = ({ input, style }) => {
         break
       case 8:
         color = style.tagsLore
+        break
       default:
         break
     }

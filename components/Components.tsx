@@ -4,49 +4,46 @@ import { Text, View, Button } from 'react-native'
 import { Image } from 'expo-image'
 import { useVideoPlayer, VideoView } from 'expo-video'
 import { SymbolView } from 'expo-symbols'
+import type { Theme } from '../context/ThemeContext'
 import DText from './DText'
 
-import type { StyleSheet } from 'react-native'
 import type { SFSymbol, SymbolType, SymbolWeight } from 'expo-symbols'
+import type { Post } from '../api/posts'
 
-interface FileInformation {
-
-}
-
-const Rating = ({ rating, style }: { rating: string, style: StyleSheet.NamedStyles<any> }): JSX.Element => {
+const Rating = ({ rating, theme }: { rating: string, theme: Theme }): JSX.Element => {
   if (rating === 's') {
-    return (<Text style={[style.positive, { fontWeight: 800 }]}>Safe</Text>)
+    return (<Text style={{ color: theme.text.rating.safe, fontFamily: theme.font, fontWeight: 800 }}>Safe</Text>)
   } else if (rating === 'e') {
-    return (<Text style={[style.explicit, { fontWeight: 800 }]}>Explicit</Text>)
+    return (<Text style={{ color: theme.text.rating.explicit, fontFamily: theme.font, fontWeight: 800 }}>Explicit</Text>)
   } else if (rating === 'q') {
-    return (<Text style={[style.questionable, { fontWeight: 800 }]}>Questionable</Text>)
+    return (<Text style={{ color: theme.text.rating.questionable, fontFamily: theme.font, fontWeight: 800 }}>Questionable</Text>)
   } else return (<Text>error</Text>)
 }
 
-const Score = ({ score, style }: { score: number, style: StyleSheet.NamedStyles<any> }): JSX.Element => {
+const Score = ({ score, theme }: { score: number, theme: Theme }): JSX.Element => {
   if (score > 0) {
-    return (<Text style={[style.positive, { fontWeight: 800 }]}>↑{score}</Text>)
+    return (<Text style={{ color: theme.text.positive, fontFamily: theme.font, fontWeight: 800 }}>↑{score}</Text>)
   } else if (score === 0) {
-    return (<Text style={[style.neutral, { fontWeight: 800 }]}>{score}</Text>)
+    return (<Text style={{ fontWeight: 800 }}>{score}</Text>)
   } else {
-    return (<Text style={[style.negative, { fontWeight: 800 }]}>↓{score}</Text>)
+    return (<Text style={{ color: theme.text.neutral, fontFamily: theme.font, fontWeight: 800 }}>↓{score}</Text>)
   }
 }
 
-const FavCount = ({ favCount, style }: { favCount: number, style: StyleSheet.NamedStyles<any> }): JSX.Element => {
+const FavCount = ({ favCount, theme }: { favCount: number, theme: Theme }): JSX.Element => {
   return (
-    <Text style={[style.negative, { fontWeight: 800 }]}>{favCount}♥</Text>
+    <Text style={{ color: theme.text.positive, fontFamily: theme.font, fontWeight: 800 }}>{favCount}♥</Text>
   )
 }
 
-const Description = ({ description, style }: { description: string, style: StyleSheet.NamedStyles<any> }): JSX.Element => {
+const Description = ({ description, theme }: { description: string, theme: Theme }): JSX.Element => {
   return (
     <View>
       {description != null && (
-        <View style={[style.container, { flexDirection: 'column', margin: 5, marginHorizontal: 10, borderRadius: 5 }]}>
-          <Text style={[style.containerText, { fontWeight: 700, paddingBottom: 1 }]}>Description:</Text>
+        <View style={{ backgroundColor: theme.sectionLightenHalf, flexDirection: 'column', margin: 5, marginHorizontal: 10, borderRadius: 5 }}>
+          <Text style={{ color: theme.text.text, fontFamily: theme.font, fontWeight: 700, padding: 7, paddingBottom: 1 }}>Description:</Text>
           <View style={{ margin: 7 }}>
-            <DText style={style}>{description}</DText>
+            <DText style={theme}>{description}</DText>
           </View>
         </View>
       )}
@@ -54,41 +51,44 @@ const Description = ({ description, style }: { description: string, style: Style
   )
 }
 
-const PostImage = ({ post, style }: { post: object, style: StyleSheet.NamedStyles<any> }): JSX.Element => {
+const PostImage = ({ post, theme }: { post: Post, theme: Theme }): JSX.Element => {
   if (post?.file == null) return <Text style={{ color: '#fff' }}>Loading...</Text>
   const fileExtension = post.file.ext
   console.log(fileExtension)
+  console.log(theme)
   if (fileExtension === 'jpg' || fileExtension === 'png' || fileExtension === 'gif') {
-    return <Image transition={{ effect: 'cross-dissolve', duration: 250 }} source={{ uri: post.file.url }} style={[style.image, { marginVertical: 5 }]} />
+    return <Image
+      transition={{ effect: 'cross-dissolve', duration: 250 }}
+      source={{ uri: post.file.url }}
+      style={{ backgroundColor: theme.background, aspectRatio: 1, width: '100%', marginVertical: 5 }}
+    />
   } else if (fileExtension === 'webm' || fileExtension === 'mp4') {
-
     const player = useVideoPlayer(post.file.url, player => {
-      player.loop = true;
-      player.play();
+      player.loop = true
+      player.play()
     })
-  
+
     const { isPlaying } = useEvent(player, 'playingChange', { isPlaying: player.playing })
-  
+
     return <View>
-      <VideoView player={player} style={[style.image, { marginVertical: 5 }]} allowsFullscreen allowsPictureInPicture/>
+      <VideoView player={player} style={{ backgroundColor: theme.background, aspectRatio: 1, width: '100%', marginVertical: 5 }} allowsFullscreen allowsPictureInPicture />
       <Button
         title={isPlaying ? 'Pause' : 'Play'}
         onPress={() => {
           if (isPlaying) {
-            player.pause();
+            player.pause()
           } else {
-            player.play();
+            player.play()
           }
         }}
       />
-      </View>
-  
+    </View>
   } else {
     return <Text>{`This file type (".${fileExtension}") is not supported (yet).`}</Text>
   }
 }
 
-const PostComments = ({ postId, style }: { postId: number | string, style: StyleSheet.NamedStyles<any> }): JSX.Element => {
+const PostComments = ({ postId, theme }: { postId: number | string, theme: Theme }): JSX.Element => {
   const [comments, setComments] = useState(null)
 
   useEffect(() => {
@@ -107,12 +107,15 @@ const PostComments = ({ postId, style }: { postId: number | string, style: Style
   }, [])
   return (
     <View>
-      {!(comments === undefined || comments === null || comments?.comments) && (<View style={[style.container, { flexDirection: 'column', margin: 5, marginHorizontal: 10, borderRadius: 5 }]}><Text style={[style.tagHeader, { color: '#fff', fontWeight: 800 }]}>Comments: </Text>{comments.map(comment => (
-        <View key={comment.id} style={[style.childContainer, { margin: 7, marginVertical: 5, flexDirection: 'column', alignItems: 'flex-start', padding: 5 }]}>
-          <Text style={[style.containerText, { fontWeight: 800 }]}>{comment.creator_name}</Text>
-          <DText style={style}>{comment.body}</DText>
-        </View>))}
-      </View>)}
+      {!(comments === undefined || comments === null || comments?.comments) && (
+        <View style={{ backgroundColor: theme.sectionLightenHalf, flexDirection: 'column', margin: 5, marginHorizontal: 10, borderRadius: 5 }}>
+          <Text style={{ padding: 5, paddingBottom: 3, color: '#fff', fontWeight: 800 }}>Comments: </Text>
+          {comments.map(comment => (
+            <View key={comment.id} style={{ backgroundColor: theme.sectionLighten, margin: 7, marginVertical: 5, flexDirection: 'column', alignItems: 'flex-start', padding: 5 }}>
+              <Text style={{ color: theme.text.text, padding: 7, fontWeight: 800 }}>{comment.creator_name}</Text>
+              <DText style={theme}>{comment.body}</DText>
+            </View>))}
+        </View>)}
     </View>
   )
 }

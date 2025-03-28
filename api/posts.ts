@@ -5,6 +5,9 @@ export interface Post {
   file: {
     width: number
     height: number
+    ext: string
+    size: number
+    md5: string
     url: string
   }
   preview: {

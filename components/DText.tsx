@@ -1,30 +1,30 @@
 import React from 'react'
-import { Text, View, TouchableOpacity } from 'react-native'
-import PropTypes from 'prop-types'
+import type { ReactNode } from 'react'
+import { Text, View } from 'react-native'
 import SpoilerText from './SpoilerText'
+import { ThemeProvider, useTheme, type Theme } from '../context/ThemeContext'
 
-const DText = (props) => {
-  const style = props.style
-  const innerContent = props.children
+interface DTextProps {
+  theme: Theme
+  children: ReactNode
+}
 
-  if (innerContent == null) { // null check
-    return null
-  } else if (style == null) {
-    style.quote = {}
-  }
+const DText = (props: DTextProps): JSX.Element => {
+  const { theme, setTheme } = useTheme()
+  const innerContent = props.children as string
 
-  const parseText = (text: string) => {
+  const parseText = (text: string): string[] => {
     const unparsed = text
     const tagRegex = /\[(\/?[a-z]+)(?:=([a-z0-9#]+))?]([\S\s]*?)\[\/\1]/
     const headerRegex = /h([1-6])\.(.+)/
     const regexes = [tagRegex, headerRegex]
 
     let lastIndex = 0
-    const resultArray = Array()
+    const resultArray: string[] = []
 
     regexes.forEach(regex => {
       const matches = unparsed.match(regex)
-      if (matches) {
+      if (matches != null) {
         const matchIndex = unparsed.indexOf(matches[0], lastIndex)
         if (matchIndex > lastIndex) {
           const unmatched = unparsed.slice(lastIndex, matchIndex)
@@ -35,7 +35,6 @@ const DText = (props) => {
       }
     })
 
-    // Include any remaining unmatched portion at the end of the string
     if (lastIndex < unparsed.length) {
       resultArray.push(unparsed.slice(lastIndex))
     }
@@ -74,13 +73,16 @@ const DText = (props) => {
     ),
     color: ({ content, color }) => <Text style={{ color }}>{content}</Text>,
     quote: ({ content }) => (
-      <View style={style.quote}>
+      <View>
         <Text style={{ color: '#fff' }}>{content}</Text>
       </View>
     )
   }
 
-  return (<Text style={style.containerText}>{parseText(innerContent)}</Text>)
+  return (
+    <ThemeProvider>
+      <Text style={{ color: theme.text.text }}>{parseText(innerContent)}</Text>
+    </ThemeProvider>)
 }
 
 export default DText
