@@ -1,11 +1,9 @@
 import React from 'react'
 import { Text } from 'react-native'
-import PropTypes from 'prop-types'
+import type { User } from '../api/users'
 
-const UserName = ({ userData }) => {
-  UserName.propTypes = {
-    userData: PropTypes.object
-  }
+
+const UserName = ({ userData }: { userData: User }) => {
   const levelColor = (userData) => {
     const levelString = userData.level_string
     const uname = userData.name
