@@ -58,3 +58,78 @@ export interface Posts {
 export interface SinglePost {
   post: Post
 }
+
+export interface PostSortingOptions {
+  id?: boolean
+  score?: 'asc' | 'desc'
+  fav_count?: 'asc' | 'desc'
+  tag_count?: 'asc' | 'desc'
+  comment_count?: 'asc' | 'desc'
+  comment_bumped?: 'asc' | 'desc'
+  mpixels?: 'asc' | 'desc'
+  filesize?: 'asc' | 'desc'
+  landscape?: boolean
+  portrait?: boolean
+  change?: boolean
+  duration?: 'asc' | 'desc'
+  random?: boolean
+}
+
+export interface MetaTags {
+  user?: {
+    name?: string
+    id?: number
+    fav?: number
+    voted?: string
+    votedup?: string
+    voteddown?: string
+    approver?: string
+    deletedby?: string
+    commenter?: string
+    noteupdater?: string
+  }
+  post?: {
+    count?: {
+      id?: number
+      score?: number
+      favcount?: number
+      comment_count?: number
+      tagcount?: number
+      gentags?: number
+      arttags?: number
+      chartags?: number
+      copytags?: number
+      spectags?: number
+      invtags?: number
+      lortags?: number
+      metatags?: number
+    }
+    rating?: {
+      safe?: boolean
+      questionable?: boolean
+      explicit?: boolean
+    }
+    filetype?: {
+      jpg?: boolean
+      png?: boolean
+      gif?: boolean
+      webm?: boolean
+      swf?: boolean
+    }
+    imagesize?: {
+      width?: number
+      height?: number
+      mpixels?: number
+      ratio?: number
+      filesize?: `${number}${'MB' | 'KB'}`
+    }
+    status?: {
+      pending?: boolean
+      active?: boolean
+      deleted?: boolean
+      flagged?: boolean
+      modqueue?: boolean
+      any?: boolean
+    }
+  }
+}

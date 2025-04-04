@@ -32,6 +32,7 @@ const App = (): JSX.Element => {
 
                   <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.button_transparent} onPress={() => { haptic(1); router.push('/browse') }}><Text style={styles.buttonText}>Browse</Text></TouchableOpacity>
+                    <TouchableOpacity style={styles.button_transparent} onPress={() => { haptic(1); router.push('/pools') }}><Text style={styles.buttonText}>Pools</Text></TouchableOpacity>
                     <TouchableOpacity style={styles.button_transparent} onPress={() => { haptic(1); router.push('/testingarea') }}><Text style={styles.buttonText}>DText Debug</Text></TouchableOpacity>
                   </View>
                 </View>

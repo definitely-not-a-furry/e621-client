@@ -12,6 +12,9 @@
       "padding": 15,
       "resizeMode": "contain"
     },
+    "infoPlist": {
+      "UIViewControllerBasedStatusBarAppearance": false
+    },
     "name": "e621-client",
     "slug": "e621-client",
     "extra": {
