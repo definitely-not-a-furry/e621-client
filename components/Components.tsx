@@ -55,6 +55,7 @@ const PostImage = ({ post, theme }: { post: Post, theme: Theme }): JSX.Element =
   if (post?.file == null) return <Text style={{ color: '#fff' }}>Loading...</Text>
   const fileExtension = post.file.ext
   if (fileExtension === 'jpg' || fileExtension === 'png' || fileExtension === 'gif') {
+    console.log(post.file.url)
     return <Image
       transition={{ effect: 'cross-dissolve', duration: 250 }}
       source={{ uri: post.file.url }}

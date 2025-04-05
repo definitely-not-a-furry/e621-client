@@ -10,6 +10,7 @@ import { Relations } from '../../components/Relations'
 import RequestHandler from '../../util/RequestHandler'
 import type { SinglePost, Post } from '../../api/posts'
 import { ThemeProvider, useTheme } from '../../context/ThemeContext'
+import { load } from '../../components/Store'
 
 const PostView = (): JSX.Element => {
   const { theme, setTheme } = useTheme()
@@ -18,12 +19,15 @@ const PostView = (): JSX.Element => {
   const [post, setPost] = useState<Post>()
 
   const R = new RequestHandler()
+  R.useSSL = false
 
   useEffect(() => {
-    R.get<SinglePost>(`posts/${Number(id)}.json`).then(result => {
-      if (result != null) setPost(result.post)
-    }, reject => {
-      console.log(reject.cause)
+    void load('domain').then((value) => { R.domain = value ?? 'e926.net' }).then(() => {
+      R.get<SinglePost>(`posts/${Number(id)}.json`).then(result => {
+        if (result != null) setPost(result.post)
+      }, reject => {
+        console.log(reject.cause)
+      })
     })
   }, [])
 

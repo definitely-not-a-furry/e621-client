@@ -133,3 +133,20 @@ export interface MetaTags {
     }
   }
 }
+
+interface DeprecatedPost {
+  id: number
+  created_at: string
+  updated_at: string
+  up_score: number
+  down_score: number
+  score: number
+  source: string
+  md5: string
+  rating: 'e' | 'q' | 's'
+  is_pending: boolean
+  is_flagged: boolean
+  is_deleted: boolean
+  uploader_id: number
+  approver: 
+}

@@ -10,16 +10,17 @@ import { FavCount, Rating, Score } from '../components/Components'
 import TagSearch from '../components/TagSearch'
 import RequestHandler from '../util/RequestHandler'
 import { ThemeProvider, useTheme } from '../context/ThemeContext'
-import { store } from '../components/Store'
+import { load, store } from '../components/Store'
 
 const Browse = (): JSX.Element => {
-  const R = new RequestHandler()
   const { theme, setTheme } = useTheme()
   const [posts, setPosts] = useState<Post[]>()
-  const [text, setText] = useState('tom_fischbach')
-  const [searchTerm, setSearchTerm] = useState('tom_fischbach') // Temporarily using this as default tag
+  const [text, setText] = useState('')
+  const [searchTerm, setSearchTerm] = useState<string>('')
   const [showSuggestion, setShowSuggestion] = useState(false)
   const router = useRouter()
+  const R = new RequestHandler()
+  R.useSSL = false // temp
 
   const updateSearchTerm = (): void => {
     setSearchTerm(text)
@@ -28,11 +29,13 @@ const Browse = (): JSX.Element => {
 
   useEffect(() => {
     setPosts([])
-    R.get<Posts>('posts.json', [{ key: 'tags', value: searchTerm.split(' ') }, { key: 'limit', value: '25' }]).then((result) => {
-      if (result != null) setPosts(result.posts)
-      else setPosts([])
-    }, (reject) => {
-      console.log(reject.cause)
+    void load('domain').then((value) => { R.domain = value ?? 'e926.net' }).then(() => {
+      R.get<Posts>('posts.json', [{ key: 'tags', value: searchTerm.split(' ') }, { key: 'limit', value: '25' }]).then((result) => {
+        if (result != null) setPosts(result.posts)
+        else setPosts([])
+      }, (reject) => {
+        console.log(reject.cause)
+      })
     })
   }, [searchTerm])
 
@@ -61,7 +64,8 @@ const Browse = (): JSX.Element => {
         />
         <TouchableOpacity style={{ padding: 7, borderRadius: 5, margin: 7, marginBottom: 7 }} onPress={() => { updateSearchTerm() }}><SymbolView resizeMode='scaleAspectFit' size={15} tintColor={'#fff'} weight='semibold' type='monochrome' name='magnifyingglass'></SymbolView></TouchableOpacity>
       </View>
-      {showSuggestion && (<View style={{ margin: 7, marginTop: 0 }}><TagSearch input={text} style={style} /></View>)}
+      {// showSuggestion && (<View style={{ margin: 7, marginTop: 0 }}><TagSearch input={text} style={style} /></View>)
+      }
       <View style={{ flex: 1, backgroundColor: theme.sectionDarken, flexDirection: 'row', flexWrap: 'wrap', padding: 0 }}>
         <FlatList
           style={{ height: '100%', padding: 5, margin: 0 }}
@@ -95,9 +99,11 @@ const Browse = (): JSX.Element => {
 
 const App = (): JSX.Element => {
   return (
-    <ThemeProvider>
-      <Browse />
-    </ThemeProvider>
+    <React.StrictMode>
+      <ThemeProvider>
+        <Browse />
+      </ThemeProvider>
+    </React.StrictMode>
   )
 }
 
