@@ -48,7 +48,7 @@ const Browse = (): JSX.Element => {
       <StatusBar hidden={true}></StatusBar>
       <View style={{ flexDirection: 'row', alignSelf: 'stretch', alignItems: 'center', backgroundColor: theme.foreground, justifyContent: 'center' }}>
         <View>
-          <TouchableOpacity style={[{ padding: 7, borderRadius: 5, margin: 7, marginBottom: 7 }]} onPress={() => { router.push('./home') }}><SymbolView resizeMode='scaleAspectFit' size={15} tintColor={'#fff'} weight='semibold' type='monochrome' name='chevron.backward'></SymbolView></TouchableOpacity>
+          <TouchableOpacity style={{ padding: 7, borderRadius: 5, margin: 7, marginBottom: 7 }} onPress={() => { router.push('./home') }}><SymbolView resizeMode='scaleAspectFit' size={15} tintColor={'#fff'} weight='semibold' type='monochrome' name='chevron.backward'></SymbolView></TouchableOpacity>
         </View>
         <TextInput
           style={[{ color: theme.text.general, borderColor: theme.sectionLighten, flex: 1, height: 'auto', borderWidth: 2, borderRadius: 5, width: '100%', marginHorizontal: 2, padding: 5, paddingLeft: 10 }]}

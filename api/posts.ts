@@ -134,7 +134,7 @@ export interface MetaTags {
   }
 }
 
-interface DeprecatedPost {
+interface DanBooruPost {
   id: number
   created_at: string
   updated_at: string
@@ -148,5 +148,89 @@ interface DeprecatedPost {
   is_flagged: boolean
   is_deleted: boolean
   uploader_id: number
-  approver: 
+  approver_id: number | null
+  last_noted_at: string | null
+  last_comment_bumped_at: string | null
+  fav_count: number
+  tag_string: string
+  tag_count: number
+  tag_count_general: number
+  tag_count_artist: number
+  tag_count_character: number
+  tag_count_copyright: number
+  file_ext: string
+  file_size: number
+  file_width: number
+  file_height: number
+  parent_id: number | null
+  has_children: boolean
+  is_banned: boolean
+  pixiv_id: number | null
+  last_commented_at: string | null
+  has_active_children: boolean
+  bit_flags: number
+  has_large: boolean
+  has_visible_children: boolean
+  tag_string_general: string
+  tag_string_artist: string
+  tag_string_character: string
+  tag_string_copyright: string
+  tag_string_meta: string
+  file_url: string
+  large_file_url: string
+  preview_file_url: string
+}
+
+const danBooruPostToPost = (post: DanBooruPost): Post => {
+  const e6post: Post = undefined as unknown as Post
+  e6post.id = post.id
+  e6post.created_at = post.created_at
+  e6post.approved_at = null
+  e6post.file = {
+    width: post.file_width,
+    height: post.file_height,
+    ext: post.file_ext,
+    size: post.file_size,
+    md5: post.md5,
+    url: post.file_url
+  }
+  e6post.preview = {
+    width: post.file_width,
+    height: post.file_height,
+    url: post.preview_file_url
+  }
+  e6post.sample = {
+    has: false,
+    height: post.file_height,
+    width: post.file_width,
+    url: post.large_file_url,
+    alternates: null
+  }
+  e6post.score = {
+    up: post.up_score,
+    down: post.down_score,
+    total: post.score
+  }
+  e6post.tags = {
+    general: post.tag_string_general.split(' '),
+    species: [],
+    character: post.tag_string_character.split(' '),
+    artist: post.tag_string_artist.split(' '),
+    copyright: post.tag_string_copyright.split(' '),
+    invalid: [],
+    lore: [],
+    meta: post.tag_string_meta.split(' ')
+  }
+  e6post.locked_tags = []
+  e6post.change_seq = 0
+  e6post.flags = {
+    pending: post.is_pending,
+    flagged: post.is_flagged,
+    note_locked: false,
+    status_locked: false,
+    rating_locked: false,
+    deleted: post.is_deleted
+  }
+  e6post.rating = post.rating
+  return e6post
 }
